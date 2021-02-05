@@ -17,7 +17,6 @@ class DocstringCheck:
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME + '/' + self.REPO_NAME)
-    self.pr = self.repo.get_pull(int(self.PR_NUMBER))
     print("hello")
     
   def get_inputs(self, input_name):
