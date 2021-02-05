@@ -23,7 +23,7 @@ class DocstringCheck:
   
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  release = PullRequestTitleCheck()
+  obj = DocstringCheck()
  
 if __name__ == "__main__":
     main()
