@@ -34,10 +34,15 @@ class DocstringCheck:
     '''
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
+  def compute(self):
+    contents = self.repo.get_contents("")
+    for content_file in contents:
+        print(content_file)
   
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   obj = DocstringCheck()
+  obj.compute()
  
 if __name__ == "__main__":
     main()
