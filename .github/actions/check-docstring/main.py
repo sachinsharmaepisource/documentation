@@ -37,7 +37,6 @@ class DocstringCheck:
   
   def compute(self):
     contents = self.repo.get_contents("")
-    contents = repo.get_contents("")
     while contents:
         file_content = contents.pop(0)
         if file_content.type == "dir":
