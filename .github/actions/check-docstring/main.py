@@ -40,7 +40,7 @@ class DocstringCheck:
     while contents:
         file_content = contents.pop(0)
         if file_content.type == "dir":
-            contents.extend(self.repo.get_contents(file_content.path, self.branch).decoded_content.decode())
+            contents.extend(self.repo.get_contents(file_content.path, self.branch))
         else:
             print(file_content)
             contents = self.repo.get_contents(file_content, self.branch).decoded_content.decode()
