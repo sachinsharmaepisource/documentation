@@ -4,9 +4,7 @@ from github import Github
     
 #---------------------------------------------------------------------------------------------------------
 
-class PullRequestTitleCheck:
-#   list of categories allowed in PR title
-  category_list = ['FEATURES', 'DOCUMENTATION', 'REFACTOR', 'BUG FIX', 'OTHERS']
+class DocstringCheck:
 
   def __init__(self):
 #     Initialization of following variables
@@ -20,7 +18,7 @@ class PullRequestTitleCheck:
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME + '/' + self.REPO_NAME)
     self.pr = self.repo.get_pull(int(self.PR_NUMBER))
-    print("hello"
+    print("hello")
   
   
 def main():
