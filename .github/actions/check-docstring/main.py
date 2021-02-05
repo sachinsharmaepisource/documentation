@@ -17,6 +17,7 @@ class DocstringCheck:
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME + '/' + self.REPO_NAME)
+    self.branch = 'main'
     print("hello")
     
   def get_inputs(self, input_name):
@@ -43,6 +44,8 @@ class DocstringCheck:
             contents.extend(repo.get_contents(file_content.path))
         else:
             print(file_content)
+            contents = repo.get_contents(file_content, self.branch)
+            print(contents)
   
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
