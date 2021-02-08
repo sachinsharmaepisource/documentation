@@ -43,7 +43,7 @@ class DocstringCheck:
             contents.extend(self.repo.get_contents(file_content.path, self.branch))
         else:
             print(file_content.path)
-            print(file_content.content)
+            print(file_content.decoded_content)
   
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
