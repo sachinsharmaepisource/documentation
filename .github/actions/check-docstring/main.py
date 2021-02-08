@@ -36,7 +36,7 @@ class DocstringCheck:
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
   def compute(self):
-    contents = self.repo.get_contents("")
+    contents = self.repo.get_contents("", self.branch)
     while contents:
         file_content = contents.pop(0)
         if file_content.type == "dir":
