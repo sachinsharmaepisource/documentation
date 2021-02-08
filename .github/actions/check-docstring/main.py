@@ -42,7 +42,7 @@ class DocstringCheck:
         if file_content.type == "dir":
             contents.extend(self.repo.get_contents(file_content.path, self.branch))
         else:
-            if file_path.path.split('.')
+            # if file_path.path.split('.'):
             print(file_content)
   
 def main():
