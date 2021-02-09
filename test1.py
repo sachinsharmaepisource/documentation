@@ -50,4 +50,5 @@ def factorial(n):
 
 
 if __name__ == "__main__":
+    test_str = ''
     print(factorial(100))
