@@ -10,7 +10,8 @@ The example module supplies one function, factorial().  For example,
 
 def factorial(n):
     """Return the factorial of n, an exact integer >= 0.
-
+    
+    Args
     >>> [factorial(n) for n in range(6)]
     """
     import math
