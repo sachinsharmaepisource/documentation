@@ -14,7 +14,7 @@ repos:
 # 
 #       new  added
 -   repo: https://github.com/pycqa/pydocstyle
-    rev: 5.0.2  # pick a git hash / tag to point to
+    rev: 5.1.1  # pick a git hash / tag to point to
     hooks:
     -   id: pydocstyle
 #     args:
