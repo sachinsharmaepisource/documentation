@@ -2,15 +2,15 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.4.0
     hooks:
-    -   id: check-json
-    -   id: check-yaml
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
--   repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.19.0
-    hooks:
-    -   id: eslint
-        args: [--fix]
+#     -   id: check-json
+#     -   id: check-yaml
+#     -   id: trailing-whitespace
+#     -   id: end-of-file-fixer
+# -   repo: https://github.com/pre-commit/mirrors-eslint
+#     rev: v7.19.0
+#     hooks:
+#     -   id: eslint
+#         args: [--fix]
 # 
 #       new  added
 -   repo: https://github.com/pycqa/pydocstyle
