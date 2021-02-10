@@ -30,5 +30,5 @@ def factorial(n):
     return result
 
 
-if __name__ == "__main__":
-    print(factorial(100))
+# if __name__ == "__main__":
+#     print(factorial(100))
