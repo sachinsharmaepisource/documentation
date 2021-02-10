@@ -6,11 +6,7 @@ The example module supplies one function, factorial().  For example,
 >>> factorial(5)
 120
 """
-
-class test:
-    def test(self):
-        print('test')
-        
+   
 def factorial(n):
     """Return the factorial of n, an exact integer >= 0.
     
@@ -31,7 +27,3 @@ def factorial(n):
         result *= factor
         factor += 1
     return result
-
-
-# if __name__ == "__main__":
-#     print(factorial(100))
