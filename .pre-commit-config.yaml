@@ -18,5 +18,5 @@ repos:
     hooks:
     -   id: pydocstyle
         args:
-        - --convention=google
+        - --convention=numpy
 #     - --select=D417
