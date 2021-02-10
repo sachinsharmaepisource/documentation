@@ -10,7 +10,6 @@ The example module supplies one function, factorial().  For example,
 
 def factorial(n):
     """Return the factorial of n, an exact integer >= 0.
-
     >>> [factorial(n) for n in range(6)]
     [1, 1, 2, 6, 24, 120]
     >>> factorial(30)
@@ -34,7 +33,6 @@ def factorial(n):
         ...
     OverflowError: n too large
     """
-
     import math
 
     if not n >= 0:
