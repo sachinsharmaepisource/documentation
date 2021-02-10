@@ -17,6 +17,6 @@ repos:
     rev: 5.1.1  # pick a git hash / tag to point to
     hooks:
     -   id: pydocstyle
-    args:
-#     - --convention=numpy
+        args:
+        - --convention=numpy
 #     - --select=D417
