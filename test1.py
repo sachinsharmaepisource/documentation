@@ -54,5 +54,5 @@ def factorial(n):
 
 
 if __name__ == "__main__":
-    s_ = ''
+    """"""
     print(factorial(100))
