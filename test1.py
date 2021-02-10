@@ -7,7 +7,10 @@ The example module supplies one function, factorial().  For example,
 120
 """
 
-
+class test:
+    def test(self):
+        print('test')
+        
 def factorial(n):
     """Return the factorial of n, an exact integer >= 0.
     
