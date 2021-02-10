@@ -22,16 +22,6 @@ class DocstringCheck:
     
   def get_inputs(self, input_name):
     '''
-      Parameters
-      ----------
-          input_name: String
-          
-      Logic
-      ----------
-          Extract the inputs from the YML file of GITHUB ACTION
-      Return
-      ----------
-          Input: String
     '''
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
