@@ -1,3 +1,15 @@
+'''
+      Parameters
+      ----------
+          input_name: String
+          
+      Logic
+      ----------
+          Extract the inputs from the YML file of GITHUB ACTION
+      Return
+      ----------
+          Input: String
+'''
 # import os
 # import sys
 # from github import Github
