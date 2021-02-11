@@ -8,8 +8,15 @@ The example module supplies one function, factorial().  For example,
 120
 """
 
-def factorial(n):
+def factorial(n, m):
     """Return the factorial of n, an exact integer >= 0.
+    
+    Parameters
+    ----------
+    n : array_like
+        Array_like means all those objects -- lists, nested lists, etc. --
+        that can be converted to an array.  We can also refer to
+        variables like `var1`.
 
     >>> [factorial(n) for n in range(6)]
     [1, 1, 2, 6, 24, 120]
