@@ -1,54 +1,59 @@
-import argparse
-import logging
+# simple.py
 from pylint.lint import Run
 
+Run(['./'], do_exit=False)
 
-logging.getLogger().setLevel(logging.INFO)
+# import argparse
+# import logging
+# from pylint.lint import Run
 
-parser = argparse.ArgumentParser(prog="LINT")
 
-parser.add_argument('-p',
-                    '--path',
-                    help='path to directory you want to run pylint | '
-                         'Default: %(default)s | '
-                         'Type: %(type)s ',
-                    default='./src',
-                    type=str)
+# logging.getLogger().setLevel(logging.INFO)
 
-parser.add_argument('-t',
-                    '--threshold',
-                    help='score threshold to fail pylint runner | '
-                         'Default: %(default)s | '
-                         'Type: %(type)s ',
-                    default=7,
-                    type=float)
+# parser = argparse.ArgumentParser(prog="LINT")
 
-args = parser.parse_args()
-path = str(args.path)
-threshold = float(args.threshold)
+# parser.add_argument('-p',
+#                     '--path',
+#                     help='path to directory you want to run pylint | '
+#                          'Default: %(default)s | '
+#                          'Type: %(type)s ',
+#                     default='./src',
+#                     type=str)
 
-logging.info('PyLint Starting | '
-             'Path: {} | '
-             'Threshold: {} '.format(path, threshold))
+# parser.add_argument('-t',
+#                     '--threshold',
+#                     help='score threshold to fail pylint runner | '
+#                          'Default: %(default)s | '
+#                          'Type: %(type)s ',
+#                     default=7,
+#                     type=float)
 
-results = Run([path], do_exit=False)
+# args = parser.parse_args()
+# path = str(args.path)
+# threshold = float(args.threshold)
 
-final_score = results.linter.stats['global_note']
+# logging.info('PyLint Starting | '
+#              'Path: {} | '
+#              'Threshold: {} '.format(path, threshold))
 
-if final_score < threshold:
+# results = Run([path], do_exit=False)
 
-    message = ('PyLint Failed | '
-               'Score: {} | '
-               'Threshold: {} '.format(final_score, threshold))
+# final_score = results.linter.stats['global_note']
 
-    logging.error(message)
-    raise Exception(message)
+# if final_score < threshold:
 
-else:
-    message = ('PyLint Passed | '
-               'Score: {} | '
-               'Threshold: {} '.format(final_score, threshold))
+#     message = ('PyLint Failed | '
+#                'Score: {} | '
+#                'Threshold: {} '.format(final_score, threshold))
 
-    logging.info(message)
+#     logging.error(message)
+#     raise Exception(message)
 
-    exit(0)
+# else:
+#     message = ('PyLint Passed | '
+#                'Score: {} | '
+#                'Threshold: {} '.format(final_score, threshold))
+
+#     logging.info(message)
+
+#     exit(0)
