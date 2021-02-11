@@ -10,6 +10,7 @@ accept-no-yields-doc = no
 
 # Parameter Documentation checker Options
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# link - https://pylint.readthedocs.io/en/latest/_sources/technical_reference/extensions.rst.txt
 # :accept-no-param-doc:
 #   Whether to accept totally missing parameter documentation in the docstring of
 #   a function that has parameters.
