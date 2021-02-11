@@ -13,20 +13,16 @@ accept-no-yields-doc = no
 # :accept-no-param-doc:
 #   Whether to accept totally missing parameter documentation in the docstring of
 #   a function that has parameters.
-
 #   Default: ``yes``
 # :accept-no-raise-doc:
 #   Whether to accept totally missing raises documentation in the docstring of a
 #   function that raises an exception.
-
 #   Default: ``yes``
 # :accept-no-return-doc:
 #   Whether to accept totally missing return documentation in the docstring of a
 #   function that returns a statement.
-
 #   Default: ``yes``
 # :accept-no-yields-doc:
 #   Whether to accept totally missing yields documentation in the docstring of a
 #   generator.
-
 #   Default: ``yes``
