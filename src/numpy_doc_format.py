@@ -1,14 +1,17 @@
-def function_foo(x, y, z):
+"""
+Module docstring
+"""
+def function_foo(x_x, y_y, z_z):
     '''function foo ...
 
     Parameters
     ----------
-    x: int
+    x_x: int
         bla x
-    y: float
+    y_y: float
         bla y
 
-    z: int
+    z_z: int
         bla z
 
     Returns
@@ -21,4 +24,4 @@ def function_foo(x, y, z):
     OSError
         bla
     '''
-    return x + y + z
+    return x_x + y_y + z_z
