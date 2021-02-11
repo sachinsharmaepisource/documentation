@@ -2,11 +2,11 @@ name: PyLint Runner
 
 on:
   push:
-  pull_request:
-    branches:
-      - master
-    paths:
-      - '**.py'
+#   pull_request:
+#     branches:
+#       - master
+#     paths:
+#       - '**.py'
 
 jobs:
   build:
@@ -25,7 +25,8 @@ jobs:
         pip install pylint
     - name: Run Pylint
       run: |
-        python ./.github/actions/pylint/lint.py --path ./src --threshold 1.5
+        pylint ./*.py
+#         python ./.github/actions/pylint/lint.py --path ./src --threshold 1.5
 # name: Pylint
 # on: [push]
 # jobs:
