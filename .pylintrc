@@ -96,6 +96,7 @@
 [MASTER]
 ignore = migrations
 persistent = yes
+load-plugins = pylint.extensions.docparams
 
 [MESSAGES CONTROL]
 enable = 
