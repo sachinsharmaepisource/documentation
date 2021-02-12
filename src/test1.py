@@ -25,7 +25,6 @@ def factorial(n_n, m_m):
     """Return the factorial of n, an exact integer >= 0.
     
     Args:
-        n_n (int): bla n
         m_m (float): bla m
         
     Parameters
