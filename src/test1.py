@@ -7,6 +7,19 @@ The example module supplies one function, factorial().  For example,
 
 120
 """
+def function_foo(x, y, z):
+    '''function foo ...
+
+    Args:
+        x (int): bla x
+        y (float): bla y
+
+        z (int): bla z
+
+    Returns:
+        float: sum
+    '''
+    return x + y + z
 
 def factorial(n, m):
     """Return the factorial of n, an exact integer >= 0.
