@@ -1,3 +1,4 @@
+
 import argparse
 import logging
 from pylint.lint import Run
@@ -24,9 +25,9 @@ parser.add_argument('-t',
                     type=float)
 
 # custom --convention=numpy
-parser.add_argument('-c',
+parser.add_argument('--convention',
                     '--convention',
-                    help='score threshold to fail pylint runner | '
+                    help='convention to format to be used | '
                          'Default: %(default)s | '
                          'Type: %(type)s ',
                     default='numpy',
@@ -34,6 +35,7 @@ parser.add_argument('-c',
 
 args = parser.parse_args()
 path = str(args.path)
+print('path', path)
 threshold = float(args.threshold)
 
 logging.info('PyLint Starting | '
