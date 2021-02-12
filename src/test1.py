@@ -21,12 +21,16 @@ def function_foo(x, y, z):
     '''
     return x + y + z
 
-def factorial(n, m):
+def factorial(n_n, m_m):
     """Return the factorial of n, an exact integer >= 0.
     
+    Args:
+        n_n (int): bla n
+        m_m (float): bla m
+        
     Parameters
     ----------
-    n : array_like
+    n_n : array_like
         Array_like means all those objects -- lists, nested lists, etc. --
         that can be converted to an array.  We can also refer to
         variables like `var1`.
