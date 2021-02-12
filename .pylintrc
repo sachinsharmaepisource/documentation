@@ -43,10 +43,7 @@
 # SERIOUSLY.
 #
 # ------------------------------
-[MASTER]
-ignore = migrations
-persistent = yes
-load-plugins = pylint.extensions.docparams, pylint.extensions.docstyle, pylint.extensions.emptystring
+
 
 [MESSAGES CONTROL]
 enable = 
