@@ -35,12 +35,13 @@ parser.add_argument('--convention',
 
 args = parser.parse_args()
 path = str(args.path)
-print('path', path)
 threshold = float(args.threshold)
+convention = str(args.convention)
 
 logging.info('PyLint Starting | '
              'Path: {} | '
-             'Threshold: {} '.format(path, threshold))
+             'Threshold: {} |'
+             'Convention: {}'.format(path, threshold, convention))
 
 results = Run([path], do_exit=False)
 
