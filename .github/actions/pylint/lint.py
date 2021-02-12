@@ -43,7 +43,7 @@ logging.info('PyLint Starting | '
              'Threshold: {} |'
              'Convention: {}'.format(path, threshold, convention))
 
-results = Run([path], convention=numpy, do_exit=False)
+results = Run([path], convention='numpy', do_exit=False)
 
 final_score = results.linter.stats['global_note']
 
