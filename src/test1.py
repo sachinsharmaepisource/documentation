@@ -23,9 +23,6 @@ def function_foo(x, y, z):
 
 def factorial(n_n, m_m):
     """Return the factorial of n, an exact integer >= 0.
-    
-    Args:
-        m_m (float): bla m
         
     Parameters
     ----------
@@ -33,6 +30,8 @@ def factorial(n_n, m_m):
         Array_like means all those objects -- lists, nested lists, etc. --
         that can be converted to an array.  We can also refer to
         variables like `var1`.
+     Args:
+        m_m (float): bla m
 
     >>> [factorial(n) for n in range(6)]
     [1, 1, 2, 6, 24, 120]
