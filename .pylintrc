@@ -3,9 +3,9 @@ load-plugins = pylint.extensions.docparams
 
 [BASIC]
 accept-no-param-doc = no
-accept-no-raise-doc = no
-accept-no-return-doc = no
-accept-no-yields-doc = no
+accept-no-raise-doc = yes
+accept-no-return-doc = yes
+accept-no-yields-doc = yes
 
 
 # Parameter Documentation checker Options
