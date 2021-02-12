@@ -96,7 +96,7 @@
 [MASTER]
 ignore = migrations
 persistent = yes
-load-plugins = pylint.extensions.docparams,pylint_django,pylint_celery
+load-plugins = pylint.extensions.docparams
 
 [MESSAGES CONTROL]
 enable = 
