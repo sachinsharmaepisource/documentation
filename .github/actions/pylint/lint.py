@@ -23,6 +23,15 @@ parser.add_argument('-t',
                     default=7,
                     type=float)
 
+# custom --convention=numpy
+parser.add_argument('-c',
+                    '--convention',
+                    help='score threshold to fail pylint runner | '
+                         'Default: %(default)s | '
+                         'Type: %(type)s ',
+                    default='numpy',
+                    type=str)
+
 args = parser.parse_args()
 path = str(args.path)
 threshold = float(args.threshold)
