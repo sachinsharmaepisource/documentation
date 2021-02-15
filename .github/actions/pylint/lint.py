@@ -6,10 +6,26 @@ from pylint.lint import Run
 
 
 class PyLintComuptation:
+  '''PyLintComuptation is class which extracts the command line arguments using argparser and fetch the score using Pylint and compare it with threshold[argument].
+  '''
   def __init__(self):
+    '''init function, 
+       1. It set the level of runtime logging informations.
+    '''
     logging.getLogger().setLevel(logging.INFO)
 
   def add_arguments(self, parser):
+    '''
+    Parameters
+    ----------
+    parser : object of Argparse
+        parser is used to set the command line arguments.
+    
+    Returns
+    -------
+    None
+    '''
+
     parser.add_argument('-p',
                     '--path',
                     help='path to directory you want to run pylint | '
@@ -27,6 +43,26 @@ class PyLintComuptation:
                     type=float)
   
   def compute(self):
+    '''
+    Parameters
+    ----------
+    None
+    
+    Logic
+    ----------
+    1. Declare the argparse object.
+    2. Add proper arguments to argparse object.
+    3. Extract the arguments[path, threshold]
+    4. Print the logs of arguments.
+    5. Call Run function from pylint to get result[reports].
+    6. Extract the final score from results object.
+    7. If the final score is smaller than threshold then Raise exception and fail the github action with appropriate logs message.
+    8. Else Exit from the code with green tick of success and it's appropriate logs message.
+    
+    Returns
+    -------
+    None
+    '''
     parser = argparse.ArgumentParser(prog="LINT")
     self.add_arguments(parser)
     
@@ -62,6 +98,20 @@ class PyLintComuptation:
 
 
 def main():
+  '''
+  Parameters
+  ----------
+  None
+  
+  Logic
+  ----------
+  1. Create object of class PyLintComuptation.
+  2. Call compute function of class PyLintComuptation.
+    
+  Returns
+  -------
+  None
+  '''
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   lint = PyLintComuptation()
   lint.compute()
