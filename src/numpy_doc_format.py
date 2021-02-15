@@ -1,8 +1,9 @@
-"""
+'''
 Module docstring
-"""
+'''
 def function_foo(x_x, y_y, z_z):
-    '''function foo ...
+    '''
+    function foo ...
 
     Parameters
     ----------
