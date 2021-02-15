@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +19,8 @@ jobs:
     - name: Run Pylint
       run: |
         python ./.github/actions/pylint/lint.py --path ./src --threshold 2
+        
+        
 # name: PyLint Runner
 
 # on:
