@@ -4,11 +4,13 @@ import logging
 from pylint.lint import Run
 
 
-logging.getLogger().setLevel(logging.INFO)
 
-parser = argparse.ArgumentParser(prog="LINT")
+class PyLintComuptation:
+  def __init__(self):
+    logging.getLogger().setLevel(logging.INFO)
 
-parser.add_argument('-p',
+  def add_arguments():
+    parser.add_argument('-p',
                     '--path',
                     help='path to directory you want to run pylint | '
                          'Default: %(default)s | '
@@ -16,40 +18,53 @@ parser.add_argument('-p',
                     default='./src',
                     type=str)
 
-parser.add_argument('-t',
+    parser.add_argument('-t',
                     '--threshold',
                     help='score threshold to fail pylint runner | '
                          'Default: %(default)s | '
                          'Type: %(type)s ',
                     default=7,
                     type=float)
+  
+  def compute():
+    parser = argparse.ArgumentParser(prog="LINT")
+    add_arguments(parser)
+    
+    args = parser.parse_args()
+    path = str(args.path)
+    threshold = float(args.threshold)
 
-args = parser.parse_args()
-path = str(args.path)
-threshold = float(args.threshold)
+    logging.info('PyLint Starting | '
+                 'Path: {} | '
+                 'Threshold: {} |'.format(path, threshold))
 
-logging.info('PyLint Starting | '
-             'Path: {} | '
-             'Threshold: {} |'.format(path, threshold))
+    results = Run([path], do_exit=False)
 
-results = Run([path], do_exit=False)
+    final_score = results.linter.stats['global_note']
+    
+    if final_score < threshold:
 
-final_score = results.linter.stats['global_note']
+      message = ('PyLint Failed | '
+                 'Score: {} | '
+                 'Threshold: {} '.format(final_score, threshold))
 
-if final_score < threshold:
+      logging.error(message)
+      raise Exception(message)
 
-    message = ('PyLint Failed | '
-               'Score: {} | '
-               'Threshold: {} '.format(final_score, threshold))
+    else:
+      message = ('PyLint Passed | '
+                 'Score: {} | '
+                 'Threshold: {} '.format(final_score, threshold))
 
-    logging.error(message)
-    raise Exception(message)
+      logging.info(message)
 
-else:
-    message = ('PyLint Passed | '
-               'Score: {} | '
-               'Threshold: {} '.format(final_score, threshold))
+      exit(0)
 
-    logging.info(message)
 
-    exit(0)
+def main():
+  print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+  lint = PyLintComuptation()
+  lint.compute()
+ 
+if __name__ == "__main__":
+    main()
