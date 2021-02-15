@@ -1,8 +1,8 @@
-'''
+"""
 Module docstring
-'''
+"""
 def function_foo(x_x, y_y, z_z):
-    '''
+    """
     function foo ...
 
     Parameters
@@ -24,5 +24,5 @@ def function_foo(x_x, y_y, z_z):
     ------
     OSError
         bla
-    '''
+    """
     return x_x + y_y + z_z
