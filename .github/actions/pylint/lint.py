@@ -24,24 +24,13 @@ parser.add_argument('-t',
                     default=7,
                     type=float)
 
-# custom --convention=numpy
-parser.add_argument('--convention',
-                    '--convention',
-                    help='convention to format to be used | '
-                         'Default: %(default)s | '
-                         'Type: %(type)s ',
-                    default='numpy',
-                    type=str)
-
 args = parser.parse_args()
 path = str(args.path)
 threshold = float(args.threshold)
-convention = str(args.convention)
 
 logging.info('PyLint Starting | '
              'Path: {} | '
-             'Threshold: {} |'
-             'Convention: {}'.format(path, threshold, convention))
+             'Threshold: {} |'.format(path, threshold))
 
 results = Run([path], do_exit=False)
 
