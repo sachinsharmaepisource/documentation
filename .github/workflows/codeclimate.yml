@@ -39,3 +39,4 @@ jobs:
       with:
         coverageCommand: yarn run coverage
         debug: true
+
