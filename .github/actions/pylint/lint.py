@@ -3,7 +3,16 @@ import argparse
 import logging
 from pylint.lint import Run
 
-
+'''
+    Logic
+    ----------
+    1. Extract the arguments[path, threshold]
+    2. Print the logs of arguments.
+    3. Call Run function from pylint to get result[reports].
+    4. Extract the final score from results object.
+    5. If the final score is smaller than threshold then Raise exception and fail the github action with appropriate logs message.
+    6. Else Exit from the code with green tick of success and it's appropriate logs message.
+'''
 
 class PyLintComuptation:
   '''PyLintComuptation is class which extracts the command line arguments using argparser and fetch the score using Pylint and compare it with threshold[argument].
