@@ -9,7 +9,7 @@ class PyLintComuptation:
   def __init__(self):
     logging.getLogger().setLevel(logging.INFO)
 
-  def add_arguments():
+  def add_arguments(self):
     parser.add_argument('-p',
                     '--path',
                     help='path to directory you want to run pylint | '
@@ -26,9 +26,9 @@ class PyLintComuptation:
                     default=7,
                     type=float)
   
-  def compute():
+  def compute(self):
     parser = argparse.ArgumentParser(prog="LINT")
-    add_arguments(parser)
+    self.add_arguments(parser)
     
     args = parser.parse_args()
     path = str(args.path)
