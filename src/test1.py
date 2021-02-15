@@ -1,4 +1,4 @@
-'''
+"""
 This is the "example" module.
 
 The example module supplies one function, factorial().  For example,
@@ -6,9 +6,9 @@ The example module supplies one function, factorial().  For example,
 >>> factorial(5)
 
 120
-'''
+"""
 def function_foo(x, y, z):
-    '''
+    """
     function foo ...
 
     Args:
@@ -19,11 +19,11 @@ def function_foo(x, y, z):
 
     Returns:
         float: sum
-    '''
+    """
     return x + y + z
 
 def factorial(n_n, m_m):
-    '''
+    """
     Return the factorial of n, an exact integer >= 0.
         
     Parameters
@@ -56,7 +56,7 @@ def factorial(n_n, m_m):
     Traceback (most recent call last):
         ...
     OverflowError: n too large
-    '''
+    """
 
     import math
     n = n_n
