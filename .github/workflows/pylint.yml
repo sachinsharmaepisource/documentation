@@ -1,6 +1,15 @@
 name: PyLint Runner
 
-on: [push]
+on:
+  push:
+    paths:
+      - '**.py'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '**.py'
+
 
 jobs:
   build:
