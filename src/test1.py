@@ -1,5 +1,4 @@
-"""
-This is the "example" module.
+"""This is the "example" module.
 The example module supplies one function, factorial().  For example,
 
 >>> factorial(5)
@@ -7,8 +6,7 @@ The example module supplies one function, factorial().  For example,
 120
 """
 def function_foo(x, y, z):
-    """
-    function foo ...
+    """function foo ...
 
     Args:
         x (int): bla x
@@ -22,8 +20,7 @@ def function_foo(x, y, z):
     return x + y + z
 
 def factorial(n_n, m_m):
-    """
-    Return the factorial of n, an exact integer >= 0.
+    """Return the factorial of n, an exact integer >= 0.
     Parameters
     ----------
     m_m : array_like
