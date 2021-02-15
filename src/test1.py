@@ -1,6 +1,4 @@
-"""
-This is the "example" module.
-
+"""This is the "example" module.
 The example module supplies one function, factorial().  For example,
 
 >>> factorial(5)
@@ -8,8 +6,7 @@ The example module supplies one function, factorial().  For example,
 120
 """
 def function_foo(x, y, z):
-    """
-    function foo ...
+    """function foo ...
 
     Args:
         x (int): bla x
@@ -23,11 +20,13 @@ def function_foo(x, y, z):
     return x + y + z
 
 def factorial(n_n, m_m):
-    """
-    Return the factorial of n, an exact integer >= 0.
-        
+    """Return the factorial of n, an exact integer >= 0.
     Parameters
     ----------
+    m_m : array_like
+        Array_like means all those objects -- lists, nested lists, etc. --
+        that can be converted to an array.  We can also refer to
+        variables like `var1`.
     n_n : array_like
         Array_like means all those objects -- lists, nested lists, etc. --
         that can be converted to an array.  We can also refer to
@@ -60,6 +59,7 @@ def factorial(n_n, m_m):
 
     import math
     n = n_n
+    m = m_m
     if not n >= 0:
         raise ValueError("n must be >= 0")
     if math.floor(n) != n:
@@ -75,4 +75,4 @@ def factorial(n_n, m_m):
 
 
 if __name__ == "__main__":
-    print(factorial(100))
+    print(factorial(100,101))
