@@ -1,10 +1,8 @@
-"""
-Module docstring
+"""Module docstring
+random
 """
 def function_foo(x_x, y_y, z_z):
-    """
-    function foo ...
-
+    """function foo ...
     Parameters
     ----------
     x_x: int
