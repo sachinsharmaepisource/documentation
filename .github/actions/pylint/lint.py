@@ -87,7 +87,7 @@ class PyLintComuptation:
     path = str(args.path)
     threshold = float(args.threshold)
     action = str(args.action)
-    print('-------------------action: ', action)
+    print('-------------------action:  ', action)
 
     logging.info('PyLint Starting | '
                  'Path: {} | '
