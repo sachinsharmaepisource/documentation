@@ -60,9 +60,6 @@ def factorial(n_n, m_m):
     n = n_n
     m = m_m
 #     Sample inline comment TEST1
-#     Sample inline comment TEST1
-#     Sample inline comment TEST1
-#     Sample inline comment TEST1
     if not n >= 0:
         raise ValueError("n must be >= 0")
     if math.floor(n) != n:
@@ -78,4 +75,5 @@ def factorial(n_n, m_m):
 
 
 if __name__ == "__main__":
-    print(factorial(100,101))
+    #     Sample inline comment TEST1
+    print(factorial(100,101)) #     Sample inline comment TEST1
