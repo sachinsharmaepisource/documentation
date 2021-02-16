@@ -86,7 +86,7 @@ class PyLintComuptation:
     args = parser.parse_args()
     path = str(args.path)
     threshold = float(args.threshold)
-    action = float(args.action)
+    action = str(args.action)
     print('-------------------action: ', action)
 
     logging.info('PyLint Starting | '
