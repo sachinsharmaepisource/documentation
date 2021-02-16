@@ -50,6 +50,14 @@ class PyLintComuptation:
                          'Type: %(type)s ',
                     default=7,
                     type=float)
+    
+    parser.add_argument('-a',
+                    '--action',
+                    help='github action event name | '
+                         'Default: %(default)s | '
+                         'Type: %(type)s ',
+                    default='default_github_action_event_name',
+                    type=str)
   
   def compute(self):
     '''
@@ -78,6 +86,8 @@ class PyLintComuptation:
     args = parser.parse_args()
     path = str(args.path)
     threshold = float(args.threshold)
+    action = float(args.action)
+    print('-------------------action: ', action)
 
     logging.info('PyLint Starting | '
                  'Path: {} | '
