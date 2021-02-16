@@ -59,6 +59,10 @@ def factorial(n_n, m_m):
     import math
     n = n_n
     m = m_m
+#     Sample inline comment TEST1
+#     Sample inline comment TEST1
+#     Sample inline comment TEST1
+#     Sample inline comment TEST1
     if not n >= 0:
         raise ValueError("n must be >= 0")
     if math.floor(n) != n:
