@@ -2,7 +2,6 @@
 The example module supplies one function, factorial().  For example,
 >>> factorial(5)
 
-
 120
 """
 def function_foo(x, y, z):
