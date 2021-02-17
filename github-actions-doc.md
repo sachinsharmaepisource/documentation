@@ -1,7 +1,7 @@
 # Github action enforces docstrings sanity, inline comments and improve documentation standards across repositories(PYTHON)
 
 ## Short Description
-This github action is built on top of Pylint library which is a Python static code analysis tool which looks for programming errors, helps enforcing a coding standard, sniffs for code smells and offers simple refactoring suggestions. In workflow file the it installs the dependencies and run the lint.py file with proper arguments, In lint.Py it executes the Pylint library functions and print the logs of its output. It uses customization file .pylintrc automatically.
+This github action is built on top of Pylint library which is a Python static code analysis tool which looks for programming errors, helps enforcing a coding standard, sniffs for code smells and offers simple refactoring suggestions. In workflow file, it installs the dependencies first and run the lint.py file with proper arguments, In lint.Py it executes the Pylint library functions and print the logs of its output. It uses customization file .pylintrc automatically.
 
 ## Workflow
 1. In Pylint github action workflow file.
