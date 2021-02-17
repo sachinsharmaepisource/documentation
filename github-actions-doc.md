@@ -24,7 +24,7 @@ This github action will be triggered when there is a push, with path as '**/py' 
 
 ## CHECKS
 ### This list contains major checks from .pylintrc file.
-1. The docstring must contains parameters, Exceptions and return documentations as per standards. [Added with pylint.extensions.docparams and pylint.extensions.docstyle extensions in MASTER section of .pylintrc file].
+1. The docstring must contains respective parameters, Exceptions and return documentations as per format. [Added with pylint.extensions.docparams and pylint.extensions.docstyle extensions in MASTER section of .pylintrc file].
 2. max-nested-blocks=5 ::  Maximum number of nested blocks for function / method body
 3. argument-naming-style=snake_case :: Naming style matching correct argument names.
 4. attr-naming-style=snake_case :: Naming style matching correct attribute names.
