@@ -3,6 +3,9 @@
 ## Short Description
 This github action is built on top of Pylint library which is a Python static code analysis tool which looks for programming errors, helps enforcing a coding standard, sniffs for code smells and offers simple refactoring suggestions. In workflow file, it installs the dependencies first and run the lint.py file with proper arguments, In lint.Py it executes the Pylint library functions and print the logs of its output. It uses customization file .pylintrc automatically.
 
+## Trigger
+This github action will be triggered when there is a push, with path as '**/py' or on pull request from master branch with path as '**.py'.
+
 ## Workflow
 1. In Pylint github action workflow file.
 2. Checkout branch
