@@ -2,8 +2,8 @@ name: PyLint Runner
 
 on:
   push:
-    paths:
-      - '**.py'
+#     paths:
+#       - '**.py'
   pull_request:
     branches:
       - master
