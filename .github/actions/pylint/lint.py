@@ -84,7 +84,7 @@ class PyLintComuptation:
                  'Threshold: {} |'.format(path, threshold))
 
 #     results = Run([path], do_exit=False)
-    pylint_opts = [ './', '--load-plugins=pylint.extensions.mccabe --max-complexity=500', '--rcfile=./.pylintrc']
+    pylint_opts = [ './', '--load-plugins=pylint.extensions.mccabe', '--max-complexity=500', '--rcfile=./.pylintrc']
     results = Run(pylint_opts)
     final_score = results.linter.stats['global_note']
     
