@@ -85,7 +85,7 @@ class PyLintComuptation:
 
 #     results = Run([path], do_exit=False)
     pylint_opts = [ path, '--load-plugins=pylint.extensions.mccabe', '--rcfile=~/.pylintrc']
-    results = Run(pylint_opts)
+    results = pylint.lint.Run(pylint_opts)
     final_score = results.linter.stats['global_note']
     
     if final_score < threshold:
