@@ -85,7 +85,7 @@ class PyLintComuptation:
 
 #     results = Run([path], do_exit=False)
     pylint_opts = [ './src', '--load-plugins=pylint.extensions.mccabe', '--rcfile=./.pylintrc']
-    results = Run(pylint_opts, do_exit=False)
+    results = Run(['./'], do_exit=False)
     print('``````````````````````````````')
     final_score = results.linter.stats['global_note']
     
