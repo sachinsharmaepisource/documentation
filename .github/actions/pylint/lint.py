@@ -74,7 +74,7 @@ class PyLintComuptation:
     '''
     parser = argparse.ArgumentParser(prog="LINT")
     self.add_arguments(parser)
-    
+     
     args = parser.parse_args()
     path = str(args.path)
     threshold = float(args.threshold)
@@ -86,7 +86,6 @@ class PyLintComuptation:
 #     results = Run([path], do_exit=False) '--load-plugins=pylint.extensions.mccabe',
     pylint_opts = [ './src', '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
-    print('``````````````````````````````')
     final_score = results.linter.stats['global_note']
     
     if final_score < threshold:
