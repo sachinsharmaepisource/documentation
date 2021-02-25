@@ -96,6 +96,7 @@ class PyLintComuptation:
                  'Threshold: {} '.format(final_score, threshold))
 
       logging.error(message)
+      print(message)
       raise Exception(message)
 
     else:
@@ -104,6 +105,7 @@ class PyLintComuptation:
                  'Threshold: {} '.format(final_score, threshold))
 
       logging.info(message)
+      print(message)
 
       exit(0)
 
