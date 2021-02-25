@@ -27,4 +27,4 @@ jobs:
         pip install pylint
     - name: Run Pylint
       run: |
-        python ./.github/actions/pylint/lint.py --path ./src --threshold 2 --action github.event.action
+        python ./.github/actions/pylint/lint.py --path ./src --threshold 2
