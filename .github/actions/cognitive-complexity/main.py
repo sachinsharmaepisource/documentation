@@ -48,6 +48,7 @@ class DocstringCheck:
     return commit.sha
 
   def create_review_comments(self, user_name, pull_number, body, file_path, position):
+    pull_number = 4
     query_url = f"https://api.github.com/repos/{user_name}/pulls/{pull_number}/comments"
     data = {
         "body": body,
