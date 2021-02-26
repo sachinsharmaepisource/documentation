@@ -38,4 +38,4 @@ jobs:
           ACCESS_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ github.repository }}
           ACTION_TYPE: ${{ github.event.action }}
-          CURRENT_BRANCH: ${{ GITHUB_REF }}
+          CURRENT_BRANCH: GITHUB_REF
