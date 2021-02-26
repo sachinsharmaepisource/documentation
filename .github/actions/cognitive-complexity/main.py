@@ -48,7 +48,7 @@ class DocstringCheck:
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
   def delete_all_previous_bot_generated_review_comments(self, pull_number):
-    pr = self.repo.get_pull(pull_number)
+    pr = self.repo.get_pull(int(pull_number))
     review_comments = pr.get_review_comments()
     for review_comment in review_comments:
       print('user:: ', review_comment.user)
