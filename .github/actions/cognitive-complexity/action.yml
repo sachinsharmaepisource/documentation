@@ -25,6 +25,10 @@ inputs:
     description: "Action type"
     required: true
     default: 'DEFAULT_ACTION_TYPE'
+  CURRENT_BRANCH:
+    description: "Current branch name"
+    required: true
+    default: 'DEFAULT_BRANCH_NAME'
     
 runs:
   using: "docker"
