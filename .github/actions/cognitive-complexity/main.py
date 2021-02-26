@@ -51,8 +51,8 @@ class DocstringCheck:
     pr = self.repo.get_pull(int(pull_number))
     review_comments = pr.get_review_comments()
     for review_comment in review_comments:
-      print('user:: ', review_comment.user.type)
-
+      if review_comment.user.type == 'Bot':
+        review_comment.delete()
 
   def get_branch_commit_sha(self):
     commit = self.branch.commit
