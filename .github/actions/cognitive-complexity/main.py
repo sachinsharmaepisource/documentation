@@ -63,7 +63,7 @@ class DocstringCheck:
           n for n in ast.walk(tree)
           if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
       )
-      cognitive_report.append(self.get_single_cognitive_report(funcdefs, file_path))
+      cognitive_report = cognitive_report + self.get_single_cognitive_report(funcdefs, file_path)
     return cognitive_report
 	
   def compute(self):
