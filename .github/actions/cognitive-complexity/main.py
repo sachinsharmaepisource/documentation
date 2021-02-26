@@ -14,10 +14,12 @@ class DocstringCheck:
     self.ACCESS_TOKEN = self.get_inputs('ACCESS_TOKEN')
     self.USER_NAME = self.get_inputs('USER_NAME')
     self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
+    self.CURRENT_BRANCH = self.get_inputs('CURRENT_BRANCH')
+    print('self.CURRENT_BRANCH', self.CURRENT_BRANCH)
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME)
-    self.branch = "master"
+    self.branch = self.CURRENT_BRANCH
     print("hello")
     
   def get_inputs(self, input_name):
