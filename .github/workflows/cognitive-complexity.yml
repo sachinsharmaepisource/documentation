@@ -22,6 +22,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
 
       - name: Cognitive Complexity check
         id: cognitiveComplexityCheck
@@ -33,4 +38,4 @@ jobs:
           ACCESS_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
           USER_NAME: ${{ github.repository }}
           ACTION_TYPE: ${{ github.event.action }}
-          CURRENT_BRANCH: ${{ GITHUB_REF##*/ }}
+          CURRENT_BRANCH: ${GITHUB_REF#refs/heads/}
