@@ -21,7 +21,7 @@ class DocstringCheck:
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME)
-    self.branch = self.CURRENT_BRANCH
+    self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.max_cognitive_complexity = 5
     
@@ -40,10 +40,7 @@ class DocstringCheck:
     '''
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
-  def get_branch_commit_sha(self, pull_number):
-    print('pull_number:: ', pull_number)
-    pull_number = 3
-    pr = self.repo.get_pull(pull_number)
+  def get_branch_commit_sha(self):
     commit = self.branch.commit
     return commit.sha
 
@@ -53,7 +50,7 @@ class DocstringCheck:
         "body": body,
         'position': position,
         'path': file_path,
-        'commit_id': self.get_branch_commit_sha(pull_number)
+        'commit_id': self.get_branch_commit_sha()
     }
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
     pprint(r.json())
