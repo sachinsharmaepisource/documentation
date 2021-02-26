@@ -83,12 +83,10 @@ class PyLintComuptation:
                  'Threshold: {} |'.format(path, threshold))
 
 #     results = Run([path], do_exit=False) '--load-plugins=pylint.extensions.mccabe',
-    pylint_opts = [ '.github/actions/create-release', '--rcfile=./.pylintrc']
+    pylint_opts = [ path, '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     
-    final_score = -1
-    if 'global_note' in results.linter.stats.keys():
-     final_score = results.linter.stats['global_note']
+    final_score = results.linter.stats['global_note']
     
     if final_score < threshold:
 
