@@ -39,7 +39,7 @@ class DocstringCheck:
     '''
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
-  def get_tree(file_path):
+  def get_tree(self, file_path):
     with open(file_path, 'r') as file_handler:
       raw_content = file_handler.read()
     tree = ast.parse(raw_content)
