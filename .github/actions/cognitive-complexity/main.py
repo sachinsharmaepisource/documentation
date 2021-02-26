@@ -56,14 +56,15 @@ class DocstringCheck:
     return cognitive_report
 
   def get_cognitive_score(self, file_paths):
+    cognitive_report = []	
     for file_path in file_paths:
       tree = self.get_tree(file_path)
       funcdefs = (
           n for n in ast.walk(tree)
           if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
       )
-      cognitive_report = self.get_single_cognitive_report(funcdefs, file_path)
-      return cognitive_report
+      cognitive_report.append(self.get_single_cognitive_report(funcdefs, file_path))
+    return cognitive_report
 	
   def compute(self):
     contents = self.repo.get_contents("", self.branch)
