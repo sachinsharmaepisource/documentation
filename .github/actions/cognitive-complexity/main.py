@@ -59,9 +59,9 @@ class DocstringCheck:
         complexity = get_cognitive_complexity(funcdef)
         if complexity > self.max_cognitive_complexity:
           print('error')
-          cognitive_report.append('--{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}'
+          cognitive_report.append('--{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
         else:
-          cognitive_report.append('++{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}'
+          cognitive_report.append('++{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
     return cognitive_report
 	
   def compute(self):
@@ -87,3 +87,5 @@ def main():
  
 if __name__ == "__main__":
     main()
+
+    
