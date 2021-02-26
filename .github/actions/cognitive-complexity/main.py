@@ -22,7 +22,7 @@ class DocstringCheck:
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME)
     self.branch = self.CURRENT_BRANCH
-		self.max_cognitive_complexity = 5
+    self.max_cognitive_complexity = 5
     
   def get_inputs(self, input_name):
     '''
