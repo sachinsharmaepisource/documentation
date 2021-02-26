@@ -1,5 +1,6 @@
-name: 'Check Pull Request Title'
-description: 'Cheack PR Title is of correct format'
+name: 'Check Docstrings Title'
+description: 'Cheack Docstrings are of correct format'
+author: 'Sachin Sharma <sachinsharma@episource.com>'
 inputs:
   REPO_NAME:
     description: "The name of the repo: user/repo_name"
@@ -12,7 +13,7 @@ inputs:
   PR_NUMBER:
     description: "Pull request number(id)"
     required: true
-    default: 3
+    default: 'DEFAULT_PR_NUMBER'
   ACCESS_TOKEN:
     description: "Github Access Token you want to use. Just pass GITHUB_TOKEN"
     required: true
