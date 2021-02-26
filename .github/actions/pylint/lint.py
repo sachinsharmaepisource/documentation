@@ -1,7 +1,7 @@
 import argparse
 import logging
 from pylint.lint import Run
- 
+import os
 '''
     Logic
     ----------
@@ -126,6 +126,9 @@ def main():
   None
   '''
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+  d = '.'
+  for o in os.listdir(d):
+    print('directory', o)
   lint = PyLintComuptation()
   lint.compute()
  
