@@ -55,7 +55,6 @@ class DocstringCheck:
 	  			if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
       )
       for funcdef in funcdefs:
-	print('funcdef', funcdef)
         complexity = get_cognitive_complexity(funcdef)
 	print('calculated complexity', complexity)
 	if complexity > self.max_cognitive_complexity:
