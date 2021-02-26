@@ -84,7 +84,7 @@ class DocstringCheck:
     return cognitive_report
 	
   def compute(self):
-    contents = self.repo.get_contents("", self.branch)
+    contents = self.repo.get_contents("", self.branch.name)
     file_paths = []
     while contents:
         file_content = contents.pop(0)
