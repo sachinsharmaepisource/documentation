@@ -194,7 +194,7 @@ class DocstringCheck:
         elif file_extension == '.py':
           print(file_content.path)
           file_paths.append(file_content.path)
-    cognitive_report = self.get_cognitive_score(file_paths)
+    cognitive_report = self.get_cognitive_report(file_paths)
     print(*cognitive_report, sep = "\n")
             
 def main():
