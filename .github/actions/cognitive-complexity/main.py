@@ -14,7 +14,7 @@ from pprint import pprint
 	It wil compute cognitice complexities of every functions/module.
 	Then it will create review messages on the pull request.
 '''
-class DocstringCheck:
+class CognitiveReport:
 
   def __init__(self):
 #     Initialization of following variables
@@ -108,7 +108,7 @@ class DocstringCheck:
         'commit_id': self.get_branch_commit_sha()
     }
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
-    pprint(r.json())
+#     pprint(r.json())
     
   def get_tree(self, file_path):
     '''
@@ -192,14 +192,13 @@ class DocstringCheck:
         if file_content.type == "dir":
             contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
         elif file_extension == '.py':
-          print(file_content.path)
           file_paths.append(file_content.path)
     cognitive_report = self.get_cognitive_report(file_paths)
     print(*cognitive_report, sep = "\n")
             
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  obj = DocstringCheck()
+  obj = CognitiveReport()
   obj.compute()
  
 if __name__ == "__main__":
