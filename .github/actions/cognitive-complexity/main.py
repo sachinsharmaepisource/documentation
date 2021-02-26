@@ -51,8 +51,8 @@ class DocstringCheck:
       print('###### File Path: {}'.format(file_path))
       tree = get_tree(file_path)
       funcdefs = (
-	  			n for n in ast.walk(tree)
-	  			if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+	  n for n in ast.walk(tree)
+	  if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
       )
       for funcdef in funcdefs:
         complexity = get_cognitive_complexity(funcdef)
