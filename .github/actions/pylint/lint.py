@@ -87,27 +87,27 @@ class PyLintComuptation:
     pylint_opts = [ path, '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     
-    final_score = results.linter.stats['global_note']
+#     final_score = results.linter.stats['global_note']
     
-    if final_score < threshold:
+#     if final_score < threshold:
 
-      message = ('PyLint Failed | '
-                 'Score: {} | '
-                 'Threshold: {} '.format(final_score, threshold))
+#       message = ('PyLint Failed | '
+#                  'Score: {} | '
+#                  'Threshold: {} '.format(final_score, threshold))
 
-      logging.error(message)
-      print(message)
-      raise Exception(message)
+#       logging.error(message)
+#       print(message)
+#       raise Exception(message)
 
-    else:
-      message = ('PyLint Passed | '
-                 'Score: {} | '
-                 'Threshold: {} '.format(final_score, threshold))
+#     else:
+#       message = ('PyLint Passed | '
+#                  'Score: {} | '
+#                  'Threshold: {} '.format(final_score, threshold))
 
-      logging.info(message)
-      print(message)
+#       logging.info(message)
+#       print(message)
 
-      exit(0)
+#       exit(0)
 
 
 def main():
