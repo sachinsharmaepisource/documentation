@@ -12,7 +12,7 @@ inputs:
   PR_NUMBER:
     description: "Pull request number(id)"
     required: true
-    default: 'DEFAULT_PR_NUMBER'
+    default: 3
   ACCESS_TOKEN:
     description: "Github Access Token you want to use. Just pass GITHUB_TOKEN"
     required: true
