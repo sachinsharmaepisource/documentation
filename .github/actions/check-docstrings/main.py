@@ -2,8 +2,8 @@ import os
 import os.path
 import sys
 from github import Github
-import ast
-from cognitive_complexity.api import get_cognitive_complexity
+
+from pylint.lint import Run
 import json
 import requests
 from pprint import pprint
@@ -11,27 +11,27 @@ from pprint import pprint
 #---------------------------------------------------------------------------------------------------------
 '''
 	Logic:
-	It wil compute cognitice complexities of every functions/module.
+	It wil check docstring format as per standards.
 	Then it will create review messages on the pull request.
 '''
-class CognitiveReport:
+class CheckDocstrings:
 
   def __init__(self):
 #     Initialization of following variables
-    self.REPO_NAME = self.get_inputs('REPO_NAME')
-    self.PR_TITLE = self.get_inputs('PR_TITLE')
-    self.PR_NUMBER = self.get_inputs('PR_NUMBER')
-    self.ACCESS_TOKEN = self.get_inputs('ACCESS_TOKEN')
-    self.USER_NAME = self.get_inputs('USER_NAME')
-    self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
-    self.CURRENT_BRANCH = self.get_inputs('CURRENT_BRANCH')
-    self.GH = Github(self.ACCESS_TOKEN)
-    self.repo = self.GH.get_repo(self.USER_NAME)
-    if self.PR_NUMBER:
-      self.CURRENT_BRANCH = self.repo.get_pull(int(self.PR_NUMBER)).head.ref
-    self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
-    self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
-    self.max_cognitive_complexity = 5
+    # self.REPO_NAME = self.get_inputs('REPO_NAME')
+    # self.PR_TITLE = self.get_inputs('PR_TITLE')
+    # self.PR_NUMBER = self.get_inputs('PR_NUMBER')
+    # self.ACCESS_TOKEN = self.get_inputs('ACCESS_TOKEN')
+    # self.USER_NAME = self.get_inputs('USER_NAME')
+    # self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
+    # self.CURRENT_BRANCH = self.get_inputs('CURRENT_BRANCH')
+    # self.GH = Github(self.ACCESS_TOKEN)
+    # self.repo = self.GH.get_repo(self.USER_NAME)
+    # if self.PR_NUMBER:
+    #   self.CURRENT_BRANCH = self.repo.get_pull(int(self.PR_NUMBER)).head.ref
+    # self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
+    # self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
+    self.threshold = 5
     
   def get_inputs(self, input_name):
     '''
@@ -184,21 +184,26 @@ class CognitiveReport:
       ----------
           None
     '''
-    contents = self.repo.get_contents("", self.branch.name)
-    file_paths = []
-    while contents:
-        file_content = contents.pop(0)
-        file_extension = os.path.splitext(file_content.path)[1]
-        if file_content.type == "dir":
-            contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
-        elif file_extension == '.py':
-          file_paths.append(file_content.path)
-    cognitive_report = self.get_cognitive_report(file_paths)
-    print(*cognitive_report, sep = "\n")
+    path = './.github'
+    pylint_opts = [ path, '--rcfile=./.pylintrc']
+    results = Run(pylint_opts, do_exit=False)
+    final_score = results.linter.stats['global_note']
+    print('final_score', final_score)
+#     contents = self.repo.get_contents("", self.branch.name)
+#     file_paths = []
+#     while contents:
+#         file_content = contents.pop(0)
+#         file_extension = os.path.splitext(file_content.path)[1]
+#         if file_content.type == "dir":
+#             contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
+#         elif file_extension == '.py':
+#           file_paths.append(file_content.path)
+#     cognitive_report = self.get_cognitive_report(file_paths)
+#     print(*cognitive_report, sep = "\n")
             
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  obj = CognitiveReport()
+  obj = CheckDocstrings()
   obj.compute()
  
 if __name__ == "__main__":
