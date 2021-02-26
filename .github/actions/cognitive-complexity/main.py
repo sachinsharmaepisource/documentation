@@ -73,9 +73,9 @@ class DocstringCheck:
         if file_content.type == "dir":
             contents.extend(self.repo.get_contents(file_content.path, self.branch))
         else:
-          extension = os.path.splitext(file_content)[1]
+          extension = os.path.splitext(file_content)[1][1:]
           print('extension', extension)
-          if extension == '.py':
+          if extension == 'py':
             print(file_content.path)
             file_paths.append(file_content.path)
     cognitive_report = self.get_cognitive_score(file_paths)
