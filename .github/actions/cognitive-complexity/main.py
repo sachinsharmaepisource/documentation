@@ -18,7 +18,6 @@ class DocstringCheck:
     self.USER_NAME = self.get_inputs('USER_NAME')
     self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
     self.CURRENT_BRANCH = self.get_inputs('CURRENT_BRANCH')
-    print('self.CURRENT_BRANCH', self.CURRENT_BRANCH)
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME)
@@ -67,13 +66,12 @@ class DocstringCheck:
     file_paths = []
     while contents:
         file_content = contents.pop(0)
+        file_extension = os.path.splitext(file_content.path)[1]
         if file_content.type == "dir":
             contents.extend(self.repo.get_contents(file_content.path, self.branch))
-        else:
-          extension = os.path.splitext(file_content.path)[1]
-          if extension == '.py':
-            print(file_content.path)
-            file_paths.append(file_content.path)
+        elif file_extension == '.py':
+          print(file_content.path)
+          file_paths.append(file_content.path)
     cognitive_report = self.get_cognitive_score(file_paths)
     print(*cognitive_report, sep = "\n")
             
