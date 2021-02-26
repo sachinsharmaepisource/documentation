@@ -83,7 +83,7 @@ class PyLintComuptation:
                  'Threshold: {} |'.format(path, threshold))
 
 #     results = Run([path], do_exit=False)
-    path = ''
+    path = '.'
     pylint_opts = [ path, '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     
