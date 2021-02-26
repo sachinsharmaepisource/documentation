@@ -24,7 +24,7 @@ class DocstringCheck:
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME)
-    if self.PR_NUMER:
+    if self.PR_NUMBER:
       print('self.PR_NUMER', self.PR_NUMBER)
       self.CURRENT_BRANCH = self.repo.get_pull(self.PR_NUMBER).base.ref
     print('self.CURRENT_BRANCH', self.CURRENT_BRANCH)
