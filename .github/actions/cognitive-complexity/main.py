@@ -49,7 +49,6 @@ class DocstringCheck:
   def get_cognitive_score(self, file_paths):
     cognitive_report = []
     for file_path in file_paths:
-      print('###### File Path: {}'.format(file_path))
       tree = self.get_tree(file_path)
       funcdefs = (
           n for n in ast.walk(tree)
@@ -57,12 +56,10 @@ class DocstringCheck:
       )
       for funcdef in funcdefs:
         complexity = get_cognitive_complexity(funcdef)
-        print('calculated complexity', complexity)
         if complexity > self.max_cognitive_complexity:
-          print('error')
-          cognitive_report.append('--{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
+          cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
         else:
-          cognitive_report.append('++{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
+          cognitive_report.append(f'++{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
     return cognitive_report
 	
   def compute(self):
