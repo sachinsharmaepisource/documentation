@@ -28,7 +28,7 @@ class PyLintComuptation:
     ----------
     parser : object of Argparse
         parser is used to set the command line arguments.
-    
+
     Returns
     -------
     None
@@ -82,7 +82,7 @@ class PyLintComuptation:
                  'Path: {} | '
                  'Threshold: {} |'.format(path, threshold))
 
-#     results = Run([path], do_exit=False) '--load-plugins=pylint.extensions.mccabe',
+#     results = Run([path], do_exit=False)
     pylint_opts = [ path, '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     
