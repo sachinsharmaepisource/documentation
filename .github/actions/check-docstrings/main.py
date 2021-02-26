@@ -18,19 +18,19 @@ class CheckDocstrings:
 
   def __init__(self):
 #     Initialization of following variables
-    # self.REPO_NAME = self.get_inputs('REPO_NAME')
-    # self.PR_TITLE = self.get_inputs('PR_TITLE')
-    # self.PR_NUMBER = self.get_inputs('PR_NUMBER')
-    # self.ACCESS_TOKEN = self.get_inputs('ACCESS_TOKEN')
-    # self.USER_NAME = self.get_inputs('USER_NAME')
-    # self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
-    # self.CURRENT_BRANCH = self.get_inputs('CURRENT_BRANCH')
-    # self.GH = Github(self.ACCESS_TOKEN)
-    # self.repo = self.GH.get_repo(self.USER_NAME)
-    # if self.PR_NUMBER:
-    #   self.CURRENT_BRANCH = self.repo.get_pull(int(self.PR_NUMBER)).head.ref
-    # self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
-    # self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
+    self.REPO_NAME = self.get_inputs('REPO_NAME')
+    self.PR_TITLE = self.get_inputs('PR_TITLE')
+    self.PR_NUMBER = self.get_inputs('PR_NUMBER')
+    self.ACCESS_TOKEN = self.get_inputs('ACCESS_TOKEN')
+    self.USER_NAME = self.get_inputs('USER_NAME')
+    self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
+    self.CURRENT_BRANCH = self.get_inputs('CURRENT_BRANCH')
+    self.GH = Github(self.ACCESS_TOKEN)
+    self.repo = self.GH.get_repo(self.USER_NAME)
+    if self.PR_NUMBER:
+      self.CURRENT_BRANCH = self.repo.get_pull(int(self.PR_NUMBER)).head.ref
+    self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
+    self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.threshold = 5
     
   def get_inputs(self, input_name):
