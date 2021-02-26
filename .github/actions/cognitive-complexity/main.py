@@ -51,17 +51,17 @@ class DocstringCheck:
       print('###### File Path: {}'.format(file_path))
       tree = get_tree(file_path)
       funcdefs = (
-	  n for n in ast.walk(tree)
-	  if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+          n for n in ast.walk(tree)
+          if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
       )
       for funcdef in funcdefs:
-		print('calculated complexity', complexity)
-		complexity = get_cognitive_complexity(funcdef)
-		if complexity > self.max_cognitive_complexity:
-			print('error')
-			cognitive_report.append('--{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}'
-		else:
-	  		cognitive_report.append('++{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}'
+        print('calculated complexity', complexity)
+        complexity = get_cognitive_complexity(funcdef)
+        if complexity > self.max_cognitive_complexity:
+          print('error')
+          cognitive_report.append('--{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}'
+        else:
+          cognitive_report.append('++{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}'
     return cognitive_report
 	
   def compute(self):
@@ -87,5 +87,3 @@ def main():
  
 if __name__ == "__main__":
     main()
-
-    
