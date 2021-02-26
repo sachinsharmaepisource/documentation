@@ -83,7 +83,7 @@ class PyLintComuptation:
                  'Threshold: {} |'.format(path, threshold))
 
 #     results = Run([path], do_exit=False) '--load-plugins=pylint.extensions.mccabe',
-    pylint_opts = [ './', '--rcfile=./.pylintrc']
+    pylint_opts = [ '*.py', '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     
     final_score = -1
