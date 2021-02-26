@@ -83,7 +83,7 @@ class PyLintComuptation:
                  'Threshold: {} |'.format(path, threshold))
 
 #     results = Run([path], do_exit=False)
-    path = './.github'
+    path = './src'
     pylint_opts = [ path, '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     
@@ -126,9 +126,6 @@ def main():
   None
   '''
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  d = './.github'
-  for o in os.listdir(d):
-    print('directory', o)
   lint = PyLintComuptation()
   lint.compute()
  
