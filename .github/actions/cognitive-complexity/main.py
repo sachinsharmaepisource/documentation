@@ -44,22 +44,26 @@ class DocstringCheck:
       raw_content = file_handler.read()
     tree = ast.parse(raw_content)
     return tree
-
-  def get_cognitive_score(self, file_paths):
+  
+  def get_single_cognitive_report(self, funcdefs):
     cognitive_report = []
-    for file_path in file_paths:
-      tree = self.get_tree(file_path)
-      funcdefs = (
-          n for n in ast.walk(tree)
-          if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
-      )
-      for funcdef in funcdefs:
+    for funcdef in funcdefs:
         complexity = get_cognitive_complexity(funcdef)
         if complexity > self.max_cognitive_complexity:
           cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
         else:
           cognitive_report.append(f'++{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
     return cognitive_report
+
+  def get_cognitive_score(self, file_paths):
+    for file_path in file_paths:
+      tree = self.get_tree(file_path)
+      funcdefs = (
+          n for n in ast.walk(tree)
+          if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+      )
+      cognitive_report = self.get_single_cognitive_report(funcdefs)
+      return cognitive_report
 	
   def compute(self):
     contents = self.repo.get_contents("", self.branch)
