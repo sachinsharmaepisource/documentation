@@ -47,11 +47,19 @@ class DocstringCheck:
     '''
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
+  def delete_all_previous_bot_generated_review_comments(self, pull_number):
+    pr = self.repo.get_pull(pull_number)
+    review_comments = pr.get_review_comments()
+    for review_comment in review_comments:
+      print('user:: ', review_comment.user)
+
+
   def get_branch_commit_sha(self):
     commit = self.branch.commit
     return commit.sha
 
   def create_review_comments(self, user_name, pull_number, body, file_path, position):
+    self.delete_all_previous_bot_generated_review_comments(pull_number)
     query_url = f"https://api.github.com/repos/{user_name}/pulls/{pull_number}/comments"
     data = {
         "body": body,
@@ -59,9 +67,6 @@ class DocstringCheck:
         'path': file_path,
         'commit_id': self.get_branch_commit_sha()
     }
-    pprint(self.header)
-    pprint(query_url)
-    pprint(data)
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
     pprint(r.json())
     
