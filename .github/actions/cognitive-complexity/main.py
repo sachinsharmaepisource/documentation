@@ -41,6 +41,8 @@ class DocstringCheck:
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
   def get_branch_commit_sha(self, pull_number):
+    print('pull_number:: ', pull_number)
+    pull_number = 3
     pr = self.repo.get_pull(pull_number)
     commit = self.branch.commit
     return commit.sha
