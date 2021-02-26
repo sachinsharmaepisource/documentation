@@ -26,7 +26,7 @@ class DocstringCheck:
     self.repo = self.GH.get_repo(self.USER_NAME)
     if self.PR_NUMBER:
       print('self.PR_NUMER', self.PR_NUMBER)
-      self.CURRENT_BRANCH = self.repo.get_pull(self.PR_NUMBER).base.ref
+      self.CURRENT_BRANCH = self.repo.get_pull(int(self.PR_NUMBER)).base.ref
     print('self.CURRENT_BRANCH', self.CURRENT_BRANCH)
     self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
