@@ -3,7 +3,7 @@ import sys
 from github import Github
 import ast
 from cognitive_complexity.api import get_cognitive_complexity
-
+ 
 #---------------------------------------------------------------------------------------------------------
 
 class DocstringCheck:
