@@ -59,7 +59,7 @@ class DocstringCheck:
         if complexity > self.max_cognitive_complexity:
           cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
         else:
-          cognitive_report.append(f'++{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
+          cognitive_report.append(f'++{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
     return cognitive_report
 	
   def compute(self):
@@ -71,7 +71,6 @@ class DocstringCheck:
             contents.extend(self.repo.get_contents(file_content.path, self.branch))
         else:
           extension = os.path.splitext(file_content.path)[1]
-          print('extension', extension)
           if extension == '.py':
             print(file_content.path)
             file_paths.append(file_content.path)
