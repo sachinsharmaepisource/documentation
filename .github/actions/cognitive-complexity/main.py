@@ -56,8 +56,8 @@ class DocstringCheck:
           if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
       )
       for funcdef in funcdefs:
-        print('calculated complexity', complexity)
         complexity = get_cognitive_complexity(funcdef)
+        print('calculated complexity', complexity)
         if complexity > self.max_cognitive_complexity:
           print('error')
           cognitive_report.append('--{funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
