@@ -75,8 +75,7 @@ class DocstringCheck:
             print(file_content.path)
             file_paths.append(file_content.path)
     cognitive_report = self.get_cognitive_score(file_paths)
-    print('cognitive_report')
-		print(*cognitive_report, sep = "\n") 
+    print(*cognitive_report, sep = "\n")
             
 #             print(file_content.decoded_content)
    
