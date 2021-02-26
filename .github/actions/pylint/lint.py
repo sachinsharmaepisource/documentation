@@ -86,6 +86,7 @@ class PyLintComuptation:
     pylint_opts = [ './*.py', '--rcfile=./.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     
+    final_score = -1
     if 'global_note' in results.linter.stats.keys():
      final_score = results.linter.stats['global_note']
     
