@@ -24,6 +24,7 @@ class DocstringCheck:
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME)
+    print('self.CURRENT_BRANCH', self.CURRENT_BRANCH)
     self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.max_cognitive_complexity = 5
