@@ -185,7 +185,7 @@ class CheckDocstrings:
           None
     '''
     path = './.github'
-    pylint_opts = [ path, '--rcfile=./.pylintrc']
+    pylint_opts = [ path, '--rcfile=./.github/actions/check-docstrings/.pylintrc']
     results = Run(pylint_opts, do_exit=False)
     final_score = results.linter.stats['global_note']
     print('final_score', final_score)
