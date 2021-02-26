@@ -66,12 +66,12 @@ class DocstringCheck:
     cognitive_report = []
     for funcdef in funcdefs:
         complexity = get_cognitive_complexity(funcdef)
-        self.create_review_comments(self.USER_NAME, self.PR_NUMBER, cognitive_report[-1], file_path, funcdef.lineno)
         if complexity > self.max_cognitive_complexity:
           cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
         else:
           cognitive_report.append(f'++{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
-    return cognitive_report
+        self.create_review_comments(self.USER_NAME, self.PR_NUMBER, cognitive_report[-1], file_path, funcdef.lineno)
+  return cognitive_report
 
   def get_cognitive_score(self, file_paths):
     cognitive_report = []	
@@ -107,5 +107,3 @@ def main():
  
 if __name__ == "__main__":
     main()
-
-    
