@@ -45,7 +45,7 @@ class DocstringCheck:
     tree = ast.parse(raw_content)
     return tree
   
-  def get_single_cognitive_report(self, funcdefs):
+  def get_single_cognitive_report(self, funcdefs, file_path):
     cognitive_report = []
     for funcdef in funcdefs:
         complexity = get_cognitive_complexity(funcdef)
@@ -62,7 +62,7 @@ class DocstringCheck:
           n for n in ast.walk(tree)
           if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
       )
-      cognitive_report = self.get_single_cognitive_report(funcdefs)
+      cognitive_report = self.get_single_cognitive_report(funcdefs, file_path)
       return cognitive_report
 	
   def compute(self):
