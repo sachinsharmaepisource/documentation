@@ -79,7 +79,7 @@ class DocstringCheck:
 		print(*cognitive_report, sep = "\n") 
             
 #             print(file_content.decoded_content)
-  
+   
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   obj = DocstringCheck()
