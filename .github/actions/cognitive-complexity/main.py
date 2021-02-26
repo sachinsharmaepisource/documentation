@@ -90,7 +90,7 @@ class DocstringCheck:
         file_content = contents.pop(0)
         file_extension = os.path.splitext(file_content.path)[1]
         if file_content.type == "dir":
-            contents.extend(self.repo.get_contents(file_content.path, self.branch))
+            contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
         elif file_extension == '.py':
           print(file_content.path)
           file_paths.append(file_content.path)
