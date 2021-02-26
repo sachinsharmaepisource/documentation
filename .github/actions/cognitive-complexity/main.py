@@ -55,6 +55,7 @@ class DocstringCheck:
         'path': file_path,
         'commit_id': self.get_branch_commit_sha()
     }
+    pprint(data)
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
     pprint(r.json())
     
