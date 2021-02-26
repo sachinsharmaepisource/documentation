@@ -22,6 +22,7 @@ class DocstringCheck:
     self.GH = Github(self.ACCESS_TOKEN)
     self.repo = self.GH.get_repo(self.USER_NAME)
     self.branch = self.CURRENT_BRANCH
+    self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.max_cognitive_complexity = 5
     
   def get_inputs(self, input_name):
@@ -39,6 +40,22 @@ class DocstringCheck:
     '''
     return os.getenv('INPUT_{}'.format(input_name).upper())
   
+  def get_branch_commit_sha(self, pull_number):
+    pr = self.repo.get_pull(pull_number)
+    commit = self.branch.commit
+    return commit.sha
+
+  def create_review_comments(self, user_name, pull_number, body, file_path, position):
+    query_url = f"https://api.github.com/repos/{user_name}/pulls/{pull_number}/comments"
+    data = {
+        "body": body,
+        'position': position,
+        'path': file_path,
+        'commit_id': self.get_branch_commit_sha(pull_number)
+    }
+    r = requests.post(query_url, headers=self.header, data=json.dumps(data))
+    pprint(r.json())
+    
   def get_tree(self, file_path):
     with open(file_path, 'r') as file_handler:
       raw_content = file_handler.read()
@@ -49,6 +66,7 @@ class DocstringCheck:
     cognitive_report = []
     for funcdef in funcdefs:
         complexity = get_cognitive_complexity(funcdef)
+        self.create_review_comments(self.USER_NAME, self.PR_NUMBER, cognitive_report[-1], file_path, funcdef.lineno)
         if complexity > self.max_cognitive_complexity:
           cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
         else:
