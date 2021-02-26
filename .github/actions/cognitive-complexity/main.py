@@ -4,6 +4,9 @@ import sys
 from github import Github
 import ast
 from cognitive_complexity.api import get_cognitive_complexity
+import json
+import requests
+from pprint import pprint
 #  https://github.com/Melevir/flake8-cognitive-complexity
 #---------------------------------------------------------------------------------------------------------
 
