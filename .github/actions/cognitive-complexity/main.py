@@ -16,8 +16,8 @@ class DocstringCheck:
     self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
 #     Github action, Repo, Pull request objects are defined
     self.GH = Github(self.ACCESS_TOKEN)
-    self.repo = self.GH.get_repo(self.USER_NAME + '/' + self.REPO_NAME)
-    self.branch = "main"
+    self.repo = self.GH.get_repo(self.USER_NAME)
+    self.branch = "master"
     print("hello")
     
   def get_inputs(self, input_name):
