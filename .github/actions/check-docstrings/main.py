@@ -30,7 +30,6 @@ class CheckDocstrings:
       self.CURRENT_BRANCH = self.repo.get_pull(int(self.PR_NUMBER)).head.ref
     self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
-    self.THRESHOLD_SCORE = 5
     self.RCFILE_PATH = './.github/actions/check-docstrings/.pylintrc'
     self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [], 'convention': [] }
     self.LABEL = '[CHECK DOCSTRINGS]'
@@ -112,15 +111,22 @@ class CheckDocstrings:
         'commit_id': self.get_branch_commit_sha()
     }
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
-    pprint(r.json())
+    # pprint(r.json())
     
-  def get_docstring_report(self, file_paths):
+  def check_docstrings(self, file_paths):
+    '''
+      Parameters
+      ----------
+          file_paths: String
+          
+      Logic
+      ----------
+          execute lint on all the files and then create review comment on the current pull request.
+      Return
+      ----------
+          None
+    '''
     for file_path in file_paths:
-      # path = file_path
-      # pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
-      # results = Run(pylint_opts, do_exit=False)
-      # final_score = results.linter.stats['global_note']
-      # dct = results.linter.stats
       (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
       pylint_stdout.seek(0)
       report_dct_ = self.report_dct
@@ -152,7 +158,7 @@ class CheckDocstrings:
           None
       Logic
       ----------
-          First fetch all the python files and compute individual congnitive complexities then create there review comments on pull request.
+          First fetch all the python files and check individual docstrings then create there review comments on pull request.
       Return
       ----------
           None
@@ -166,8 +172,7 @@ class CheckDocstrings:
             contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
         elif file_extension == '.py':
           file_paths.append(file_content.path)
-    self.get_docstring_report(file_paths)
-    # print(*docstring_report, sep = "\n")
+    self.check_docstrings(file_paths)
     
             
 def main():
