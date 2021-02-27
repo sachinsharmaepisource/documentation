@@ -182,12 +182,12 @@ class CheckDocstrings:
       results = Run(pylint_opts, do_exit=False)
       final_score = results.linter.stats['global_note']
       dct = results.linter.stats
-      (pylint_stdout, pylint_stderr) = lint.py_run(pylint_opts, return_std=True)
+      (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
       print(pylint_stdout)
       # pprint(json.dumps(results.linter.stats, indent=4))
       print('final_score', final_score)
-      # if final_score < self.THRESHOLD_SCORE:
-      #   self.create_review_comment(final_score)
+      if final_score > self.THRESHOLD_SCORE:
+        self.create_review_comment(final_score)
 
 
   def compute(self):
