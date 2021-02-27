@@ -23,8 +23,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Cognitive Complexity check
-        id: cognitiveComplexityCheck
+      - name: Check Docstrings
+        id: checkDocstrings
         uses:  ./.github/actions/check-docstrings
         with:
           REPO_NAME: ${{ github.event.repository.name }}  
