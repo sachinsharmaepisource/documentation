@@ -155,27 +155,6 @@ class CheckDocstrings:
           cognitive_report.append(f'++{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
     return cognitive_report
 
-  def get_cognitive_report(self, file_paths):
-    '''
-      Parameters
-      ----------
-          file_paths: string
-      Logic
-      ----------
-          Return combined cognitive report.
-      Return
-      ----------
-          cognitive_report:list
-    '''
-    cognitive_report = []	
-    for file_path in file_paths:
-      tree = self.get_tree(file_path)
-      funcdefs = (
-          n for n in ast.walk(tree)
-          if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
-      )
-      cognitive_report = cognitive_report + self.get_single_cognitive_report(funcdefs, file_path)
-    return cognitive_report
 	
   def get_docstring_report(self, file_paths):
     for file_path in file_paths:
@@ -189,7 +168,10 @@ class CheckDocstrings:
       report_dct_ = self.report_dct
       for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
         line.strip()
-        splt = line.split(' ', 2)
+        if splt[0]=='':
+          splt.pop(0)
+        print(splt)
+        splt = line.split(' ', 3)
         path_ = splt[0]
         type_ = splt[1]
         desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
@@ -199,6 +181,8 @@ class CheckDocstrings:
 
       for key in report_dct_.keys():
         print('!!!!!!!!!', key, report_dct_[key])
+      
+      # for 
 
       # print(pylint_stderr.getvalue())
       # file_like_io = pylint_stdout.getbuffer()
