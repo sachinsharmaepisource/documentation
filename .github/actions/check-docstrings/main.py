@@ -183,7 +183,7 @@ class CheckDocstrings:
       dct = results.linter.stats
       for key in dct.keys():
         print(key, dct[key])
-      pprint(results.linter.stats.keys())
+      print(results.linter)
       # pprint(json.dumps(results.linter.stats, indent=4))
       print('final_score', final_score)
 
