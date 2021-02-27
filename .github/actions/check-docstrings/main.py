@@ -3,6 +3,7 @@ import os.path
 import sys
 from github import Github
 
+from pylint import epylint as lint
 from pylint.lint import Run
 import json
 import requests
@@ -31,7 +32,7 @@ class CheckDocstrings:
       self.CURRENT_BRANCH = self.repo.get_pull(int(self.PR_NUMBER)).head.ref
     self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
-    self.threshold = 5
+    self.THRESHOLD_SCORE = 5
     self.RCFILE_PATH = './.github/actions/check-docstrings/.pylintrc'
     
   def get_inputs(self, input_name):
@@ -181,9 +182,12 @@ class CheckDocstrings:
       results = Run(pylint_opts, do_exit=False)
       final_score = results.linter.stats['global_note']
       dct = results.linter.stats
-      print(results.linter)
+      (pylint_stdout, pylint_stderr) = lint.py_run(pylint_opts, return_std=True)
+      print(pylint_stdout)
       # pprint(json.dumps(results.linter.stats, indent=4))
       print('final_score', final_score)
+      # if final_score < self.THRESHOLD_SCORE:
+      #   self.create_review_comment(final_score)
 
 
   def compute(self):
