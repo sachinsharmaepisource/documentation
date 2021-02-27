@@ -184,6 +184,9 @@ class CheckDocstrings:
       # final_score = results.linter.stats['global_note']
       # dct = results.linter.stats
       (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
+      val = pylint_stdout.getvalue()
+      for v in val:
+        print('!!!!!!!!!!!!', v)
       # print(pylint_stdout.getvalue())
       # print(pylint_stderr.getvalue())
       # file_like_io = pylint_stdout.getbuffer()
