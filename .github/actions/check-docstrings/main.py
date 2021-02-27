@@ -36,6 +36,7 @@ class CheckDocstrings:
     self.THRESHOLD_SCORE = 5
     self.RCFILE_PATH = './.github/actions/check-docstrings/.pylintrc'
     self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [], 'convention': [] }
+    self.LABEL = '[CHECK DOCSTRINGS]'
 
     
   def get_inputs(self, input_name):
@@ -69,7 +70,8 @@ class CheckDocstrings:
     pr = self.repo.get_pull(int(pull_number))
     review_comments = pr.get_review_comments()
     for review_comment in review_comments:
-      if review_comment.user.type == 'Bot':
+      comment_desc_label = review_comment.split('\n', 1)[0]
+      if review_comment.user.type == 'Bot' and comment_desc_label == self.LABEL:
         review_comment.delete()
 
   def get_branch_commit_sha(self):
@@ -138,22 +140,13 @@ class CheckDocstrings:
       
       for lst in report_dct_['convention']:
         print(lst)
-        desc_ = lst[1]
         path = lst[0]
+        desc_ = lst[1]
+        desc_ = f'{self.LABEL} \n {desc_}'
         splt = path.split(':', 2)
         file_path = splt[0]
         line_no_ = int(splt[1])
         self.create_review_comments(self.USER_NAME, self.PR_NUMBER, desc_, file_path, line_no_)
-
-
-      # print(pylint_stderr.getvalue())
-      # file_like_io = pylint_stdout.getbuffer()
-      # print(view)
-      # pprint(json.dumps(results.linter.stats, indent=4))
-      # print('final_score', final_score)
-      # if final_score > self.THRESHOLD_SCORE:
-      #   self.create_review_comment(final_score)
-
 
   def compute(self):
     '''
