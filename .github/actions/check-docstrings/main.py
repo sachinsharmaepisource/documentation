@@ -1,15 +1,12 @@
 import os
 import os.path
 import sys
-from github import Github 
+from github import Github
 
-from io import StringIO # Python 3 import
 from pylint import epylint as lint
-from pylint.lint import Run
 import json
 import requests
 from pprint import pprint
-#  https://github.com/Melevir/flake8-cognitive-complexity
 #---------------------------------------------------------------------------------------------------------
 '''
 	Logic:
