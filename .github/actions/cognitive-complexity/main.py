@@ -32,6 +32,7 @@ class CognitiveReport:
     self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.max_cognitive_complexity = 5
+    self.LABEL = '[COGNITIVE COMPLEXITY]'
     
   def get_inputs(self, input_name):
     '''
@@ -64,7 +65,8 @@ class CognitiveReport:
     pr = self.repo.get_pull(int(pull_number))
     review_comments = pr.get_review_comments()
     for review_comment in review_comments:
-      if review_comment.user.type == 'Bot':
+      comment_desc_label = review_comment.body.split('\n', 1)[0]
+      if review_comment.user.type == 'Bot' and comment_desc_label == self.LABEL:
         review_comment.delete()
 
   def get_branch_commit_sha(self):
@@ -145,7 +147,9 @@ class CognitiveReport:
         complexity = get_cognitive_complexity(funcdef)
         if complexity > self.max_cognitive_complexity:
           cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
-          self.create_review_comments(self.USER_NAME, self.PR_NUMBER, cognitive_report[-1], file_path, funcdef.lineno)
+          desc_ = f'Function has a Cognitive Complexity of {complexity} (exceeds {self.max_cognitive_complexity} allowed). Consider refactoring.'
+          desc_ = f'{self.LABEL} \n {desc_}'
+          self.create_review_comments(self.USER_NAME, self.PR_NUMBER, desc_, file_path, funcdef.lineno)
         else:
           cognitive_report.append(f'++{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
     return cognitive_report
