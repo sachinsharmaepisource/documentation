@@ -142,7 +142,7 @@ class CheckDocstrings:
         path = lst[0]
         splt = path.split(':', 2)
         file_path = splt[0]
-        line_no_ = splt[1]
+        line_no_ = int(splt[1])
         self.create_review_comments(self.USER_NAME, self.PR_NUMBER, desc_, file_path, line_no_)
 
 
