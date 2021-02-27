@@ -180,6 +180,13 @@ class CheckDocstrings:
       pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
       results = Run(pylint_opts, do_exit=False)
       final_score = results.linter.stats['global_note']
+      dct = results.linter.stats
+      for x in dct:
+        print (x)
+        for y in dct[x]:
+          print (y,':',dct[x][y])
+      # for key in dct.keys():
+      #   pprint
       pprint(results.linter.stats.keys())
       # pprint(json.dumps(results.linter.stats, indent=4))
       print('final_score', final_score)
