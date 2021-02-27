@@ -1,7 +1,7 @@
 import os
 import os.path
 import sys
-from github import Github
+from github import Github 
 
 from io import StringIO # Python 3 import
 from pylint import epylint as lint
