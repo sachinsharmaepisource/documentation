@@ -180,7 +180,9 @@ class CheckDocstrings:
       pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
       results = Run(pylint_opts, do_exit=False)
       final_score = results.linter.stats['global_note']
+      pprint('----------results.linter.stats', results.linter.stats)
       print('final_score', final_score)
+
 
   def compute(self):
     '''
