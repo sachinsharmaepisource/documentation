@@ -177,14 +177,17 @@ class CheckDocstrings:
   def get_docstring_report(self, file_paths):
     
     for file_path in file_paths:
-      path = file_path
-      pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
+      # path = file_path
+      # pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
       # results = Run(pylint_opts, do_exit=False)
       # final_score = results.linter.stats['global_note']
       # dct = results.linter.stats
       (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
-      print(pylint_stdout.getvalue())
-      print(pylint_stderr.getvalue())
+      # print(pylint_stdout.getvalue())
+      # print(pylint_stderr.getvalue())
+      file_like_io = StringIO(pylint_stdout)
+      for line in file_like_io:
+          print(line)
       # pprint(json.dumps(results.linter.stats, indent=4))
       # print('final_score', final_score)
       # if final_score > self.THRESHOLD_SCORE:
