@@ -185,15 +185,13 @@ class CheckDocstrings:
       # final_score = results.linter.stats['global_note']
       # dct = results.linter.stats
       (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
-      val = pylint_stdout.getvalue()
-      print(val)
       pylint_stdout.seek(0)
       report_dct_ = self.report_dct
       for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
         splt = line.split(' ', 2)
         path_ = splt[0]
         type_ = splt[1]
-        desc_ = splt[2]
+        desc_ = splt[2] if len(splt) == 3 else 'DEFAULT_DESC'
         if type_ in report_dct_.keys():
           report_dct_[type_].append([path_, desc_])
 
