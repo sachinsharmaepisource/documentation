@@ -171,17 +171,22 @@ class CheckDocstrings:
         splt = line.split(' ', 3)
         if splt[0]=='':
           splt.pop(0)
-        # print(splt)
         path_ = splt[0]
         type_ = splt[1] if len(splt) >= 2 else 'DEFAULT_TYPE'
         desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
         print(f'type_{type_}, path_{path_}, desc_{desc_}')
         if type_ in report_dct_.keys():
           report_dct_[type_].append([path_, desc_])
-      for key in report_dct_.keys():
-        print('!!!!!!!!!', key, report_dct_[key])
       
-      # for  
+      for lst in report_dct_['convention']:
+        print(lst)
+        desc_ = lst[1]
+        path = lst[0]
+        splt = path.split(':', 2)
+        file_path = splt[0]
+        line_no_ = splt[1]
+        self.create_review_comments(self.USER_NAME, self.PR_NUMBER, desc_, file_path, line_no_)
+
 
       # print(pylint_stderr.getvalue())
       # file_like_io = pylint_stdout.getbuffer()
