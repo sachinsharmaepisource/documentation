@@ -186,6 +186,9 @@ class CheckDocstrings:
       (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
       val = pylint_stdout.getvalue()
       print(val)
+      pylint_stdout.seek(0)
+      for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
+        print('!!!!!!!!!', line)
       # print(pylint_stderr.getvalue())
       # file_like_io = pylint_stdout.getbuffer()
       # print(view)
