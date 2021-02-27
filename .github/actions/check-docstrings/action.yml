@@ -1,4 +1,4 @@
-name: 'Check Docstrings Title'
+name: 'Check Docstrings'
 description: 'Cheack Docstrings are of correct format'
 author: 'Sachin Sharma <sachinsharma@episource.com>'
 inputs:
