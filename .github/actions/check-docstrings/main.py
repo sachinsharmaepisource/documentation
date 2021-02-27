@@ -188,12 +188,12 @@ class CheckDocstrings:
       pylint_stdout.seek(0)
       report_dct_ = self.report_dct
       for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
+        line.strip()
         splt = line.split(' ', 2)
-        print(splt)
         path_ = splt[0]
         type_ = splt[1]
         desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
-        # print(f'type_{type_}, path_{path_}, desc_{desc_}')
+        print(f'type_{type_}, path_{path_}, desc_{desc_}')
         if type_ in report_dct_.keys():
           report_dct_[type_].append([path_, desc_])
 
