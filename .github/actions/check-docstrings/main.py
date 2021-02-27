@@ -168,7 +168,7 @@ class CheckDocstrings:
       report_dct_ = self.report_dct
       for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
         line.strip()
-        splt = line.split(' ', 2)
+        splt = line.split(' ', 3)
         if splt[0]=='':
           splt.pop(0)
         print(splt)
