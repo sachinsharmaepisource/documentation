@@ -179,14 +179,14 @@ class CheckDocstrings:
     for file_path in file_paths:
       path = file_path
       pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
-      results = Run(pylint_opts, do_exit=False)
-      final_score = results.linter.stats['global_note']
-      dct = results.linter.stats
+      # results = Run(pylint_opts, do_exit=False)
+      # final_score = results.linter.stats['global_note']
+      # dct = results.linter.stats
       (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
-      print(pylint_stdout)
-      print(pylint_stderr)
+      print(pylint_stdout.getvalue())
+      print(pylint_stderr.getvalue())
       # pprint(json.dumps(results.linter.stats, indent=4))
-      print('final_score', final_score)
+      # print('final_score', final_score)
       # if final_score > self.THRESHOLD_SCORE:
       #   self.create_review_comment(final_score)
 
