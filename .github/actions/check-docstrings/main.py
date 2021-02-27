@@ -181,7 +181,6 @@ class CheckDocstrings:
       results = Run(pylint_opts, do_exit=False)
       final_score = results.linter.stats['global_note']
       print(json.dumps(results.linter.stats, indent=4))
-      pprint('----------results.linter.stats', results.linter)
       print('final_score', final_score)
 
 
