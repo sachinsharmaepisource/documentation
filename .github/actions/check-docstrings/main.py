@@ -178,7 +178,6 @@ class CheckDocstrings:
     return cognitive_report
 	
   def get_docstring_report(self, file_paths):
-    
     for file_path in file_paths:
       # path = file_path
       # pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
@@ -199,7 +198,7 @@ class CheckDocstrings:
           report_dct_[type_].append([path_, desc_])
 
       for key in report_dct_.keys():
-        print('!!!!!!!!!', report_dct_[key])
+        print('!!!!!!!!!', key, report_dct_[key])
 
       # print(pylint_stderr.getvalue())
       # file_like_io = pylint_stdout.getbuffer()
