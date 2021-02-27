@@ -32,6 +32,7 @@ class CheckDocstrings:
     self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.threshold = 5
+    self.RCFILE_PATH = './.github/actions/check-docstrings/.pylintrc'
     
   def get_inputs(self, input_name):
     '''
@@ -172,6 +173,15 @@ class CheckDocstrings:
       cognitive_report = cognitive_report + self.get_single_cognitive_report(funcdefs, file_path)
     return cognitive_report
 	
+  def get_docstring_report(self, file_paths):
+    
+    for file_path in file_paths:
+      path = file_path
+      pylint_opts = [ path, f'--rcfile={self.RCFILE_PATH}']
+      results = Run(pylint_opts, do_exit=False)
+      final_score = results.linter.stats['global_note']
+      print('final_score', final_score)
+
   def compute(self):
     '''
       Parameters
@@ -184,22 +194,18 @@ class CheckDocstrings:
       ----------
           None
     '''
-    path = './'
-    pylint_opts = [ path, '--rcfile=./.github/actions/check-docstrings/.pylintrc']
-    results = Run(pylint_opts, do_exit=False)
-    final_score = results.linter.stats['global_note']
-    print('final_score', final_score)
-#     contents = self.repo.get_contents("", self.branch.name)
-#     file_paths = []
-#     while contents:
-#         file_content = contents.pop(0)
-#         file_extension = os.path.splitext(file_content.path)[1]
-#         if file_content.type == "dir":
-#             contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
-#         elif file_extension == '.py':
-#           file_paths.append(file_content.path)
-#     cognitive_report = self.get_cognitive_report(file_paths)
-#     print(*cognitive_report, sep = "\n")
+    contents = self.repo.get_contents("", self.branch.name)
+    file_paths = []
+    while contents:
+        file_content = contents.pop(0)
+        file_extension = os.path.splitext(file_content.path)[1]
+        if file_content.type == "dir":
+            contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
+        elif file_extension == '.py':
+          file_paths.append(file_content.path)
+    self.get_docstring_report(file_paths)
+    # print(*docstring_report, sep = "\n")
+    
             
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
