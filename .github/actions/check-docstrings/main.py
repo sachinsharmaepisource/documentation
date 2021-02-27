@@ -113,49 +113,8 @@ class CheckDocstrings:
         'commit_id': self.get_branch_commit_sha()
     }
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
-#     pprint(r.json())
+    pprint(r.json())
     
-  def get_tree(self, file_path):
-    '''
-      Parameters
-      ----------
-          file_path: string
-      Logic
-      ----------
-          Return tree structure from file_path
-      Return
-      ----------
-          Tree: Object
-    '''
-    with open(file_path, 'r') as file_handler:
-      raw_content = file_handler.read()
-    tree = ast.parse(raw_content)
-    return tree
-  
-  def get_single_cognitive_report(self, funcdefs, file_path):
-    '''
-      Parameters
-      ----------
-          funcdefs: string
-          file_path: string
-      Logic
-      ----------
-          Compute congnitive report and return it.
-      Return
-      ----------
-          cognitive_report : list
-    '''
-    cognitive_report = []
-    for funcdef in funcdefs:
-        complexity = get_cognitive_complexity(funcdef)
-        if complexity > self.max_cognitive_complexity:
-          cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
-          self.create_review_comments(self.USER_NAME, self.PR_NUMBER, cognitive_report[-1], file_path, funcdef.lineno)
-        else:
-          cognitive_report.append(f'++{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is less then threshold {complexity} <= {self.max_cognitive_complexity}')
-    return cognitive_report
-
-	
   def get_docstring_report(self, file_paths):
     for file_path in file_paths:
       # path = file_path
@@ -174,7 +133,6 @@ class CheckDocstrings:
         path_ = splt[0]
         type_ = splt[1] if len(splt) >= 2 else 'DEFAULT_TYPE'
         desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
-        print(f'type_{type_}, path_{path_}, desc_{desc_}')
         if type_ in report_dct_.keys():
           report_dct_[type_].append([path_, desc_])
       
