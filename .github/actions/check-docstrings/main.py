@@ -171,18 +171,17 @@ class CheckDocstrings:
         splt = line.split(' ', 3)
         if splt[0]=='':
           splt.pop(0)
-        print(splt)
+        # print(splt)
         path_ = splt[0]
-        type_ = splt[1]
+        type_ = splt[1] if len(splt) >= 2 else 'DEFAULT_TYPE'
         desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
         print(f'type_{type_}, path_{path_}, desc_{desc_}')
         if type_ in report_dct_.keys():
           report_dct_[type_].append([path_, desc_])
-
       for key in report_dct_.keys():
         print('!!!!!!!!!', key, report_dct_[key])
       
-      # for 
+      for  
 
       # print(pylint_stderr.getvalue())
       # file_like_io = pylint_stdout.getbuffer()
