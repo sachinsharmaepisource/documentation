@@ -35,6 +35,8 @@ class CheckDocstrings:
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.THRESHOLD_SCORE = 5
     self.RCFILE_PATH = './.github/actions/check-docstrings/.pylintrc'
+    self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [], 'convention': [] }
+
     
   def get_inputs(self, input_name):
     '''
@@ -187,8 +189,18 @@ class CheckDocstrings:
       val = pylint_stdout.getvalue()
       print(val)
       pylint_stdout.seek(0)
+      report_dct_ = self.report_dct
       for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
-        print('!!!!!!!!!', line)
+        splt = line.split(' ', 2)
+        path_ = splt[0]
+        type_ = splt[1]
+        desc_ = splt[2]
+        if type_ in report_dct_.keys():
+          report_dct_[type_].append([path_, desc_])
+
+      for key in report_dct_.keys():
+        print('!!!!!!!!!', report_dct_[key])
+
       # print(pylint_stderr.getvalue())
       # file_like_io = pylint_stdout.getbuffer()
       # print(view)
