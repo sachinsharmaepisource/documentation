@@ -31,7 +31,7 @@ class CheckDocstrings:
     self.branch = self.repo.get_branch(self.CURRENT_BRANCH)
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.RCFILE_PATH = './.github/actions/check-docstrings/.pylintrc'
-    self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [], 'convention': [] }
+    self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
     self.LABEL = '[CHECK DOCSTRINGS]'
 
     
