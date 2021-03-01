@@ -32,6 +32,7 @@ class CheckDocstrings:
     self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
     self.RCFILE_PATH = './.github/actions/check-docstrings/.pylintrc'
     self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
+    self.report_dct_in_pr_rev_cmnt = { 'convention': [] }
     self.LABEL = '[CHECK DOCSTRINGS]'
 
     
@@ -141,15 +142,16 @@ class CheckDocstrings:
         if type_ in report_dct_.keys():
           report_dct_[type_].append([path_, desc_])
       
-      for lst in report_dct_['convention']:
-        print(lst)
-        path = lst[0]
-        desc_ = lst[1]
-        desc_ = f'{self.LABEL} \n {desc_}'
-        splt = path.split(':', 2)
-        file_path = splt[0]
-        line_no_ = int(splt[1])
-        self.create_review_comments(self.USER_NAME, self.PR_NUMBER, desc_, file_path, line_no_)
+      for report_section in self.report_dct_in_pr_rev_cmnt:
+        for lst in report_dct_[report_section]:
+          print(lst)
+          path = lst[0]
+          desc_ = lst[1]
+          desc_ = f'{self.LABEL} \n {desc_}'
+          splt = path.split(':', 2)
+          file_path = splt[0]
+          line_no_ = int(splt[1])
+          self.create_review_comments(self.USER_NAME, self.PR_NUMBER, desc_, file_path, line_no_)
 
   def compute(self):
     '''
