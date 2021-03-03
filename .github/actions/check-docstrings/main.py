@@ -34,6 +34,7 @@ class CheckDocstrings:
     self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
     self.report_dct_in_pr_rev_cmnt = { 'convention': [] }
     self.LABEL = '[CHECK DOCSTRINGS]'
+    self.help_link = 'https://numpydoc.readthedocs.io/en/latest/example.html'
 
     
   def get_inputs(self, input_name):
@@ -131,8 +132,7 @@ class CheckDocstrings:
         print(lst)
         path = lst[0]
         desc_ = lst[1]
-        desc_ = f'{self.LABEL} \n {desc_}'
-        desc_ = desc_ + '\n Example format - https://numpydoc.readthedocs.io/en/latest/example.html'
+        desc_ = f'{self.LABEL} \n {desc_} \n {self.help_link}'
         splt = path.split(':', 2)
         file_path = splt[0]
         line_no_ = int(splt[1])
