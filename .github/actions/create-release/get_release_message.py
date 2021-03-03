@@ -153,13 +153,14 @@ class GetReleaseMessage:
     return merge_commits_str  
   
   def get_sorted_formatted_pull_requests_messages(self, cat, new_release_message_dct, new_release_message_str):
+    emoji = self.emoji_list
     new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
     # SORTING to arrange the Pull requests according to there keys(PR number)
     for key in sorted(new_release_message_dct[cat].keys(), reverse = True):
       new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
     return new_release_message_str
       
-  def get_formatted_pull_requests_message(self, new_release_message_dct, emoji):
+  def get_formatted_pull_requests_message(self, new_release_message_dct):
     new_release_message_str = ''
     for cat in new_release_message_dct:
       if len(new_release_message_dct[cat]) != 0:
@@ -198,7 +199,7 @@ class GetReleaseMessage:
         new_release_message_dct[pr_title_category][int(pull.number)] = pr_title_body
       else:
         new_release_message_dct['others'][int(pull.number)] = pull.title
-    new_release_message_str = self.get_formatted_pull_requests_message(new_release_message_dct, emoji)
+    new_release_message_str = self.get_formatted_pull_requests_message(new_release_message_dct)
     return new_release_message_str
       
   def get_release_message(self, tag_name):
