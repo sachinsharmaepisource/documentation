@@ -101,6 +101,7 @@ class CognitiveReport:
           None
     '''
     query_url = f"https://api.github.com/repos/{user_name}/pulls/{pull_number}/comments"
+    file_path = './'+file_path
     data = {
         "body": body,
         'position': position,
