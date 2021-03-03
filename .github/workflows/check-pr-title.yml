@@ -5,7 +5,8 @@ name: Pull request title format check
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: []
+#     types: [opened, synchronize, reopened, closed]
 
 # - Run only if the Pull request is merged
 # - Checkout self.
