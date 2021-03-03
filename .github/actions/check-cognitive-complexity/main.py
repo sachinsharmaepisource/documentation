@@ -101,6 +101,7 @@ class CognitiveReport:
           None
     '''
     query_url = f"https://api.github.com/repos/{user_name}/pulls/{pull_number}/comments"
+    file_path = './' + file_path
     data = {
         "body": body,
         'position': position,
@@ -109,7 +110,7 @@ class CognitiveReport:
     }
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%file_path', file_path)
-    # pprint(r.json())
+    print(r.json())
     
   def get_tree(self, file_path):
     '''
