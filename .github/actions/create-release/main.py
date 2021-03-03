@@ -224,18 +224,15 @@ class ReleaseGithubAction:
       }
       release = self.create_release(create_release_args)
       print('New Release is successfuly created with tag name: ', release.tag_name)
-      exit
     elif version.parse(last_version) == version.parse(current_version) and (start_date is not None and len(self.get_pull_requests(start_date)) != 0):
       print('The last_version is equal to the current version, there is a new merge since last release')
       # there is a new merge since last release
       self.remove_all_previous_draft_releases()
       draft_release = self.create_new_draft_release()
       print('draft release is created successfully!', draft_release.tag_name)
-      exit
     elif version.parse(last_version) == version.parse(current_version) and not(start_date is not None and len(self.get_pull_requests(start_date)) != 0):
       print('The last_version is equal to the current version')
       print('There is no new merge since last release!!!!!, action terminates here onwards')
-      exit
     else:
       print('The current_version is smaller than the last version, which is not allowed, So the action terminates here onwards.')
       raise VersionCompareException()
