@@ -109,7 +109,7 @@ class CognitiveReport:
     }
     r = requests.post(query_url, headers=self.header, data=json.dumps(data))
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%file_path', file_path)
-#     pprint(r.json())
+    pprint(r.json())
     
   def get_tree(self, file_path):
     '''
