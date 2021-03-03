@@ -2,7 +2,7 @@ import os
 import os.path
 import sys
 from github import Github
- 
+
 from pylint import epylint as lint
 import json
 import requests
