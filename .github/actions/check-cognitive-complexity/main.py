@@ -145,7 +145,8 @@ class CognitiveReport:
     for funcdef in funcdefs:
         complexity = get_cognitive_complexity(funcdef)
         if complexity > self.max_cognitive_complexity:
-          cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}')
+          msg = f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity > threshold {complexity} > {self.max_cognitive_complexity}'
+          cognitive_report.append(msg)
           desc_ = f'Function has a Cognitive Complexity of {complexity} (exceeds {self.max_cognitive_complexity} allowed). Consider refactoring.'
           desc_ = f'{self.LABEL} \n {desc_}'
           self.create_review_comments(self.USER_NAME, self.PR_NUMBER, desc_, file_path, funcdef.lineno)
