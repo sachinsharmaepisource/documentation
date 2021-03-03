@@ -152,18 +152,23 @@ class GetReleaseMessage:
         merge_commits_str += '\n' + commit_sha + '\t' + cmt_msg.replace('\n', '\n &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;') + '   (' + cmt_number + ')'
     return merge_commits_str  
   
+  def get_sorted_formatted_pull_requests_messages(self, cat, new_release_message_dct):
+    new_release_message_str = ''
+    # SORTING to arrange the Pull requests according to there keys(PR number)
+    for key in sorted(new_release_message_dct[cat].keys(), reverse = True):
+      new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
+      
   def get_formatted_pull_requests_message(self, new_release_message_dct):
     new_release_message_str = ''
     for cat in new_release_message_dct:
       if len(new_release_message_dct[cat]) != 0:
-            new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
-#         SORTING to arrange the Pull requests according to there keys(PR number)
-            for key in sorted(new_release_message_dct[cat].keys(), reverse = True):
-              new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
+        new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
+        new_release_message_str += self.get_sorted_formatted_pull_requests_messages(cat, new_release_message_dct)
     return new_release_message_str
   
   def check_pr_title(self, pr_title_splt, pr_title_category, new_release_message_dct):
     return len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys()
+  
   def get_pull_requests_message(self, start_date, last_version):
     '''
       Parameters
