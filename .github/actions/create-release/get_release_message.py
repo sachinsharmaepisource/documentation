@@ -181,12 +181,12 @@ class GetReleaseMessage:
         new_release_message_dct[pr_title_category][int(pull.number)] = pr_title_body
       else:
         new_release_message_dct['others'][int(pull.number)] = pull.title
-    for cat in new_release_message_dct:
-      if len(new_release_message_dct[cat]) != 0:
-            new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
-#         SORTING to arrange the Pull requests according to there keys(PR number)
-            for key in sorted(new_release_message_dct[cat].keys(), reverse = True):
-              new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
+#     for cat in new_release_message_dct:
+#       if len(new_release_message_dct[cat]) != 0:
+#             new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
+# #         SORTING to arrange the Pull requests according to there keys(PR number)
+#             for key in sorted(new_release_message_dct[cat].keys(), reverse = True):
+#               new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
     return new_release_message_str
       
   def get_release_message(self, tag_name):
