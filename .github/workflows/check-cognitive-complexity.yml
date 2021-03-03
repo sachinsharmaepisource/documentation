@@ -25,7 +25,7 @@ jobs:
 
       - name: Cognitive Complexity check
         id: cognitiveComplexityCheck
-        uses:  ./.github/actions/cognitive-complexity
+        uses:  ./.github/actions/check-cognitive-complexity
         with:
           REPO_NAME: ${{ github.event.repository.name }}  
           PR_TITLE: ${{ github.event.pull_request.title }}
