@@ -23,14 +23,6 @@ def factorial(n):
             print(i)
             if e==i:
               print(e)
-              if not n >= 0:
-              raise ValueError("n must be >= 0")
-              for e in range(1,2):
-                print(e)
-                for i in range(1,2):
-                  print(i)
-                  if e==i:
-                     print(e)
     if math.floor(n) != n:
         raise ValueError("n must be exact integer")
     if n + 1 == n:  # catch a value like 1e300
