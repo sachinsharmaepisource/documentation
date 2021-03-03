@@ -198,7 +198,7 @@ class GetReleaseMessage:
         new_release_message_dct[pr_title_category][int(pull.number)] = pr_title_body
       else:
         new_release_message_dct['others'][int(pull.number)] = pull.title
-    new_release_message_str = get_formatted_pull_requests_message(new_release_message_dct)
+    new_release_message_str = self.get_formatted_pull_requests_message(new_release_message_dct)
     return new_release_message_str
       
   def get_release_message(self, tag_name):
