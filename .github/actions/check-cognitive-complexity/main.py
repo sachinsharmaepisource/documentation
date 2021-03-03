@@ -187,6 +187,7 @@ class CognitiveReport:
       ----------
           None
     '''
+    pull_number = self.PR_NUMBER
     self.delete_all_previous_bot_generated_review_comments(pull_number)
     contents = self.repo.get_contents("", self.branch.name)
     file_paths = []
