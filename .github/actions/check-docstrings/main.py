@@ -137,6 +137,25 @@ class CheckDocstrings:
         line_no_ = int(splt[1])
         self.post_create_review_comment(self.USER_NAME, self.PR_NUMBER, desc_, file_path, line_no_)
 
+  def get_params_from_pylint_stdout(self, splt):
+    '''
+      Parameters
+      ----------
+          splt: list
+      Logic
+      ----------
+          Format the pylint stdout splt
+      Return
+      ----------
+          None
+    '''
+    if splt[0]=='':
+      splt.pop(0)
+    path_ = splt[0]
+    type_ = splt[1] if len(splt) >= 2 else 'DEFAULT_TYPE'
+    desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
+    return path_, type_, desc_
+
   def format_pylint_stdout(self, report_dct_, pylint_stdout):
     '''
       Parameters
@@ -153,11 +172,7 @@ class CheckDocstrings:
     for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
       line.strip()
       splt = line.split(' ', 3)
-      if splt[0]=='':
-        splt.pop(0)
-      path_ = splt[0]
-      type_ = splt[1] if len(splt) >= 2 else 'DEFAULT_TYPE'
-      desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
+      path_, type_, desc_ = self.get_params_from_pylint_stdout(splt)
       if type_ in report_dct_.keys():
         report_dct_[type_].append([path_, desc_])
     self.create_review_comments(report_dct_)
