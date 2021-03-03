@@ -162,6 +162,8 @@ class GetReleaseMessage:
               new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
     return new_release_message_str
   
+  def check_pr_title(self, pr_title_splt, pr_title_category, new_release_message_dct):
+    return len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys()
   def get_pull_requests_message(self, start_date, last_version):
     '''
       Parameters
@@ -186,7 +188,7 @@ class GetReleaseMessage:
       pr_title = pull.title
       pr_title_splt = pr_title.split(':', 1)
       pr_title_category = pr_title_splt[0].lower().strip()
-      if len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys():
+      if self.check_pr_title(pr_title_splt, pr_title_category, new_release_message_dct):
         pr_title_body = pr_title_splt[1].strip()
         new_release_message_dct[pr_title_category][int(pull.number)] = pr_title_body
       else:
