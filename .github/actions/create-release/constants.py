@@ -4,7 +4,7 @@
 
 constants = {
   'VERSION_FILE_PATH': 'version.ini',
-  'branch': 'cognitive-complexity-add-review-comments-test1',
+  'branch': 'master',
   'draft_tag_name': 'draft-tag-name',
   'emoji_list': { 'features': '🚀', 'documentation': '📚', 'refactor': '♻️', 'bug fix': '🐛', 'others': '💡' },
   'categories_dct': { 'features': {}, 'documentation': {}, 'refactor': {}, 'bug fix': {}, 'others': {} },
