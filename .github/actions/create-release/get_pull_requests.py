@@ -27,6 +27,21 @@ class GetPullRequests:
     self.branch = constants['branch']
   
   def bfs_util(self, pull, base_branches_dct, queue, pulls_visited_list):
+    '''
+      Parameters
+      ----------
+          pull:  Pull Request
+          base_branches_dct: Dict
+          queue: List
+          pulls_visited_list: list
+      Logic
+      ----------
+          Inner structure of BFS, iterate all the nodes.
+      Return
+      -----------
+            queue: List
+            pulls_visited_list: List
+    '''
     for pull_nested in base_branches_dct[pull.head.ref]:
       if pull_nested.number not in pulls_visited_list:
         queue.append(pull_nested)
@@ -63,6 +78,20 @@ class GetPullRequests:
     return filtered_pulls
   
   def get_init_branches_dct(self, pull, base_branches_dct, head_branches_dct):
+    '''
+      Parameters
+      ----------
+          pull:  Pull Request
+          base_branches_dct: Dict
+          head_branches_dct: Dict
+      Logic
+      ----------
+          Initialize the dictionary.
+      Return
+      -----------
+            base_branches_dct: Dictionary
+            head_branches_dct: Dictionary
+    '''
     if pull.base.ref in base_branches_dct.keys():
       base_branches_dct[pull.base.ref].append(pull)
     else:
