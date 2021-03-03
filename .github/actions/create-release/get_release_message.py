@@ -153,6 +153,21 @@ class GetReleaseMessage:
     return merge_commits_str  
   
   def get_sorted_formatted_pull_requests_messages(self, cat, new_release_message_dct, new_release_message_str):
+    '''
+      Parameters
+      ----------
+          cat: string
+          new_release_message_dct: Dictionary
+          new_release_message_str: string
+          
+      Logic
+      --------
+          SORTING to arrange the Pull requests according to there keys(PR number)
+
+      Return
+      --------
+          new_release_message_str: String
+    '''
     emoji = self.emoji_list
     new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
     # SORTING to arrange the Pull requests according to there keys(PR number)
@@ -161,6 +176,19 @@ class GetReleaseMessage:
     return new_release_message_str
       
   def get_formatted_pull_requests_message(self, new_release_message_dct):
+    '''
+      Parameters
+      ----------
+          new_release_message_dct: Dictionary
+          
+      Logic
+      --------
+        Create pull request message from new_release_message_dct
+
+        Return
+        --------
+        new_release_message_str: String
+    '''
     new_release_message_str = ''
     for cat in new_release_message_dct:
       if len(new_release_message_dct[cat]) != 0:
@@ -168,20 +196,31 @@ class GetReleaseMessage:
     return new_release_message_str
   
   def check_pr_title(self, pr_title_splt, pr_title_category, new_release_message_dct):
+    '''
+      Parameters
+      ----------
+             pr_title_splt: list
+             pr_title_category: string
+             new_release_message_dct: Dictionary
+      Return
+      --------
+            Bool: Bool
+    '''
     return len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys()
   
   def get_pull_requests_message(self, start_date, last_version):
     '''
       Parameters
       ----------
-            None          
+            start_date: Date 
+            last_version: String
       Logic
       --------
         1. All the pull requests are stored in new_release_message_str with corresponding format.
         2. The new_release_message_str will store its merge commits messages with proper sections.
 
-        Return
-        --------
+      Return
+      --------
         new_release_message_str: String
               PR message 
     '''
@@ -213,8 +252,8 @@ class GetReleaseMessage:
         1. All the merged PRs are stored in new_release_message_dct with corresponding categories with proper format
         2. The format_release_message will store its release message with proper sections.
 
-        Return
-        --------
+      Return
+      --------
         format_release_message: String
               Release message format 
     '''
