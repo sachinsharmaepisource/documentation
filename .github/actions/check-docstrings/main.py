@@ -132,7 +132,7 @@ class CheckDocstrings:
         path = lst[0]
         desc_ = lst[1]
         desc_ = f'{self.LABEL} \n {desc_}'
-	      desc_ = desc_ + f'\n Example Format - https://numpydoc.readthedocs.io/en/latest/example.html'
+        desc_ = desc_ + '\n Example format - https://numpydoc.readthedocs.io/en/latest/example.html'
         splt = path.split(':', 2)
         file_path = splt[0]
         line_no_ = int(splt[1])
