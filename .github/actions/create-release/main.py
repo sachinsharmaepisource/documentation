@@ -191,6 +191,12 @@ class ReleaseGithubAction:
       return self.repo.get_release(draft_id).created_at
     return self.get_start_date_of_latest_release()
   
+  def versions_are_equal_and_new_merges_since_last_release(self, last_version, current_version, start_date):
+    return version.parse(last_version) == version.parse(current_version) and (start_date is not None and len(self.get_pull_requests(start_date)) != 0)
+  
+  def versions_are_equal_and_no_new_merge_since_last_release(self, last_version, current_version, start_date):
+    return version.parse(last_version) == version.parse(current_version) and not(start_date is not None and len(self.get_pull_requests(start_date)) != 0)
+  
   def compute(self):
     '''
         Logic:
@@ -224,13 +230,13 @@ class ReleaseGithubAction:
       }
       release = self.create_release(create_release_args)
       print('New Release is successfuly created with tag name: ', release.tag_name)
-    elif version.parse(last_version) == version.parse(current_version) and (start_date is not None and len(self.get_pull_requests(start_date)) != 0):
+    elif self.versions_are_equal_and_new_merges_since_last_release(last_version, current_version, start_date):
       print('The last_version is equal to the current version, there is a new merge since last release')
       # there is a new merge since last release
       self.remove_all_previous_draft_releases()
       draft_release = self.create_new_draft_release()
       print('draft release is created successfully!', draft_release.tag_name)
-    elif version.parse(last_version) == version.parse(current_version) and not(start_date is not None and len(self.get_pull_requests(start_date)) != 0):
+    elif self.versions_are_equal_and_no_new_merge_since_last_release(last_version, current_version, start_date):
       print('The last_version is equal to the current version')
       print('There is no new merge since last release!!!!!, action terminates here onwards')
     else:
