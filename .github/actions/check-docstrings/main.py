@@ -67,7 +67,7 @@ class CheckDocstrings:
     pr = self.repo.get_pull(int(pull_number))
     review_comments = pr.get_review_comments()
     for review_comment in review_comments:
-      comment_desc_label = review_comment.body.split('\n', 1)[0]
+      comment_desc_label = review_comment.body.split('\n', 1)[0].strip()
       if review_comment.user.type == 'Bot' and comment_desc_label == self.LABEL:
         review_comment.delete()
 
