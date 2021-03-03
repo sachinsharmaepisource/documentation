@@ -192,9 +192,29 @@ class ReleaseGithubAction:
     return self.get_start_date_of_latest_release()
   
   def versions_are_equal_and_new_merges_since_last_release(self, last_version, current_version, start_date):
+    '''
+      Parameters
+      ----------
+          last_version: String
+          current_version: String
+          start_date: Date
+      Return
+      ----------
+          Bool: Bool
+    '''
     return version.parse(last_version) == version.parse(current_version) and (start_date is not None and len(self.get_pull_requests(start_date)) != 0)
   
   def versions_are_equal_and_no_new_merge_since_last_release(self, last_version, current_version, start_date):
+    '''
+      Parameters
+      ----------
+          last_version: String
+          current_version: String
+          start_date: Date
+      Return
+      ----------
+          Bool: Bool
+    '''
     return version.parse(last_version) == version.parse(current_version) and not(start_date is not None and len(self.get_pull_requests(start_date)) != 0)
   
   def compute(self):
