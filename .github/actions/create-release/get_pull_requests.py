@@ -26,6 +26,14 @@ class GetPullRequests:
     self.repo = repo
     self.branch = constants['branch']
   
+  def bfs_util(self, pull, base_branches_dct, queue, pulls_visited_list):
+    if pull.head.ref in base_branches_dct.keys():
+      for pull_nested in base_branches_dct[pull.head.ref]:
+        if pull_nested.number not in pulls_visited_list:
+          queue.append(pull_nested)
+          pulls_visited_list.append(pull_nested.number)
+    return queue, pulls_visited_list
+          
   def apply_bfs_with_pull_requests(self, base_branches_dct):
     '''
       Parameters
@@ -51,12 +59,21 @@ class GetPullRequests:
     while queue:
       pull = queue.pop(0)
       filtered_pulls.append(pull)
-      if pull.head.ref in base_branches_dct.keys():
-        for pull_nested in base_branches_dct[pull.head.ref]:
-          if pull_nested.number not in pulls_visited_list:
-            queue.append(pull_nested)
-            pulls_visited_list.append(pull_nested.number)
+      queue, pulls_visited_list = self.bfs_util(pull, base_branches_dct, queue, pulls_visited_list)
     return filtered_pulls
+  
+  def get_init_branches_dct(self, pull, base_branches_dct, head_branches_dct):
+    if pull.base.ref in base_branches_dct.keys():
+      base_branches_dct[pull.base.ref].append(pull)
+    else:
+      base_branches_dct[pull.base.ref] = []
+      base_branches_dct[pull.base.ref].append(pull)
+    if pull.head.ref in head_branches_dct.keys():
+      head_branches_dct[pull.head.ref].append(pull)
+    else:
+      head_branches_dct[pull.head.ref] = []
+      head_branches_dct[pull.head.ref].append(pull)
+    return base_branches_dct, head_branches_dct
   
   def filter_pulls(self, pulls):
     '''
@@ -86,18 +103,10 @@ class GetPullRequests:
       base_branches_dct[branch.name] = []
       head_branches_dct[branch.name] = []
     for pull in pulls:
+      
 #       If the base/head branch name is not present in the branch list fetched with Pygithub function, that implies the corresponding base/head branch have been removed
 #       In oreder to consider those PRs, whose head/base branch have been deleted, I inserted them in them in the else condition of both head and base dictionary
-      if pull.base.ref in base_branches_dct.keys():
-        base_branches_dct[pull.base.ref].append(pull)
-      else:
-        base_branches_dct[pull.base.ref] = []
-        base_branches_dct[pull.base.ref].append(pull)
-      if pull.head.ref in head_branches_dct.keys():
-        head_branches_dct[pull.head.ref].append(pull)
-      else:
-        head_branches_dct[pull.head.ref] = []
-        head_branches_dct[pull.head.ref].append(pull)
+      base_branches_dct, head_branches_dct = self.get_init_branches_dct(pull, base_branches_dct, head_branches_dct)
         
     filtered_pulls = self.apply_bfs_with_pull_requests(base_branches_dct)
     return filtered_pulls
