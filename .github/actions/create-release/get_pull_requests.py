@@ -27,11 +27,10 @@ class GetPullRequests:
     self.branch = constants['branch']
   
   def bfs_util(self, pull, base_branches_dct, queue, pulls_visited_list):
-    if pull.head.ref in base_branches_dct.keys():
-      for pull_nested in base_branches_dct[pull.head.ref]:
-        if pull_nested.number not in pulls_visited_list:
-          queue.append(pull_nested)
-          pulls_visited_list.append(pull_nested.number)
+    for pull_nested in base_branches_dct[pull.head.ref]:
+      if pull_nested.number not in pulls_visited_list:
+        queue.append(pull_nested)
+        pulls_visited_list.append(pull_nested.number)
     return queue, pulls_visited_list
           
   def apply_bfs_with_pull_requests(self, base_branches_dct):
@@ -59,7 +58,8 @@ class GetPullRequests:
     while queue:
       pull = queue.pop(0)
       filtered_pulls.append(pull)
-      queue, pulls_visited_list = self.bfs_util(pull, base_branches_dct, queue, pulls_visited_list)
+      if pull.head.ref in base_branches_dct.keys():
+        queue, pulls_visited_list = self.bfs_util(pull, base_branches_dct, queue, pulls_visited_list)
     return filtered_pulls
   
   def get_init_branches_dct(self, pull, base_branches_dct, head_branches_dct):
