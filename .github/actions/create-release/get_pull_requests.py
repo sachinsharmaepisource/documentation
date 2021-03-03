@@ -121,15 +121,12 @@ class GetPullRequests:
             filtered_pulls :: list     - stores the list of pull requests
     '''
     pulls: List[PullRequest.PullRequest] = []
-    try:
-      for pull in self.repo.get_pulls(state='closed', sort='updated', direction='desc'):
-        if not pull.merged_at:
-          continue
-        merged_dt = pull.merged_at
-        if merged_dt >= start_date:
-          pulls.append(pull)
-    except Exception as e:
-        print('Github pulls error (request)', e)
+    for pull in self.repo.get_pulls(state='closed', sort='updated', direction='desc'):
+      if not pull.merged_at:
+        continue
+      merged_dt = pull.merged_at
+      if merged_dt >= start_date:
+        pulls.append(pull)
         
     filtered_pulls = self.filter_pulls(pulls)
     return filtered_pulls
