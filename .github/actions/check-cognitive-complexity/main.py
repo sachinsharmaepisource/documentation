@@ -67,6 +67,7 @@ class CognitiveReport:
     for review_comment in review_comments:
       comment_desc_label = review_comment.body.split('\n', 1)[0]
       print('////////////comment_desc_label', comment_desc_label)
+      print('review_comment.user.type', review_comment.user.type)
       if review_comment.user.type == 'Bot' and comment_desc_label == self.LABEL:
         review_comment.delete()
 
