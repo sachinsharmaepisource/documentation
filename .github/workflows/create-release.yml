@@ -4,7 +4,7 @@ name: Create Release
 
 on:
   push:
-    branches: [ cognitive-complexity-add-review-comments-test1 ]
+    branches: [ master ]
 
 # - Checkout self.
 # - Run the release file with proper arguments
