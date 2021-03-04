@@ -11,8 +11,8 @@
 import sys
 import os
 sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from constants import *
-from get_release_message import *
+from constants import * # pylint: disable=wrong-import-position, wildcard-import
+from get_release_message import GetReleaseMessage # pylint: disable=wrong-import-position
 
 
 class AlterRelease:
@@ -54,9 +54,10 @@ class AlterRelease:
     LOGIC
     --------
           1. It create new draft release with tag_name as specified
-    Return
+    Returns
     --------
-          draft_release:: OBJECT
+          draft_release : Object
+            Draft release object
     """
     tag_name = self.draft_tag_name
     release_name = 'Draft release'
@@ -71,12 +72,20 @@ class AlterRelease:
     """
         Parameters
         ----------
-            tag_name: String(v0.0.1)
-            tag_message: String
-            release_name: String
-            release_message: String
-            is_draft: Boolean
-            is_prerelease: Boolean
+            create_release_args : dictionary
+              dictionary of arguments includes
+                tag_name : String(v0.0.1)
+                  tag name
+                tag_message : String
+                  tag message
+                release_name : String
+                  release name
+                release_message : String
+                  release message
+                is_draft : Boolean
+                  is draft
+                is_prerelease : Boolean
+                  is prerelease
         Logic
         --------
             1. A branch reference is fetched for commit SHA
@@ -84,9 +93,9 @@ class AlterRelease:
             3. A reference to tag is created using tag SHA
             4. A release is created with respective tag
 
-        Return
+        Returns
         --------
-        release: Object
+          release : Object
               Reference to the new release created
     """
     tag_name = create_release_args['tag_name']
@@ -98,6 +107,6 @@ class AlterRelease:
     
     branch = self.repo.get_branch(self.branch)
     tag = self.repo.create_git_tag(tag_name, tag_message, branch.commit.sha, 'commit')
-    ref = self.repo.create_git_ref('refs/tags/' + tag_name, tag.sha)
+    self.repo.create_git_ref('refs/tags/' + tag_name, tag.sha)
     release = self.repo.create_git_release(tag.tag, release_name, release_message, is_draft, is_prerelease) # pylint: disable=line-too-long
     return release
