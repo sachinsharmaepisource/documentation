@@ -31,7 +31,7 @@ from packaging import version
 sys.path.append(os.path.abspath("./.github/actions/create-release"))
 from alter_release import *
 from get_pull_requests import *
-from get_release_message import *
+from get_release_message import GetReleaseMessage
 from constants import *
 
 
