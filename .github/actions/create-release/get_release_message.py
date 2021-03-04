@@ -152,18 +152,75 @@ class GetReleaseMessage:
         merge_commits_str += '\n' + commit_sha + '\t' + cmt_msg.replace('\n', '\n &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;') + '   (' + cmt_number + ')'
     return merge_commits_str  
   
+  def get_sorted_formatted_pull_requests_messages(self, cat, new_release_message_dct, new_release_message_str):
+    '''
+      Parameters
+      ----------
+          cat: string
+          new_release_message_dct: Dictionary
+          new_release_message_str: string
+          
+      Logic
+      --------
+          SORTING to arrange the Pull requests according to there keys(PR number)
+
+      Return
+      --------
+          new_release_message_str: String
+    '''
+    emoji = self.emoji_list
+    new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
+    # SORTING to arrange the Pull requests according to there keys(PR number)
+    for key in sorted(new_release_message_dct[cat].keys(), reverse = True):
+      new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
+    return new_release_message_str
+      
+  def get_formatted_pull_requests_message(self, new_release_message_dct):
+    '''
+      Parameters
+      ----------
+          new_release_message_dct: Dictionary
+          
+      Logic
+      --------
+        Create pull request message from new_release_message_dct
+
+        Return
+        --------
+        new_release_message_str: String
+    '''
+    new_release_message_str = ''
+    for cat in new_release_message_dct:
+      if len(new_release_message_dct[cat]) != 0:
+        new_release_message_str = self.get_sorted_formatted_pull_requests_messages(cat, new_release_message_dct, new_release_message_str)
+    return new_release_message_str
+  
+  def check_pr_title(self, pr_title_splt, pr_title_category, new_release_message_dct):
+    '''
+      Parameters
+      ----------
+             pr_title_splt: list
+             pr_title_category: string
+             new_release_message_dct: Dictionary
+      Return
+      --------
+            Bool: Bool
+    '''
+    return len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys()
+  
   def get_pull_requests_message(self, start_date, last_version):
     '''
       Parameters
       ----------
-            None          
+            start_date: Date 
+            last_version: String
       Logic
       --------
         1. All the pull requests are stored in new_release_message_str with corresponding format.
         2. The new_release_message_str will store its merge commits messages with proper sections.
 
-        Return
-        --------
+      Return
+      --------
         new_release_message_str: String
               PR message 
     '''
@@ -176,17 +233,12 @@ class GetReleaseMessage:
       pr_title = pull.title
       pr_title_splt = pr_title.split(':', 1)
       pr_title_category = pr_title_splt[0].lower().strip()
-      if len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys():
+      if self.check_pr_title(pr_title_splt, pr_title_category, new_release_message_dct):
         pr_title_body = pr_title_splt[1].strip()
         new_release_message_dct[pr_title_category][int(pull.number)] = pr_title_body
       else:
         new_release_message_dct['others'][int(pull.number)] = pull.title
-    for cat in new_release_message_dct:
-      if len(new_release_message_dct[cat]) != 0:
-            new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
-#         SORTING to arrange the Pull requests according to there keys(PR number)
-            for key in sorted(new_release_message_dct[cat].keys(), reverse = True):
-              new_release_message_str += '\n *  ' + new_release_message_dct[cat][key] + '\t (#' + str(key) + ')'
+    new_release_message_str = self.get_formatted_pull_requests_message(new_release_message_dct)
     return new_release_message_str
       
   def get_release_message(self, tag_name):
@@ -200,8 +252,8 @@ class GetReleaseMessage:
         1. All the merged PRs are stored in new_release_message_dct with corresponding categories with proper format
         2. The format_release_message will store its release message with proper sections.
 
-        Return
-        --------
+      Return
+      --------
         format_release_message: String
               Release message format 
     '''
