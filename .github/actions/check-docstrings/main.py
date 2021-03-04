@@ -224,6 +224,7 @@ class CheckDocstrings:
     #     elif file_extension == '.py':
     #       file_paths.append(file_content.path)
     # self.check_docstrings(file_paths)
+
     
             
 def main():
