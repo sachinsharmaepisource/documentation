@@ -21,9 +21,9 @@ class WritableObject(object):
   def __init__(self):
     """init fun pylint"""
     self.content = []
-  def write(self, st):
+  def write(self, _st):
     """dummy write"""
-    self.content.append(st)
+    self.content.append(_st)
   def read(self):
     """dummy read"""
     return self.content
@@ -219,9 +219,9 @@ class CheckDocstrings:
           None
     """
     for file_path in file_paths:
-      ARGS = ["-r","n", "--rcfile=.github/actions/check-docstrings/.pylintrc"]
+      args = ["-r","n", "--rcfile=.github/actions/check-docstrings/.pylintrc"]
       pylint_output = WritableObject()
-      Run([file_path]+ARGS, reporter=TextReporter(pylint_output), exit=False)
+      Run([file_path]+args, reporter=TextReporter(pylint_output), exit=False)
       # for l in pylint_output.read():
       #   print(l)
       # (pylint_stdout, pylint_stderr) = lint.py_run(file_path , return_std=True)
