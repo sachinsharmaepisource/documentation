@@ -1,9 +1,4 @@
-import sys
-import os
-sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from constants import *
-
-'''
+"""
   This mudule consists of GetPullRequests Class,
     constructor attributes :: Repo
   
@@ -11,9 +6,14 @@ from constants import *
   - apply_bfs_with_pull_requests
   - filter_pulls
   - get_pull_requests
-'''
+"""
+import sys
+import os
+sys.path.append(os.path.abspath("./.github/actions/create-release"))
+from constants import *
+
 class GetPullRequests:
-  '''
+  """
   GetPullRequests Class,
     constructor attributes :: Repo
   
@@ -21,13 +21,13 @@ class GetPullRequests:
   - apply_bfs_with_pull_requests
   - filter_pulls
   - get_pull_requests
-  '''
+  """
   def __init__(self, repo):
     self.repo = repo
     self.branch = constants['branch']
   
   def bfs_util(self, pull, base_branches_dct, queue, pulls_visited_list):
-    '''
+    """
       Parameters
       ----------
           pull:  Pull Request
@@ -41,7 +41,7 @@ class GetPullRequests:
       -----------
             queue: List
             pulls_visited_list: List
-    '''
+    """
     for pull_nested in base_branches_dct[pull.head.ref]:
       if pull_nested.number not in pulls_visited_list:
         queue.append(pull_nested)
@@ -49,7 +49,7 @@ class GetPullRequests:
     return queue, pulls_visited_list
           
   def apply_bfs_with_pull_requests(self, base_branches_dct):
-    '''
+    """
       Parameters
       ----------
           base_branches_dct:  Dictionary
@@ -62,7 +62,7 @@ class GetPullRequests:
        Return
        -----------
             filtered_pulls :: list     - stores the list of pull requests
-    '''
+    """
     filtered_pulls = []
 #   BFS Algo for recursive branch fetch
     queue = []
@@ -78,7 +78,7 @@ class GetPullRequests:
     return filtered_pulls
   
   def get_init_branches_dct(self, pull, base_branches_dct, head_branches_dct):
-    '''
+    """
       Parameters
       ----------
           pull:  Pull Request
@@ -91,7 +91,7 @@ class GetPullRequests:
       -----------
             base_branches_dct: Dictionary
             head_branches_dct: Dictionary
-    '''
+    """
     if pull.base.ref in base_branches_dct.keys():
       base_branches_dct[pull.base.ref].append(pull)
     else:
@@ -105,7 +105,7 @@ class GetPullRequests:
     return base_branches_dct, head_branches_dct
   
   def filter_pulls(self, pulls):
-    '''
+    """
       Parameters
       ----------
           pulls:  Object
@@ -123,7 +123,7 @@ class GetPullRequests:
        Return
        -----------
             filtered_pulls :: list     - stores the list of pull requests
-    '''
+    """
     branches = self.repo.get_branches()
     base_branches_dct = {}
     head_branches_dct = {}
@@ -141,7 +141,7 @@ class GetPullRequests:
     return filtered_pulls
   
   def get_pull_requests(self, start_date):
-    '''
+    """
       Parameters
       ----------
           start_date:  Datetime
@@ -157,7 +157,7 @@ class GetPullRequests:
        Return
        -----------
             filtered_pulls :: list     - stores the list of pull requests
-    '''
+    """
     pulls: List[PullRequest.PullRequest] = []
     for pull in self.repo.get_pulls(state='closed', sort='updated', direction='desc'):
       if not pull.merged_at:
