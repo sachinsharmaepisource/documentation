@@ -17,7 +17,6 @@ class IncorrectTitleFormatError(Exception):
   def __init__(self, message="The Pull request title format is incorrect!\nPlease correct the format."):
         self.message = message
         super().__init__(self.message)
-
         
 #---------------------------------------------------------------------------------------------------------
 
@@ -39,13 +38,13 @@ class PullRequestTitleCheck:
     self.user_name = self.get_inputs('USER_NAME')
     self.action_type = self.get_inputs('ACTION_TYPE')
 #     Github action, Repo, Pull request objects are defined
-    self.gh = Github(self.access_token)
-    self.repo = self.gh.get_repo(self.user_name)
-    self.pr = self.repo.get_pull(int(self.pr_number))
+    self._gh = Github(self.access_token)
+    self.repo = self._gh.get_repo(self.user_name)
+    self._pr = self.repo.get_pull(int(self.pr_number))
   
 
   def check_pull_request_title(self):
-    '''
+    """
       Prameters
       ---------
             pr_title:: String
@@ -53,7 +52,7 @@ class PullRequestTitleCheck:
       ---------
             Boolean:: Bool
                 Is the first word of pr_title, among the category list format.
-    '''
+    """
     splt = self.pr_title.split(':')
     if len(splt) > 1:
       category = splt[0].upper().strip()
@@ -62,7 +61,7 @@ class PullRequestTitleCheck:
   
   
   def get_inputs(self, input_name):
-    '''
+    """
       Parameters
       ----------
           input_name: String
@@ -73,18 +72,18 @@ class PullRequestTitleCheck:
       Return
       ----------
           Input: String
-    '''
+    """
     return os.getenv('INPUT_{}'.format(input_name).upper())
 
   def compute(self):
-    '''          
+    """
       Logic
       ----------
           If the PR title is of correct format than the check will be passed
           ELSE: the PR title is of incorrect format
             IF the PR is closed than the GH action will override and pass the gh action, even if the pr title format is incorrect.
             ELSE Create a new issue comment with proper comment of correct PR title format and raise custom exception error.
-    '''
+    """
     if self.check_pull_request_title():
       print('the pr title is of correct format')
       pass
@@ -95,13 +94,10 @@ class PullRequestTitleCheck:
       else:
         print('the pr title is of inccorrect format\n now we will create an issue comment in pull request')
         self.pr_issue_comment = 'Please update the PR title with following format:\n A pr title must contains a colon(:) seperated category name and title body.\n\n The Category must be among following: \n1. Features\n2. Documentation\n3. Refactor\n4. Bug Fix\n5. Others\n\nFor example:\n > Fixed key error in tracker then check should be failed - ❌\n > Bug fix: Fixed key error in tracker then check should be passed - ✅\n'
-        self.pr.create_issue_comment(self.pr_issue_comment)
+        self._pr.create_issue_comment(self.pr_issue_comment)
 #       Now we will raise a custom exception
         raise IncorrectTitleFormatError()
-      
 
-
-  
 def main():
   """
   Create class object
