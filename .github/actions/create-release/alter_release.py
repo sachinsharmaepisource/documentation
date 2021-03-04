@@ -1,10 +1,4 @@
-import sys
-import os
-sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from constants import *
-from get_release_message import *
-
-'''
+"""
   This mudule consists of AlterRelease Class,
     constructor attributes :: Repo
   
@@ -12,9 +6,17 @@ from get_release_message import *
   - remove_all_previous_draft_releases
   - create_new_draft_release
   - create_release
-'''
+"""
+
+import sys
+import os
+sys.path.append(os.path.abspath("./.github/actions/create-release"))
+from constants import *
+from get_release_message import *
+
+
 class AlterRelease:
-  '''
+  """
   AlterRelease Class,
     constructor attributes :: Repo
   
@@ -23,7 +25,7 @@ class AlterRelease:
   - create_new_draft_release
   - create_release
   
-  '''
+  """
   def __init__(self, repo):
     self.repo = repo
     self.branch = constants['branch']
@@ -33,14 +35,14 @@ class AlterRelease:
     self.get_release_message = get_release_message_obj.get_release_message
   
   def remove_all_previous_draft_releases(self):
-    '''
+    """
     LOGIC
     --------
           1. Fetch all the releases
           2. Iterate them
               if release is draft and draft release is created by GH Actions
                 then remove that release
-    '''
+    """
     all_releases = self.repo.get_releases()
     for release in all_releases:
       if release.draft and release.author.login == 'github-actions[bot]':
@@ -48,25 +50,25 @@ class AlterRelease:
         print('---Removed draft release tag_name:', release.tag_name)
 
   def create_new_draft_release(self):
-    '''
+    """
     LOGIC
     --------
           1. It create new draft release with tag_name as specified
     Return
     --------
           draft_release:: OBJECT
-    '''
+    """
     tag_name = self.draft_tag_name
     release_name = 'Draft release'
     release_message = self.get_release_message(self.draft_tag_name)
     is_draft = True
     is_prerelease = False
-    draft_release = self.repo.create_git_release(tag_name, release_name, release_message, is_draft, is_prerelease)
+    draft_release = self.repo.create_git_release(tag_name, release_name, release_message, is_draft, is_prerelease) # pylint: disable=line-too-long
     return draft_release
   
   def create_release(self, create_release_args):  
-    # https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html#github.Repository.Repository.create_git_tag_and_release
-    '''
+    # https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html#github.Repository.Repository.create_git_tag_and_release # pylint: disable=line-too-long
+    """
         Parameters
         ----------
             tag_name: String(v0.0.1)
@@ -86,7 +88,7 @@ class AlterRelease:
         --------
         release: Object
               Reference to the new release created
-    '''
+    """
     tag_name = create_release_args['tag_name']
     tag_message = create_release_args['tag_message']
     release_name = create_release_args['release_name']
@@ -97,5 +99,5 @@ class AlterRelease:
     branch = self.repo.get_branch(self.branch)
     tag = self.repo.create_git_tag(tag_name, tag_message, branch.commit.sha, 'commit')
     ref = self.repo.create_git_ref('refs/tags/' + tag_name, tag.sha)
-    release = self.repo.create_git_release(tag.tag, release_name, release_message, is_draft, is_prerelease)
+    release = self.repo.create_git_release(tag.tag, release_name, release_message, is_draft, is_prerelease) # pylint: disable=line-too-long
     return release
