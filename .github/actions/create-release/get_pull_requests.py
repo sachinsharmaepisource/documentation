@@ -1,9 +1,4 @@
-import sys
-import os
-sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from constants import *
-
-'''
+"""
   This mudule consists of GetPullRequests Class,
     constructor attributes :: Repo
   
@@ -11,9 +6,14 @@ from constants import *
   - apply_bfs_with_pull_requests
   - filter_pulls
   - get_pull_requests
-'''
+"""
+import sys
+import os
+sys.path.append(os.path.abspath("./.github/actions/create-release"))
+from constants import * # pylint: disable=wrong-import-position, wildcard-import
+
 class GetPullRequests:
-  '''
+  """
   GetPullRequests Class,
     constructor attributes :: Repo
   
@@ -21,27 +21,35 @@ class GetPullRequests:
   - apply_bfs_with_pull_requests
   - filter_pulls
   - get_pull_requests
-  '''
+  """
   def __init__(self, repo):
     self.repo = repo
     self.branch = constants['branch']
   
   def bfs_util(self, pull, base_branches_dct, queue, pulls_visited_list):
-    '''
+    """
       Parameters
       ----------
-          pull:  Pull Request
-          base_branches_dct: Dict
+          pull: Object
+            Pull request
+          base_branches_dct: Dictionary
+            Base branch dictionary
           queue: List
+            Queue used for BFS
           pulls_visited_list: list
+            pulls visited list
+
       Logic
       ----------
           Inner structure of BFS, iterate all the nodes.
-      Return
-      -----------
-            queue: List
-            pulls_visited_list: List
-    '''
+      
+      Returns
+      -------
+        queue : list
+          Queue for BFS
+        pulls_visited_list : List
+          Pull requests list(visited)
+    """
     for pull_nested in base_branches_dct[pull.head.ref]:
       if pull_nested.number not in pulls_visited_list:
         queue.append(pull_nested)
@@ -49,20 +57,21 @@ class GetPullRequests:
     return queue, pulls_visited_list
           
   def apply_bfs_with_pull_requests(self, base_branches_dct):
-    '''
+    """
       Parameters
       ----------
           base_branches_dct:  Dictionary
-                  Stores base branches
+            Stores base branches
       
       Logic
       ----------
               Filter the pull requests recursively, using BFS.
               Store the pull request objects and base ref in filtered_pulls
-       Return
-       -----------
-            filtered_pulls :: list     - stores the list of pull requests
-    '''
+      Returns
+      -------
+        filtered_pulls : list
+          Stores the list of pull requests
+    """
     filtered_pulls = []
 #   BFS Algo for recursive branch fetch
     queue = []
@@ -78,20 +87,25 @@ class GetPullRequests:
     return filtered_pulls
   
   def get_init_branches_dct(self, pull, base_branches_dct, head_branches_dct):
-    '''
+    """
       Parameters
       ----------
-          pull:  Pull Request
+          pull:  Object
+            Pull requests
           base_branches_dct: Dict
+            Base branch dictionary
           head_branches_dct: Dict
+            Head beanch dictionary
       Logic
       ----------
           Initialize the dictionary.
-      Return
-      -----------
-            base_branches_dct: Dictionary
-            head_branches_dct: Dictionary
-    '''
+      Returns
+      -------
+        base_branches_dct : Dict
+          Base branch dictionary
+        head_branches_dct : Dict
+          Head branch dictionary
+    """
     if pull.base.ref in base_branches_dct.keys():
       base_branches_dct[pull.base.ref].append(pull)
     else:
@@ -105,7 +119,7 @@ class GetPullRequests:
     return base_branches_dct, head_branches_dct
   
   def filter_pulls(self, pulls):
-    '''
+    """
       Parameters
       ----------
           pulls:  Object
@@ -120,28 +134,28 @@ class GetPullRequests:
               
               Filter the pull requests recursively, using BFS.
               Store the pull request objects and base ref in filtered_pulls
-       Return
-       -----------
-            filtered_pulls :: list     - stores the list of pull requests
-    '''
+      Returns
+      -------
+        filtered_pulls : list
+          Stores the list of pull requests
+    """
     branches = self.repo.get_branches()
     base_branches_dct = {}
     head_branches_dct = {}
-    filtered_branches_st = set()
     for branch in branches:
       base_branches_dct[branch.name] = []
       head_branches_dct[branch.name] = []
     for pull in pulls:
       
-#       If the base/head branch name is not present in the branch list fetched with Pygithub function, that implies the corresponding base/head branch have been removed
-#       In oreder to consider those PRs, whose head/base branch have been deleted, I inserted them in them in the else condition of both head and base dictionary
+#       If the base/head branch name is not present in the branch list fetched with Pygithub function, that implies the corresponding base/head branch have been removed # pylint: disable=line-too-long
+#       In oreder to consider those PRs, whose head/base branch have been deleted, I inserted them in them in the else condition of both head and base dictionary # pylint: disable=line-too-long
       base_branches_dct, head_branches_dct = self.get_init_branches_dct(pull, base_branches_dct, head_branches_dct)
         
     filtered_pulls = self.apply_bfs_with_pull_requests(base_branches_dct)
     return filtered_pulls
   
   def get_pull_requests(self, start_date):
-    '''
+    """
       Parameters
       ----------
           start_date:  Datetime
@@ -154,10 +168,11 @@ class GetPullRequests:
                 continue
               If merge_dt >= start_dt then,
                 store it in list
-       Return
-       -----------
-            filtered_pulls :: list     - stores the list of pull requests
-    '''
+      Returns
+      -------
+        filtered_pulls : list
+          Stores the list of pull requests
+    """
     pulls: List[PullRequest.PullRequest] = []
     for pull in self.repo.get_pulls(state='closed', sort='updated', direction='desc'):
       if not pull.merged_at:

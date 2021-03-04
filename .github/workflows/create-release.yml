@@ -1,10 +1,9 @@
 name: Create Release
 
 # - on push or commit to master branch
-
 on:
   push:
-    branches: [ master ]
+    branches: [ check-docstring-test1.1 ]
 
 # - Checkout self.
 # - Run the release file with proper arguments

@@ -1,4 +1,4 @@
-'''
+"""
   Requirements:
     There must be a valid version.ini file:
       - Have content in the format of v0.0.1
@@ -20,21 +20,18 @@
           create_new_draft_release
       else:
         the current_version is smaller to last version, INVALID no new release.
-'''
-
-import os
+"""
 import sys
+import os
 from configparser import ConfigParser
-from github import Github
 from packaging import version
+from github import Github
 
 sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from alter_release import AlterRelease
-from get_pull_requests import GetPullRequests
-from get_release_message import GetReleaseMessage
-from constants import *
-
-
+from alter_release import AlterRelease # pylint: disable=wrong-import-position
+from get_pull_requests import GetPullRequests # pylint: disable=wrong-import-position
+from get_release_message import GetReleaseMessage # pylint: disable=wrong-import-position
+from constants import * # pylint: disable=wrong-import-position, wildcard-import
 
 class VersionCompareException(Exception):
   """
@@ -43,18 +40,24 @@ class VersionCompareException(Exception):
         message -- explanation of the error
   """
   def __init__(self, message="Current version < last version, kindly update the version.ini(current version) file."):
-        self.message = message
-        super().__init__(self.message)
+    """
+    init function of exception class
+    """
+    self.message = message
+    super().__init__(self.message)
 #---------------------------------------------------------------------------------------------------------
 
 class ReleaseGithubAction:
+  """
+  This class creates release/draft release.
+  """
   def __init__(self):
     self.repo_name = self.get_inputs('REPO_NAME')
     constants['REPO_NAME'] = self.repo_name
     self.access_token = self.get_inputs('ACCESS_TOKEN')
     self.user_name = self.get_inputs('USER_NAME')
-    self.gh = Github(self.access_token)
-    self.repo = self.gh.get_repo(self.user_name)
+    self._gh = Github(self.access_token)
+    self.repo = self._gh.get_repo(self.user_name)
     self.all_branches = self.repo.get_branches()
     self.version_file_path = constants['VERSION_FILE_PATH']
     self.branch = constants['branch']
@@ -74,20 +77,22 @@ class ReleaseGithubAction:
     self.get_release_message = get_release_message_obj.get_release_message
     
   def get_id(self, tag_name):
-    '''
+    """
       Parameters
       ----------
-          tag_name: String
+          tag_name: string
+            name of the tag
       Logic
       ----------
           1. Fetch all the releases
           2. Iterate them and compare the tag_name
             2.1 Return ID when mathc found
             2.2 else return None
-      Return
-      ----------
-          ID: String  | None
-    '''
+      Returns
+      -------
+        ID : String
+          release id
+    """
     all_releases = self.repo.get_releases()
     for release in all_releases:
       if release.tag_name == tag_name:
@@ -95,42 +100,47 @@ class ReleaseGithubAction:
     return None
   
   def get_inputs(self, input_name):
-    '''
+    """
       Parameters
       ----------
-          input_name: String
+          input_name: string
+              input name
+          
       Logic
       ----------
           Extract the inputs from the YML file of GITHUB ACTION
-      Return
-      ----------
-          Input: String
-    '''
+      Returns
+      -------
+        Input : String
+          Inputs
+    """
     return os.getenv('INPUT_{}'.format(input_name).upper())
 
   def read_file_content(self, file_path):
-    '''
+    """
       Parameters
       ----------
           file_path: String
               Path to file to read content from
-      Return
-      ----------
-          content: String
-    '''
+      Returns
+      -------
+        content : String
+          content
+    """
     return self.repo.get_contents(file_path, self.branch).decoded_content.decode()
 
   def get_last_version(self):
-    '''
+    """
       Logic
       ----------
           Defualt last_version = v0.0.0
           1. Chack is there is any old release exists, by checking the totalCount of all the releases
           2. Set latest version as tag name of the latest release
-      Return
-      ----------
-          last_version: String
-    '''
+      Returns
+      -------
+        last_version : String
+          last version
+    """
     last_version = 'v0.0.0' 
     # default first version
     non_draft_releases_count = 0
@@ -144,15 +154,16 @@ class ReleaseGithubAction:
     return last_version
 
   def get_current_version(self):
-    '''
+    """
       Logic
       ----------
         1. Read the file version.ini
         2. Extract the Version from version section
-      Return
-      ----------
-      current_version: String
-    '''
+      Returns
+      -------
+        current_version : String
+          current version
+    """
     content = self.read_file_content(self.version_file_path)
     config_parser = ConfigParser()
     config_parser.read_string(content)
@@ -160,7 +171,7 @@ class ReleaseGithubAction:
     return current_version
 
   def get_start_date_of_latest_release(self):
-    '''
+    """
       Logic
       ----------
       The start_date will store the date from
@@ -168,65 +179,82 @@ class ReleaseGithubAction:
           start date will be the creation date of repositiory
         Else:
           start date will be the creation date of latest release
-      Return
-      ----------
-      start_date: Datetime
-    '''
+      Returns
+      -------
+        start_date : Datetime
+          Start Date
+    """
     if self.repo.get_releases().totalCount == 0:
       return self.repo.created_at
     else:
       return self.repo.get_latest_release().created_at
 
   def get_start_date_of_draft_release(self):
-    '''
+    """
       Logic
       ----------
           1. Fetch the id of draft tag_name
             1.1 Return if the draft_is is valid
           2. Return the start date of latest release()
-      Return
-      ----------
-          start_date: Datetime
-    '''
+      Returns
+      -------
+        start_date : Datetime
+          Start Date
+    """
     draft_id = self.get_id(self.draft_tag_name)
     if draft_id is not None:
       return self.repo.get_release(draft_id).created_at
     return self.get_start_date_of_latest_release()
   
   def versions_are_equal_and_new_merges_since_last_release(self, last_version, current_version, start_date):
-    '''
+    """
       Parameters
       ----------
-          last_version: String
-          current_version: String
-          start_date: Date
-      Return
-      ----------
-          Bool: Bool
-    '''
+          last_version : string
+              last version
+          current_version : string
+              current version
+          start_date : Date
+              start date
+
+      Returns
+      -------
+        Bool : Bool
+          versions_are_equal_and_new_merges_since_last_release
+    """
     compare_versions = version.parse(last_version) == version.parse(current_version)
     check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
     return compare_versions and (check_pr_since_last_release)
   
   def versions_are_equal_and_no_new_merge_since_last_release(self, last_version, current_version, start_date):
-    '''
+    """
       Parameters
       ----------
-          last_version: String
-          current_version: String
-          start_date: Date
-      Return
-      ----------
-          Bool: Bool
-    '''
+          last_version : string
+              last version
+          current_version : string
+              current version
+          start_date : Date
+              start date
+      Returns
+      -------
+        Bool : Bool
+          versions_are_equal_and_no_new_merge_since_last_release
+    """
     compare_versions = version.parse(last_version) == version.parse(current_version)
     check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
-    return compare_versions and not(check_pr_since_last_release)
+    return compare_versions and not check_pr_since_last_release
 
   def compute(self):
-    '''
-        Logic:
-        ----------
+    """
+    Raises
+    ------
+    VersionCompareException
+        If `param2` is equal to `param1`.
+
+
+    Logic:
+    ----------
             Here the current_version and last_version are computed then,
               if the last_version is less than current_version then,
                 a new release is created
@@ -238,7 +266,8 @@ class ReleaseGithubAction:
                   (AVoids ambiguity, if some real human have changed the draft release)
               else
                 NO CHANGE
-    '''
+    
+    """
     current_version = self.get_current_version()
     last_version = self.get_last_version()
     start_date = self.get_start_date_of_draft_release()
@@ -277,4 +306,4 @@ def main():
   release.compute()
   
 if __name__ == "__main__":
-    main()
+  main()

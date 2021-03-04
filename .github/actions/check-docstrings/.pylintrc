@@ -180,7 +180,7 @@ evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / stateme
 output-format=text
 
 # Tells whether to display a full report or only the messages.
-reports=yes
+reports=no
 
 # Activate the evaluation score.
 score=yes
@@ -229,6 +229,12 @@ redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
 
 
 [BASIC]
+
+# For docparams extension
+accept-no-param-doc = no
+accept-no-raise-doc = no
+accept-no-return-doc = no
+accept-no-yields-doc = no
 
 # Naming style matching correct argument names.
 argument-naming-style=snake_case
@@ -424,10 +430,10 @@ indent-after-paren=4
 indent-string='    '
 
 # Maximum number of characters on a single line.
-max-line-length=120
+max-line-length=150
 
 # Maximum number of lines in a module.
-max-module-lines=250
+max-module-lines=500
 
 # List of optional constructs for which whitespace checking is disabled. `dict-
 # separator` is used to allow tabulation in dicts, etc.: {1  : 1,\n222: 2}.

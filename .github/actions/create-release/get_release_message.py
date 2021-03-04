@@ -14,11 +14,11 @@
 import sys
 import os
 sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from constants import *
-from get_pull_requests import GetPullRequests
+from constants import * # pylint: disable=wrong-import-position, wildcard-import
+from get_pull_requests import GetPullRequests # pylint: disable=wrong-import-position
 
 class GetReleaseMessage:
-  '''
+  """
   GetReleaseMessage Class,
     constructor attributes :: Repo
   
@@ -30,7 +30,7 @@ class GetReleaseMessage:
   - get_merge_commits_message
   - get_pull_requests_message
   - get_release_message
-  '''
+  """
   def __init__(self, repo):
     self.repo = repo
     self.branch = constants['branch']
@@ -42,17 +42,18 @@ class GetReleaseMessage:
     self.get_pull_requests = get_pull_requests_obj.get_pull_requests
   
   def get_last_version(self):
-    '''
+    """
       Logic
       ----------
           Defualt last_version = v0.0.0
           1. Chack is there is any old release exists, by checking the totalCount of all the releases
           2. Set latest version as tag name of the latest release
 
-      Return
-      ----------
-          last_version: String
-    '''
+      Returns
+      -------
+        last_version : String
+          Last version
+    """
     last_version = 'v0.0.0' 
     # default first version
     non_draft_releases_count = 0
@@ -61,12 +62,12 @@ class GetReleaseMessage:
       if not release.draft:
         non_draft_releases_count+=1
     if non_draft_releases_count != 0:
-      latestRelease = self.repo.get_latest_release()
-      last_version = latestRelease.tag_name
+      latest_release = self.repo.get_latest_release()
+      last_version = latest_release.tag_name
     return last_version
   
   def get_start_date_of_latest_release(self):
-    '''
+    """
       Logic
       ----------
       The start_date will store the date from
@@ -75,17 +76,20 @@ class GetReleaseMessage:
         Else:
           start date will be the creation date of latest release
 
-      Return
-      ----------
-      start_date: Datetime
-    '''
+      Returns
+      -------
+        start_date : Datetime
+          start date
+    """
+    create_at = None
     if self.repo.get_releases().totalCount == 0:
-      return self.repo.created_at
+      create_at = self.repo.created_at
     else:
-      return self.repo.get_latest_release().created_at
+      create_at = self.repo.get_latest_release().created_at
+    return create_at
     
   def is_merge_commit_msg_format_correct(self, msg):
-    '''
+    """
       Parameters
       ----------
           msg: String
@@ -94,45 +98,47 @@ class GetReleaseMessage:
                   
                      Merge commit optional description -->
 
-      Return
-      ----------
-          is format correct: Bool
-    '''
+      Returns
+      -------
+        Bool : Bool
+          is format correct
+    """
 #     Sample structure of correct merge commit message
 #     Merge pull request #105 from episource_repo/develop_branch
     msg_split = msg.split('\n\n', 1)[0].split(' ')
     return msg_split[0] == "Merge" and msg_split[1] == "pull" and msg_split[2] == "request" and msg_split[3][0] == "#" and msg_split[4] == "from"
   
   def get_release_name(self, tag_name):
-    '''
+    """
       Parameters
       ----------
           tag_name: String
               Name of the tag (v1.1.1)
 
-      Return
-      ----------
-          release_name: String
-              As per the release name format
-    '''
+      Returns
+      -------
+        release_name : String
+          As per the release name format
+    """
     return tag_name + ' of ' + self.repo_name
   
   def get_merge_commits_message(self, start_date):
-    '''
+    """
       Parameters
       ----------
           start_date: Date
+            start date
           
       Logic
       --------
         1. All the merged commits are stored in merge_commits_str with corresponding format.
         2. The merge_commits_str will store its merge commits messages with proper sections.
 
-        Return
-        --------
-        merge_commits_str: String
-              Merge commits message 
-    '''
+      Returns
+      -------
+        merge_commits_str : String
+          Merge commits message 
+    """
     merge_commits_str = ''
 #   Prepare the merge commit section
     commit_sha_list = []
@@ -140,8 +146,8 @@ class GetReleaseMessage:
     commits = self.repo.get_commits(self.branch , since = start_date)
     for commit in commits:
       commit_sha = commit.commit.sha
-#       Only merge commits and conflict resolve commits have 2 parents :: using this point to filter merge commit and conflict resolve than rest of the commits
-#       In order to filter merge commits from conflict resolve commits :: is_merge_commit_msg_format_correct function is used to differentiate the structure of merge commit than a conflict resolve commit
+#       Only merge commits and conflict resolve commits have 2 parents :: using this point to filter merge commit and conflict resolve than rest of the commits # pylint: disable=line-too-long
+#       In order to filter merge commits from conflict resolve commits :: is_merge_commit_msg_format_correct function is used to differentiate the structure of merge commit than a conflict resolve commit # pylint: disable=line-too-long
 #       commit_sha_list confirms unique commits and avoid duplicacy of commits by storing the SHA
       if len(commit.commit.parents) == 2 and commit_sha not in commit_sha_list and self.is_merge_commit_msg_format_correct(commit.commit.message):
 #       Formatting the commit message and extract the main title (By default it is PR title) and PR number using basic splitting
@@ -149,25 +155,29 @@ class GetReleaseMessage:
         cmt_msg_splt = commit.commit.message.split('\n\n', 1)
         cmt_msg = cmt_msg_splt[1]
         cmt_number = cmt_msg_splt[0].split(' ')[3]
-        merge_commits_str += '\n' + commit_sha + '\t' + cmt_msg.replace('\n', '\n &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;') + '   (' + cmt_number + ')'
+        merge_commits_str += '\n' + commit_sha + '\t' + cmt_msg.replace('\n', '\n &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;') + '   (' + cmt_number + ')' # pylint: disable=line-too-long
     return merge_commits_str  
   
   def get_sorted_formatted_pull_requests_messages(self, cat, new_release_message_dct, new_release_message_str):
-    '''
+    """
       Parameters
       ----------
           cat: string
+            category name
           new_release_message_dct: Dictionary
+            release msg dictionary
           new_release_message_str: string
+            release message string
           
       Logic
       --------
           SORTING to arrange the Pull requests according to there keys(PR number)
 
-      Return
-      --------
-          new_release_message_str: String
-    '''
+      Returns
+      -------
+        new_release_message_str : String
+          Release message string
+    """
     emoji = self.emoji_list
     new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
     # SORTING to arrange the Pull requests according to there keys(PR number)
@@ -176,19 +186,21 @@ class GetReleaseMessage:
     return new_release_message_str
       
   def get_formatted_pull_requests_message(self, new_release_message_dct):
-    '''
+    """
       Parameters
       ----------
           new_release_message_dct: Dictionary
+            release message dictionary
           
       Logic
       --------
         Create pull request message from new_release_message_dct
 
-        Return
-        --------
-        new_release_message_str: String
-    '''
+      Returns
+      -------
+        new_release_message_str : String
+          Relase message string
+    """
     new_release_message_str = ''
     for cat in new_release_message_dct:
       if len(new_release_message_dct[cat]) != 0:
@@ -196,38 +208,40 @@ class GetReleaseMessage:
     return new_release_message_str
   
   def check_pr_title(self, pr_title_splt, pr_title_category, new_release_message_dct):
-    '''
+    """
       Parameters
       ----------
              pr_title_splt: list
+                pull request title split
              pr_title_category: string
+                pull request title category
              new_release_message_dct: Dictionary
-      Return
-      --------
-            Bool: Bool
-    '''
+                release message dictionary
+      Returns
+      -------
+        Bool : Bool
+          check pr title
+    """
     return len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys()
   
-  def get_pull_requests_message(self, start_date, last_version):
-    '''
+  def get_pull_requests_message(self, start_date):
+    """
       Parameters
       ----------
-            start_date: Date 
-            last_version: String
+             start_date: Datetime
+                start date
       Logic
       --------
         1. All the pull requests are stored in new_release_message_str with corresponding format.
         2. The new_release_message_str will store its merge commits messages with proper sections.
 
-      Return
-      --------
-        new_release_message_str: String
-              PR message 
-    '''
-    emoji = self.emoji_list
+      Returns
+      -------
+        new_release_message_str : String
+          PR message 
+    """
     new_release_message_dct = self.categories_dct
     new_release_message_str = ''
-    merge_commits_str = ''
     pulls = self.get_pull_requests(start_date)
     for pull in pulls:
       pr_title = pull.title
@@ -242,10 +256,11 @@ class GetReleaseMessage:
     return new_release_message_str
       
   def get_release_message(self, tag_name):
-    '''
+    """
       Parameters
       ----------
           tag_name: String(v0.0.1)
+            tag name (V0.0.1)
           
       Logic
       --------
@@ -253,14 +268,14 @@ class GetReleaseMessage:
         2. Along with corresponding categories with proper format.
         2. The format_release_message will store its release message with proper sections.
 
-      Return
-      --------
-        format_release_message: String
-              Release message format
-    '''
+      Returns
+      -------
+        format_release_message : String
+          Release message format
+    """
     start_date = self.get_start_date_of_latest_release()
     last_version = self.get_last_version()
-    new_release_message_str = self.get_pull_requests_message(start_date, last_version)
+    new_release_message_str = self.get_pull_requests_message(start_date)
     merge_commits_str = self.get_merge_commits_message(start_date)
 #     Append and format the final release message including following sections as
 #     1. Pull requests titles
