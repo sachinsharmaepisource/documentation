@@ -196,7 +196,7 @@ class CheckDocstrings:
     """
     for file_path in file_paths:
       # epylint.py_run(f'afolder -j 0 --rcfile={pylintrc}')
-      (pylint_stdout, pylint_stderr) = lint.py_run(f'{file_path} --rcfile=.pylintrc')
+      (pylint_stdout, pylint_stderr) = lint.py_run(file_path + ' --rcfile=.pylintrc')
       # (pylint_stdout, pylint_stderr) = lint.py_run(file_path , return_std=True)
       pylint_stdout.seek(0)
       report_dct_ = self.report_dct
