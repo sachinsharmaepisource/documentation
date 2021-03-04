@@ -172,13 +172,13 @@ class CheckDocstrings:
     desc_ = "DEFAULT_DESC"
     if len(splt) == 5:
       print('55555',splt)
-      path_ = splt[0]
-      lineno_ = splt[1]
+      path_ = splt[0].strip()
+      lineno_ = splt[1].strip()
       for cat in self.report_dct.keys():
-        if cat[0].lower() == splt[3][0].lower():
+        if cat[0].lower() == splt[3][0].lower().strip():
           type_ = cat
-      code_ = splt[3]
-      desc_ = splt[4]
+      code_ = splt[3].strip()
+      desc_ = splt[4].strip()
     return path_, lineno_, type_, code_, desc_
 
   def format_pylint_stdout(self, report_dct_, pylint_stdout):
