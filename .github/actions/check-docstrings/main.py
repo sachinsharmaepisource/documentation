@@ -51,7 +51,7 @@ class CheckDocstrings:
     self.branch = self.repo.get_branch(self.current_branch)
     self.header = {'Authorization': f'token {self.access_token}'}
     self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
-    self.report_dct_in_pr_rev_cmnt = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
+    self.report_dct_in_pr_rev_cmnt = { 'convention': [], 'warning': [] }
     self.label = '[CHECK DOCSTRINGS]'
     self.help_link = 'https://numpydoc.readthedocs.io/en/latest/example.html'
 
