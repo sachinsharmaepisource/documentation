@@ -23,9 +23,9 @@
 """
 import sys
 import os
+from configparser import ConfigParser
 from packaging import version
 from github import Github
-from configparser import ConfigParser
 
 from alter_release import AlterRelease
 from get_pull_requests import GetPullRequests
@@ -222,7 +222,7 @@ class ReleaseGithubAction:
     """
     compare_versions = version.parse(last_version) == version.parse(current_version)
     check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
-    return compare_versions and not(check_pr_since_last_release)
+    return compare_versions and not check_pr_since_last_release
 
   def compute(self):
     """
