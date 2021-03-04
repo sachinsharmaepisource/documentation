@@ -211,7 +211,7 @@ class CheckDocstrings:
       ----------
           None
     """
-    pull_number = int(self.PR_NUMBER)
+    pull_number = int(self.pr_number)
     self.delete_all_previous_bot_generated_review_comments(pull_number)
     pull_request = self.repo.get_pull(pull_number)
     pr_files = pull_request.get_files()
