@@ -191,8 +191,9 @@ class CheckDocstrings:
       splt = line.split(' ', 3)
       path_, type_, desc_ = self.get_params_from_pylint_stdout(splt)
       if type_ in report_dct_.keys():
+        print([path_, desc_])
         report_dct_[type_].append([path_, desc_])
-    self.create_review_comments(report_dct_)
+    # self.create_review_comments(report_dct_)
 
   def check_docstrings(self, file_paths):
     """
@@ -208,15 +209,15 @@ class CheckDocstrings:
           None
     """
     for file_path in file_paths:
-      ARGS = ["-r","n", "--rcfile=.pylintrc"]
+      ARGS = ["-r","n", "--rcfile=.github/actions/check-docstrings/.pylintrc"]
       pylint_output = WritableObject()
       Run([file_path]+ARGS, reporter=TextReporter(pylint_output), exit=False)
       for l in pylint_output.read():
         print(l)
       # (pylint_stdout, pylint_stderr) = lint.py_run(file_path , return_std=True)
       # pylint_stdout.seek(0)
-      # report_dct_ = self.report_dct
-      # self.format_pylint_stdout(report_dct_, pylint_stdout)
+      report_dct_ = self.report_dct
+      self.format_pylint_stdout(report_dct_, pylint_stdout)
 
   def compute(self):
     """
