@@ -1,24 +1,12 @@
-import os
-import sys
-from github import Github
-from packaging import version
-from configparser import ConfigParser
-
-sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from alter_release import *
-from get_pull_requests import *
-from get_release_message import *
-from constants import *
-
 '''
   Requirements:
     There must be a valid version.ini file:
       - Have content in the format of v0.0.1
       - Content must start atleast from v0.0.1 (not v0.0.0)
-  
+
   The streamline of release creation is as follows:
       - Multiple feature PRs -(merge)> develop branch -(merge)> master branch
-  
+
   Logic:
     DRAFT RELEASE - TAG NAME - 'draft-tag-name' (Reserved)
     Only one draft release is allowed
@@ -34,27 +22,41 @@ from constants import *
         the current_version is smaller to last version, INVALID no new release.
 '''
 
+import os
+import sys
+from configparser import ConfigParser
+from github import Github
+from packaging import version
+
+sys.path.append(os.path.abspath("./.github/actions/create-release"))
+from alter_release import *
+from get_pull_requests import *
+from get_release_message import *
+from constants import *
+
+
+
 class VersionCompareException(Exception):
   """
     Exception raised for errors.
     Attributes:
         message -- explanation of the error
   """
-  def __init__(self, message="The current version is smaller than the last version, which is not allowed, kindly modify the version.ini(current version) file with at least last version."):
+  def __init__(self, message="Current version < last version, kindly update the version.ini(current version) file."):
         self.message = message
         super().__init__(self.message)
 #---------------------------------------------------------------------------------------------------------
 
 class ReleaseGithubAction:
   def __init__(self):
-    self.REPO_NAME = self.get_inputs('REPO_NAME')
-    constants['REPO_NAME'] = self.REPO_NAME
-    self.ACCESS_TOKEN = self.get_inputs('ACCESS_TOKEN')
-    self.USER_NAME = self.get_inputs('USER_NAME')
-    self.GH = Github(self.ACCESS_TOKEN)
-    self.repo = self.GH.get_repo(self.USER_NAME)
+    self.repo_name = self.get_inputs('REPO_NAME')
+    constants['REPO_NAME'] = self.repo_name
+    self.access_token = self.get_inputs('ACCESS_TOKEN')
+    self.user_name = self.get_inputs('USER_NAME')
+    self.gh = Github(self.access_token)
+    self.repo = self.gh.get_repo(self.user_name)
     self.all_branches = self.repo.get_branches()
-    self.VERSION_FILE_PATH = constants['VERSION_FILE_PATH']
+    self.version_file_path = constants['VERSION_FILE_PATH']
     self.branch = constants['branch']
     self.draft_tag_name = constants['draft_tag_name']
     self.emoji_list = constants['emoji_list']
@@ -106,17 +108,17 @@ class ReleaseGithubAction:
     '''
     return os.getenv('INPUT_{}'.format(input_name).upper())
 
-  def read_file_content(self, filePath):
+  def read_file_content(self, file_path):
     '''
       Parameters
       ----------
-          filePath: String
+          file_path: String
               Path to file to read content from
       Return
       ----------
           content: String
     '''
-    return self.repo.get_contents(filePath, self.branch).decoded_content.decode()
+    return self.repo.get_contents(file_path, self.branch).decoded_content.decode()
 
   def get_last_version(self):
     '''
@@ -137,8 +139,8 @@ class ReleaseGithubAction:
       if not release.draft:
         non_draft_releases_count+=1
     if non_draft_releases_count != 0:
-      latestRelease = self.repo.get_latest_release()
-      last_version = latestRelease.tag_name
+      latest_release = self.repo.get_latest_release()
+      last_version = latest_release.tag_name
     return last_version
 
   def get_current_version(self):
@@ -156,7 +158,7 @@ class ReleaseGithubAction:
     config_parser.read_string(content)
     current_version = config_parser.get('VERSION', 'Version')
     return current_version
-    
+
   def get_start_date_of_latest_release(self):
     '''
       Logic
@@ -174,7 +176,7 @@ class ReleaseGithubAction:
       return self.repo.created_at
     else:
       return self.repo.get_latest_release().created_at
-  
+
   def get_start_date_of_draft_release(self):
     '''
       Logic
@@ -202,7 +204,9 @@ class ReleaseGithubAction:
       ----------
           Bool: Bool
     '''
-    return version.parse(last_version) == version.parse(current_version) and (start_date is not None and len(self.get_pull_requests(start_date)) != 0)
+    compare_versions = version.parse(last_version) == version.parse(current_version)
+    check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
+    return compare_versions and (check_pr_since_last_release)
   
   def versions_are_equal_and_no_new_merge_since_last_release(self, last_version, current_version, start_date):
     '''
@@ -215,12 +219,14 @@ class ReleaseGithubAction:
       ----------
           Bool: Bool
     '''
-    return version.parse(last_version) == version.parse(current_version) and not(start_date is not None and len(self.get_pull_requests(start_date)) != 0)
-  
+    compare_versions = version.parse(last_version) == version.parse(current_version)
+    check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
+    return compare_versions and not(check_pr_since_last_release)
+
   def compute(self):
     '''
         Logic:
-        ---------- 
+        ----------
             Here the current_version and last_version are computed then,
               if the last_version is less than current_version then,
                 a new release is created
@@ -251,7 +257,7 @@ class ReleaseGithubAction:
       release = self.create_release(create_release_args)
       print('New Release is successfuly created with tag name: ', release.tag_name)
     elif self.versions_are_equal_and_new_merges_since_last_release(last_version, current_version, start_date):
-      print('The last_version is equal to the current version, there is a new merge since last release')
+      print('last_version = current version and there is a new merge since last release')
       # there is a new merge since last release
       self.remove_all_previous_draft_releases()
       draft_release = self.create_new_draft_release()
@@ -260,10 +266,13 @@ class ReleaseGithubAction:
       print('The last_version is equal to the current version')
       print('There is no new merge since last release!!!!!, action terminates here onwards')
     else:
-      print('The current_version is smaller than the last version, which is not allowed, So the action terminates here onwards.')
+      print('The current_version is smaller than the last version, which is not allowed.')
       raise VersionCompareException()
 
 def main():
+  """
+  Here class object is created and compute function is called.
+  """
   release = ReleaseGithubAction()
   release.compute()
   
