@@ -47,13 +47,12 @@ class PullRequestTitleCheck:
     """
       Prameters
       ---------
-            pr_title:: String
+            pr_title : String
+              Pull request title
       Returns
       -------
-      type
-          Boolean
-      describe : type
-                Is the first word of pr_title, among the category list format.
+        Bool : Bool
+          Is the first word of pr_title, among the category list format.
     """
     splt = self.pr_title.split(':')
     if len(splt) > 1:
@@ -65,22 +64,24 @@ class PullRequestTitleCheck:
     """
       Parameters
       ----------
-          input_name: String
-          
+          input_name : String
+            Input title
       Logic
       ----------
           Extract the inputs from the YML file of GITHUB ACTION
       Returns
       -------
-      type
-          String
-      describe : type
+        Input : String
           Extracted inputs
     """
     return os.getenv('INPUT_{}'.format(input_name).upper())
 
   def compute(self):
     """
+      Raises
+      -------
+      IncorrectTitleFormatError
+        Exception
       Logic
       ----------
           If the PR title is of correct format than the check will be passed
