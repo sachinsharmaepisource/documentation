@@ -30,7 +30,6 @@ class GetPullRequests:
     """
       Parameters
       ----------
-          pull:  Pull Request
           base_branches_dct: Dict
           queue: List
           pulls_visited_list: list
@@ -133,8 +132,8 @@ class GetPullRequests:
       head_branches_dct[branch.name] = []
     for pull in pulls:
       
-#       If the base/head branch name is not present in the branch list fetched with Pygithub function, that implies the corresponding base/head branch have been removed
-#       In oreder to consider those PRs, whose head/base branch have been deleted, I inserted them in them in the else condition of both head and base dictionary
+#       If the base/head branch name is not present in the branch list fetched with Pygithub function, that implies the corresponding base/head branch have been removed # pylint: disable=line-too-long
+#       In oreder to consider those PRs, whose head/base branch have been deleted, I inserted them in them in the else condition of both head and base dictionary # pylint: disable=line-too-long
       base_branches_dct, head_branches_dct = self.get_init_branches_dct(pull, base_branches_dct, head_branches_dct)
         
     filtered_pulls = self.apply_bfs_with_pull_requests(base_branches_dct)
