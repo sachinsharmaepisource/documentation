@@ -71,7 +71,7 @@ confidence=
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
 disable=print-statement,
-        C0326,
+        trailing-whitespace,
         bad-indentation,
         trailing-whitespace,
         docstring-first-line-empty,
