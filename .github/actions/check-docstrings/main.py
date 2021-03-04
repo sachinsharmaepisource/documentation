@@ -171,11 +171,11 @@ class CheckDocstrings:
     code_ = "DEFAULT_CODE"
     desc_ = "DEFAULT_DESC"
     if len(splt) == 5:
-      print('55555',splt)
       path_ = splt[0].strip()
       lineno_ = splt[1].strip()
       for cat in self.report_dct.keys():
         if cat[0].lower() == splt[3][0].lower().strip():
+          print('CCCCCCCCCC', cat)
           type_ = cat
       code_ = splt[3].strip()
       desc_ = splt[4].strip()
