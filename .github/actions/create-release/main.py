@@ -27,9 +27,10 @@ from configparser import ConfigParser
 from packaging import version
 from github import Github
 
-from alter_release import AlterRelease
-from get_pull_requests import GetPullRequests
-from get_release_message import GetReleaseMessage
+sys.path.append(os.path.abspath("./.github/actions/create-release"))
+from alter_release import AlterRelease # pylint: disable=wrong-import-position
+from get_pull_requests import GetPullRequests # pylint: disable=wrong-import-position
+from get_release_message import GetReleaseMessage # pylint: disable=wrong-import-position
 from constants import * # pylint: disable=wrong-import-position, wildcard-import
 
 class VersionCompareException(Exception):
@@ -305,5 +306,4 @@ def main():
   release.compute()
   
 if __name__ == "__main__":
-  sys.path.append(os.path.abspath("./.github/actions/create-release"))
   main()

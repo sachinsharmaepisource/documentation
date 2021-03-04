@@ -4,7 +4,7 @@ name: Create Release
 
 on:
   push:
-    branches: [ master ]
+    branches: [ check-docstring-test1.1 ]
 
 # - Checkout self.
 # - Run the release file with proper arguments
