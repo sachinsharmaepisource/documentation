@@ -213,7 +213,7 @@ class CheckDocstrings:
     pull_request = self.repo.get_pull(int(self.PR_NUMBER))
     files = pull_request.get_files()
     for f in files:
-      print(f.filename)
+      print('##', f.filename)
     # contents = self.repo.get_contents("", self.branch.name)
     # file_paths = []
     # while contents:
