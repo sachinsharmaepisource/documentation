@@ -1,6 +1,6 @@
-'''
+"""
   This file consists of all the constant attributes used in create-release github action.
-'''
+"""
 
 constants = {
   'VERSION_FILE_PATH': 'version.ini',
