@@ -14,6 +14,17 @@ from pylint.lint import Run
 from pylint.reporters.text import TextReporter
 from pylint import epylint as lint
 #-------------------------------------------------------------------
+class WritableObject(object):
+    "dummy output stream for pylint"
+    def __init__(self):
+        self.content = []
+    def write(self, st):
+        "dummy write"
+        self.content.append(st)
+    def read(self):
+        "dummy read"
+        return self.content
+        
 class CheckDocstrings:
   """
   CheckDocstrings
