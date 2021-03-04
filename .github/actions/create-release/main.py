@@ -21,18 +21,19 @@
       else:
         the current_version is smaller to last version, INVALID no new release.
 """
-
-import os
 import sys
-from configparser import ConfigParser
-from github import Github
-from packaging import version
-
 sys.path.append(os.path.abspath("./.github/actions/create-release"))
 from alter_release import AlterRelease
 from get_pull_requests import GetPullRequests
 from get_release_message import GetReleaseMessage
 from constants import *
+
+import os
+from configparser import ConfigParser
+from github import Github
+from packaging import version
+
+
 
 
 
@@ -43,8 +44,11 @@ class VersionCompareException(Exception):
         message -- explanation of the error
   """
   def __init__(self, message="Current version < last version, kindly update the version.ini(current version) file."):
-        self.message = message
-        super().__init__(self.message)
+    """
+    init function of exception class
+    """
+    self.message = message
+    super().__init__(self.message)
 #---------------------------------------------------------------------------------------------------------
 
 class ReleaseGithubAction:
@@ -77,7 +81,6 @@ class ReleaseGithubAction:
     """
       Parameters
       ----------
-          tag_name: String
       Logic
       ----------
           1. Fetch all the releases
