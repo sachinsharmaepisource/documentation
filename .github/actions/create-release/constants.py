@@ -8,6 +8,6 @@ constants = {
   'draft_tag_name': 'draft-tag-name',
   'emoji_list': { 'features': '🚀', 'documentation': '📚', 'refactor': '♻️', 'bug fix': '🐛', 'others': '💡' },
   'categories_dct': { 'features': {}, 'documentation': {}, 'refactor': {}, 'bug fix': {}, 'others': {} },
-  
+ 
   'REPO_NAME': '' # WIll be initialized during run time by main.py file
 }
