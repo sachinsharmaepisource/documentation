@@ -18,7 +18,7 @@ from constants import *
 from get_pull_requests import GetPullRequests
 
 class GetReleaseMessage:
-  '''
+  """
   GetReleaseMessage Class,
     constructor attributes :: Repo
   
@@ -30,7 +30,7 @@ class GetReleaseMessage:
   - get_merge_commits_message
   - get_pull_requests_message
   - get_release_message
-  '''
+  """
   def __init__(self, repo):
     self.repo = repo
     self.branch = constants['branch']
@@ -42,7 +42,7 @@ class GetReleaseMessage:
     self.get_pull_requests = get_pull_requests_obj.get_pull_requests
   
   def get_last_version(self):
-    '''
+    """
       Logic
       ----------
           Defualt last_version = v0.0.0
@@ -52,7 +52,7 @@ class GetReleaseMessage:
       Return
       ----------
           last_version: String
-    '''
+    """
     last_version = 'v0.0.0' 
     # default first version
     non_draft_releases_count = 0
@@ -66,7 +66,7 @@ class GetReleaseMessage:
     return last_version
   
   def get_start_date_of_latest_release(self):
-    '''
+    """
       Logic
       ----------
       The start_date will store the date from
@@ -78,14 +78,14 @@ class GetReleaseMessage:
       Return
       ----------
       start_date: Datetime
-    '''
+    """
     if self.repo.get_releases().totalCount == 0:
       return self.repo.created_at
     else:
       return self.repo.get_latest_release().created_at
     
   def is_merge_commit_msg_format_correct(self, msg):
-    '''
+    """
       Parameters
       ----------
           msg: String
@@ -97,14 +97,14 @@ class GetReleaseMessage:
       Return
       ----------
           is format correct: Bool
-    '''
+    """
 #     Sample structure of correct merge commit message
 #     Merge pull request #105 from episource_repo/develop_branch
     msg_split = msg.split('\n\n', 1)[0].split(' ')
     return msg_split[0] == "Merge" and msg_split[1] == "pull" and msg_split[2] == "request" and msg_split[3][0] == "#" and msg_split[4] == "from"
   
   def get_release_name(self, tag_name):
-    '''
+    """
       Parameters
       ----------
           tag_name: String
@@ -114,11 +114,11 @@ class GetReleaseMessage:
       ----------
           release_name: String
               As per the release name format
-    '''
+    """
     return tag_name + ' of ' + self.repo_name
   
   def get_merge_commits_message(self, start_date):
-    '''
+    """
       Parameters
       ----------
           start_date: Date
@@ -132,7 +132,7 @@ class GetReleaseMessage:
         --------
         merge_commits_str: String
               Merge commits message 
-    '''
+    """
     merge_commits_str = ''
 #   Prepare the merge commit section
     commit_sha_list = []
@@ -153,7 +153,7 @@ class GetReleaseMessage:
     return merge_commits_str  
   
   def get_sorted_formatted_pull_requests_messages(self, cat, new_release_message_dct, new_release_message_str):
-    '''
+    """
       Parameters
       ----------
           cat: string
@@ -167,7 +167,7 @@ class GetReleaseMessage:
       Return
       --------
           new_release_message_str: String
-    '''
+    """
     emoji = self.emoji_list
     new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
     # SORTING to arrange the Pull requests according to there keys(PR number)
@@ -176,7 +176,7 @@ class GetReleaseMessage:
     return new_release_message_str
       
   def get_formatted_pull_requests_message(self, new_release_message_dct):
-    '''
+    """
       Parameters
       ----------
           new_release_message_dct: Dictionary
@@ -188,7 +188,7 @@ class GetReleaseMessage:
         Return
         --------
         new_release_message_str: String
-    '''
+    """
     new_release_message_str = ''
     for cat in new_release_message_dct:
       if len(new_release_message_dct[cat]) != 0:
@@ -196,7 +196,7 @@ class GetReleaseMessage:
     return new_release_message_str
   
   def check_pr_title(self, pr_title_splt, pr_title_category, new_release_message_dct):
-    '''
+    """
       Parameters
       ----------
              pr_title_splt: list
@@ -205,11 +205,11 @@ class GetReleaseMessage:
       Return
       --------
             Bool: Bool
-    '''
+    """
     return len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys()
   
   def get_pull_requests_message(self, start_date, last_version):
-    '''
+    """
       Parameters
       ----------
             start_date: Date 
@@ -223,7 +223,7 @@ class GetReleaseMessage:
       --------
         new_release_message_str: String
               PR message 
-    '''
+    """
     emoji = self.emoji_list
     new_release_message_dct = self.categories_dct
     new_release_message_str = ''
@@ -242,7 +242,7 @@ class GetReleaseMessage:
     return new_release_message_str
       
   def get_release_message(self, tag_name):
-    '''
+    """
       Parameters
       ----------
           tag_name: String(v0.0.1)
@@ -257,7 +257,7 @@ class GetReleaseMessage:
       --------
         format_release_message: String
               Release message format
-    '''
+    """
     start_date = self.get_start_date_of_latest_release()
     last_version = self.get_last_version()
     new_release_message_str = self.get_pull_requests_message(start_date, last_version)
