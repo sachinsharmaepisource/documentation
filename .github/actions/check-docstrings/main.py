@@ -10,6 +10,8 @@ import json
 from pprint import pprint
 import requests
 from github import Github
+from pylint.lint import Run
+from pylint.reporters.text import TextReporter
 from pylint import epylint as lint
 #-------------------------------------------------------------------
 class CheckDocstrings:
@@ -195,12 +197,15 @@ class CheckDocstrings:
           None
     """
     for file_path in file_paths:
-      # epylint.py_run(f'afolder -j 0 --rcfile={pylintrc}')
-      (pylint_stdout, pylint_stderr) = lint.py_run(file_path + ' --rcfile=.pylintrc')
+      ARGS = ["-r","n", "--rcfile=rcpylint"]
+      pylint_output = WritableObject()
+      Run([file_path]+ARGS, reporter=TextReporter(pylint_output), exit=False)
+      for l in pylint_output.read():
+        print(l)
       # (pylint_stdout, pylint_stderr) = lint.py_run(file_path , return_std=True)
-      pylint_stdout.seek(0)
-      report_dct_ = self.report_dct
-      self.format_pylint_stdout(report_dct_, pylint_stdout)
+      # pylint_stdout.seek(0)
+      # report_dct_ = self.report_dct
+      # self.format_pylint_stdout(report_dct_, pylint_stdout)
 
   def compute(self):
     """
