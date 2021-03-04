@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath("./.github/actions/create-release"))
 from constants import *
-from get_release_message import *
+from get_release_message import GetReleaseMessage
 
 '''
   This mudule consists of AlterRelease Class,
