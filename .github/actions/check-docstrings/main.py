@@ -147,12 +147,14 @@ class CheckDocstrings:
       for lst in report_dct_[report_section]:
         print(lst)
         path = lst[0]
-        desc_ = lst[1]
-        desc_ = f'{self.label} \n {desc_} \n {self.help_link}'
-        splt = path.split(':', 2)
-        file_path = splt[0]
-        line_no_ = int(splt[1])
-        self.post_create_review_comment(self.user_name, self.pr_number, desc_, file_path, line_no_)
+        lineno_ = lst[1]
+        code_ = lst[2]
+        desc_ = lst[3]
+        desc_ = f'{self.label} \n {code_} {desc_} \n {self.help_link}'
+        # splt = path.split(':', 2)
+        # file_path = splt[0]
+        # line_no_ = int(splt[1])
+        # self.post_create_review_comment(self.user_name, self.pr_number, desc_, file_path, line_no_)
 
   def get_params_from_pylint_stdout(self, splt):
     """
@@ -197,11 +199,10 @@ class CheckDocstrings:
     for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
       line.strip()
       splt = line.split(':', 4)
-      print(splt)
       path_, lineno_, type_, code_, desc_= self.get_params_from_pylint_stdout(splt)
       if type_ in report_dct_.keys():
-        report_dct_[type_].append([path_, desc_])
-    # self.create_review_comments(report_dct_)
+        report_dct_[type_].append([path_, lineno_, code_, desc_])
+    self.create_review_comments(report_dct_)
 
   def check_docstrings(self, file_paths):
     """
