@@ -128,8 +128,9 @@ class CheckDocstrings:
         'path': file_path,
         'commit_id': commit_id
     }
+    pprint(data)
     _r = requests.post(query_url, headers=self.header, data=json.dumps(data))
-    # pprint(_r.json())
+    pprint(_r.json())
   
   def create_review_comments(self, report_dct_):
     """
@@ -174,9 +175,7 @@ class CheckDocstrings:
       path_ = splt[0].strip()
       lineno_ = splt[1].strip()
       for cat in self.report_dct.keys():
-        print(cat[0].strip().lower(), splt[3].strip()[0].lower())
         if cat[0].strip().lower() == splt[3].strip()[0].lower():
-          print('CCCCCCCCCC', cat)
           type_ = cat
       code_ = splt[3].strip()
       desc_ = splt[4].strip()
@@ -200,7 +199,6 @@ class CheckDocstrings:
       splt = line.split(':', 4)
       path_, lineno_, type_, code_, desc_= self.get_params_from_pylint_stdout(splt)
       if type_ in report_dct_.keys():
-        print(type_, [path_, lineno_, code_, desc_])
         report_dct_[type_].append([path_, lineno_, code_, desc_])
     self.create_review_comments(report_dct_)
 
