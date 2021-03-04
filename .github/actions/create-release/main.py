@@ -22,20 +22,15 @@
         the current_version is smaller to last version, INVALID no new release.
 """
 import sys
-sys.path.append(os.path.abspath("./.github/actions/create-release"))
+import os
+from packaging import version
+from github import Github
+from configparser import ConfigParser
+
 from alter_release import AlterRelease
 from get_pull_requests import GetPullRequests
 from get_release_message import GetReleaseMessage
 from constants import *
-
-import os
-from configparser import ConfigParser
-from github import Github
-from packaging import version
-
-
-
-
 
 class VersionCompareException(Exception):
   """
@@ -52,13 +47,16 @@ class VersionCompareException(Exception):
 #---------------------------------------------------------------------------------------------------------
 
 class ReleaseGithubAction:
+  """
+  This class creates release/draft release.
+  """
   def __init__(self):
     self.repo_name = self.get_inputs('REPO_NAME')
     constants['REPO_NAME'] = self.repo_name
     self.access_token = self.get_inputs('ACCESS_TOKEN')
     self.user_name = self.get_inputs('USER_NAME')
-    self.gh = Github(self.access_token)
-    self.repo = self.gh.get_repo(self.user_name)
+    self._gh = Github(self.access_token)
+    self.repo = self._gh.get_repo(self.user_name)
     self.all_branches = self.repo.get_branches()
     self.version_file_path = constants['VERSION_FILE_PATH']
     self.branch = constants['branch']
@@ -280,4 +278,5 @@ def main():
   release.compute()
   
 if __name__ == "__main__":
-    main()
+  sys.path.append(os.path.abspath("./.github/actions/create-release"))
+  main()
