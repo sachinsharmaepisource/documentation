@@ -91,10 +91,8 @@ class ReleaseGithubAction:
             2.2 else return None
       Returns
       -------
-      type
-          String
-      describe : type
-          ID: String  | None
+        ID : String
+          release id
     """
     all_releases = self.repo.get_releases()
     for release in all_releases:
@@ -114,10 +112,8 @@ class ReleaseGithubAction:
           Extract the inputs from the YML file of GITHUB ACTION
       Returns
       -------
-      type
-          String
-      describe : type
-          Input: String
+        Input : String
+          Inputs
     """
     return os.getenv('INPUT_{}'.format(input_name).upper())
 
@@ -129,10 +125,8 @@ class ReleaseGithubAction:
               Path to file to read content from
       Returns
       -------
-      type
-          String
-      describe : type
-          content: String
+        content : String
+          content
     """
     return self.repo.get_contents(file_path, self.branch).decoded_content.decode()
 
@@ -145,10 +139,8 @@ class ReleaseGithubAction:
           2. Set latest version as tag name of the latest release
       Returns
       -------
-      type
-          String
-      describe : type
-          last_version: String
+        last_version : String
+          last version
     """
     last_version = 'v0.0.0' 
     # default first version
@@ -170,10 +162,8 @@ class ReleaseGithubAction:
         2. Extract the Version from version section
       Returns
       -------
-      type
-          String
-      describe : type
-        current_version: String
+        current_version : String
+          current version
     """
     content = self.read_file_content(self.version_file_path)
     config_parser = ConfigParser()
@@ -192,10 +182,8 @@ class ReleaseGithubAction:
           start date will be the creation date of latest release
       Returns
       -------
-      type
-          Datetime
-      describe : type
-        start_date: Datetime
+        start_date : Datetime
+          Start Date
     """
     if self.repo.get_releases().totalCount == 0:
       return self.repo.created_at
@@ -211,10 +199,8 @@ class ReleaseGithubAction:
           2. Return the start date of latest release()
       Returns
       -------
-      type
-          Datetime
-      describe : type
-          start_date
+        start_date : Datetime
+          Start Date
     """
     draft_id = self.get_id(self.draft_tag_name)
     if draft_id is not None:
@@ -234,9 +220,7 @@ class ReleaseGithubAction:
 
       Returns
       -------
-      type
-          Bool
-      describe : type
+        Bool : Bool
           versions_are_equal_and_new_merges_since_last_release
     """
     compare_versions = version.parse(last_version) == version.parse(current_version)
@@ -255,9 +239,7 @@ class ReleaseGithubAction:
               start date
       Returns
       -------
-      type
-          Bool
-      describe : type
+        Bool : Bool
           versions_are_equal_and_no_new_merge_since_last_release
     """
     compare_versions = version.parse(last_version) == version.parse(current_version)
