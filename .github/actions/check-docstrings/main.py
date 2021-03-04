@@ -170,7 +170,7 @@ class CheckDocstrings:
         code_ = lst[2]
         desc_ = lst[3]
         desc_ = f'{self.label} \n {code_} {desc_} \n {self.help_link} \n {lineno_}'
-        self.post_create_review_comment(self.user_name, self.pr_number, desc_, path_, lineno_)
+        # self.post_create_review_comment(self.user_name, self.pr_number, desc_, path_, lineno_)
 
   def get_params_from_pylint_stdout(self, splt):
     """
@@ -271,7 +271,7 @@ class CheckDocstrings:
         None
     """
     pull_number = int(self.pr_number)
-    self.delete_all_previous_bot_generated_review_comments(pull_number)
+    # self.delete_all_previous_bot_generated_review_comments(pull_number)
     pull_request = self.repo.get_pull(pull_number)
     pr_files = pull_request.get_files()
     file_paths = []
