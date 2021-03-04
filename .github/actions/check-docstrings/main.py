@@ -174,7 +174,8 @@ class CheckDocstrings:
       path_ = splt[0].strip()
       lineno_ = splt[1].strip()
       for cat in self.report_dct.keys():
-        if cat[0].lower() == splt[3][0].lower().strip():
+        print(cat[0].strip().lower(), splt[3].strip()[0].lower())
+        if cat[0].strip().lower() == splt[3].strip()[0].lower():
           print('CCCCCCCCCC', cat)
           type_ = cat
       code_ = splt[3].strip()
