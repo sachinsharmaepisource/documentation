@@ -171,6 +171,7 @@ class CheckDocstrings:
     code_ = "DEFAULT_CODE"
     desc_ = "DEFAULT_DESC"
     if len(splt) == 5:
+      print('55555',splt)
       path_ = splt[0]
       lineno_ = splt[1]
       for cat in self.report_dct.keys():
