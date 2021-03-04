@@ -104,7 +104,6 @@ class CheckDocstrings:
       ----------
           None
     '''
-    self.delete_all_previous_bot_generated_review_comments(pull_number)
     query_url = f"https://api.github.com/repos/{user_name}/pulls/{pull_number}/comments"
     data = {
         "body": body,
@@ -209,6 +208,8 @@ class CheckDocstrings:
       ----------
           None
     '''
+    pull_number = self.PR_NUMBER
+    self.delete_all_previous_bot_generated_review_comments(pull_number)
     contents = self.repo.get_contents("", self.branch.name)
     file_paths = []
     while contents:
