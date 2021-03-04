@@ -72,7 +72,7 @@ confidence=
 # --disable=W".
 disable=print-statement,
         bad-indentation,
-        trailing-whitespace,wrong-import-position,
+        trailing-whitespace,
         docstring-first-line-empty,
         parameter-unpacking,
         unpacking-in-except,
@@ -180,7 +180,7 @@ evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / stateme
 output-format=text
 
 # Tells whether to display a full report or only the messages.
-reports=yes
+reports=no
 
 # Activate the evaluation score.
 score=yes
@@ -229,6 +229,12 @@ redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
 
 
 [BASIC]
+
+# For docparams extension
+accept-no-param-doc = no
+accept-no-raise-doc = no
+accept-no-return-doc = no
+accept-no-yields-doc = no
 
 # Naming style matching correct argument names.
 argument-naming-style=snake_case
