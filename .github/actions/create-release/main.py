@@ -79,14 +79,21 @@ class ReleaseGithubAction:
     """
       Parameters
       ----------
+          tag_name: string
+              name of the tag
+          
+
       Logic
       ----------
           1. Fetch all the releases
           2. Iterate them and compare the tag_name
             2.1 Return ID when mathc found
             2.2 else return None
-      Return
-      ----------
+      Returns
+      -------
+      type
+          String
+      describe : type
           ID: String  | None
     """
     all_releases = self.repo.get_releases()
@@ -99,12 +106,17 @@ class ReleaseGithubAction:
     """
       Parameters
       ----------
-          input_name: String
+          input_name: string
+              input name
+          
       Logic
       ----------
           Extract the inputs from the YML file of GITHUB ACTION
-      Return
-      ----------
+      Returns
+      -------
+      type
+          String
+      describe : type
           Input: String
     """
     return os.getenv('INPUT_{}'.format(input_name).upper())
@@ -115,8 +127,11 @@ class ReleaseGithubAction:
       ----------
           file_path: String
               Path to file to read content from
-      Return
-      ----------
+      Returns
+      -------
+      type
+          String
+      describe : type
           content: String
     """
     return self.repo.get_contents(file_path, self.branch).decoded_content.decode()
@@ -128,8 +143,11 @@ class ReleaseGithubAction:
           Defualt last_version = v0.0.0
           1. Chack is there is any old release exists, by checking the totalCount of all the releases
           2. Set latest version as tag name of the latest release
-      Return
-      ----------
+      Returns
+      -------
+      type
+          String
+      describe : type
           last_version: String
     """
     last_version = 'v0.0.0' 
@@ -150,9 +168,12 @@ class ReleaseGithubAction:
       ----------
         1. Read the file version.ini
         2. Extract the Version from version section
-      Return
-      ----------
-      current_version: String
+      Returns
+      -------
+      type
+          String
+      describe : type
+        current_version: String
     """
     content = self.read_file_content(self.version_file_path)
     config_parser = ConfigParser()
@@ -169,9 +190,12 @@ class ReleaseGithubAction:
           start date will be the creation date of repositiory
         Else:
           start date will be the creation date of latest release
-      Return
-      ----------
-      start_date: Datetime
+      Returns
+      -------
+      type
+          Datetime
+      describe : type
+        start_date: Datetime
     """
     if self.repo.get_releases().totalCount == 0:
       return self.repo.created_at
@@ -185,9 +209,12 @@ class ReleaseGithubAction:
           1. Fetch the id of draft tag_name
             1.1 Return if the draft_is is valid
           2. Return the start date of latest release()
-      Return
-      ----------
-          start_date: Datetime
+      Returns
+      -------
+      type
+          Datetime
+      describe : type
+          start_date
     """
     draft_id = self.get_id(self.draft_tag_name)
     if draft_id is not None:
@@ -198,12 +225,19 @@ class ReleaseGithubAction:
     """
       Parameters
       ----------
-          last_version: String
-          current_version: String
-          start_date: Date
-      Return
-      ----------
-          Bool: Bool
+          last_version : string
+              last version
+          current_version : string
+              current version
+          start_date : Date
+              start date
+
+      Returns
+      -------
+      type
+          Bool
+      describe : type
+          versions_are_equal_and_new_merges_since_last_release
     """
     compare_versions = version.parse(last_version) == version.parse(current_version)
     check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
@@ -213,12 +247,18 @@ class ReleaseGithubAction:
     """
       Parameters
       ----------
-          last_version: String
-          current_version: String
-          start_date: Date
-      Return
-      ----------
-          Bool: Bool
+          last_version : string
+              last version
+          current_version : string
+              current version
+          start_date : Date
+              start date
+      Returns
+      -------
+      type
+          Bool
+      describe : type
+          versions_are_equal_and_no_new_merge_since_last_release
     """
     compare_versions = version.parse(last_version) == version.parse(current_version)
     check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
@@ -226,8 +266,14 @@ class ReleaseGithubAction:
 
   def compute(self):
     """
-        Logic:
-        ----------
+    Raises
+    ------
+    VersionCompareException
+        If `param2` is equal to `param1`.
+
+
+    Logic:
+    ----------
             Here the current_version and last_version are computed then,
               if the last_version is less than current_version then,
                 a new release is created
@@ -239,6 +285,7 @@ class ReleaseGithubAction:
                   (AVoids ambiguity, if some real human have changed the draft release)
               else
                 NO CHANGE
+    
     """
     current_version = self.get_current_version()
     last_version = self.get_last_version()
