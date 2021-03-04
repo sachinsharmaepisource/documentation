@@ -4,7 +4,7 @@ If correct then mask as success
 else create issue comment ans mark as failed.
 """
 import os
-import sys
+# import sys
 from github import Github
 
 class IncorrectTitleFormatError(Exception):
@@ -48,9 +48,11 @@ class PullRequestTitleCheck:
       Prameters
       ---------
             pr_title:: String
-      Return
-      ---------
-            Boolean:: Bool
+      Returns
+      -------
+      type
+          Boolean
+      describe : type
                 Is the first word of pr_title, among the category list format.
     """
     splt = self.pr_title.split(':')
@@ -58,7 +60,6 @@ class PullRequestTitleCheck:
       category = splt[0].upper().strip()
       return category in self.category_list
     return False
-  
   
   def get_inputs(self, input_name):
     """
@@ -69,9 +70,12 @@ class PullRequestTitleCheck:
       Logic
       ----------
           Extract the inputs from the YML file of GITHUB ACTION
-      Return
-      ----------
-          Input: String
+      Returns
+      -------
+      type
+          String
+      describe : type
+          Extracted inputs
     """
     return os.getenv('INPUT_{}'.format(input_name).upper())
 
@@ -86,15 +90,13 @@ class PullRequestTitleCheck:
     """
     if self.check_pull_request_title():
       print('the pr title is of correct format')
-      pass
     else:
       if self.action_type == 'closed':
         print('The pull request is closed, so the pr title check github action will override and pass the github action, even the pr title format is incorrect') # pylint: disable=line-too-long
-        pass
       else:
         print('the pr title is of inccorrect format\n now we will create an issue comment in pull request')
-        self.pr_issue_comment = 'Please update the PR title with following format:\n A pr title must contains a colon(:) seperated category name and title body.\n\n The Category must be among following: \n1. Features\n2. Documentation\n3. Refactor\n4. Bug Fix\n5. Others\n\nFor example:\n > Fixed key error in tracker then check should be failed - ❌\n > Bug fix: Fixed key error in tracker then check should be passed - ✅\n' # pylint: disable=line-too-long
-        self._pr.create_issue_comment(self.pr_issue_comment)
+        pr_issue_comment = 'Please update the PR title with following format:\n A pr title must contains a colon(:) seperated category name and title body.\n\n The Category must be among following: \n1. Features\n2. Documentation\n3. Refactor\n4. Bug Fix\n5. Others\n\nFor example:\n > Fixed key error in tracker then check should be failed - ❌\n > Bug fix: Fixed key error in tracker then check should be passed - ✅\n' # pylint: disable=line-too-long
+        self._pr.create_issue_comment(pr_issue_comment)
 #       Now we will raise a custom exception
         raise IncorrectTitleFormatError()
 
