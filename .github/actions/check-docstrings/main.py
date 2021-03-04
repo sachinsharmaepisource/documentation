@@ -214,13 +214,12 @@ class CheckDocstrings:
     pr_files = pull_request.get_files()
     file_paths = []
     for f in pr_files:
-      file_extension = os.path.splitext(f)[1]
+      file_path = f.filename
+      file_extension = os.path.splitext(file_path)[1]
       if file_extension == '.py':
-          file_paths.append(f.filename)
+          file_paths.append(file_path)
     self.check_docstrings(file_paths)
 
-    
-            
 def main():
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   obj = CheckDocstrings()
