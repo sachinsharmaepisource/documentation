@@ -153,7 +153,7 @@ class ReleaseGithubAction:
       ----------
       current_version: String
     '''
-    content = self.read_file_content(self.VERSION_FILE_PATH)
+    content = self.read_file_content(self.version_file_path)
     config_parser = ConfigParser()
     config_parser.read_string(content)
     current_version = config_parser.get('VERSION', 'Version')
