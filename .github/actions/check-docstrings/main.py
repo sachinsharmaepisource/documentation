@@ -175,7 +175,7 @@ class CheckDocstrings:
       path_, type_, desc_ = self.get_params_from_pylint_stdout(splt)
       if type_ in report_dct_.keys():
         report_dct_[type_].append([path_, desc_])
-    self.create_review_comments(report_dct_)
+    # self.create_review_comments(report_dct_)
 
   def check_docstrings(self, file_paths):
     '''
@@ -210,16 +210,20 @@ class CheckDocstrings:
     '''
     pull_number = self.PR_NUMBER
     self.delete_all_previous_bot_generated_review_comments(pull_number)
-    contents = self.repo.get_contents("", self.branch.name)
-    file_paths = []
-    while contents:
-        file_content = contents.pop(0)
-        file_extension = os.path.splitext(file_content.path)[1]
-        if file_content.type == "dir":
-            contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
-        elif file_extension == '.py':
-          file_paths.append(file_content.path)
-    self.check_docstrings(file_paths)
+    pull_request = self.repo.get_pull(int(self.PR_NUMBER))
+    files = pull_request.get_files()
+    for f in files:
+      print(f.filename)
+    # contents = self.repo.get_contents("", self.branch.name)
+    # file_paths = []
+    # while contents:
+    #     file_content = contents.pop(0)
+    #     file_extension = os.path.splitext(file_content.path)[1]
+    #     if file_content.type == "dir":
+    #         contents.extend(self.repo.get_contents(file_content.path, self.branch.name))
+    #     elif file_extension == '.py':
+    #       file_paths.append(file_content.path)
+    # self.check_docstrings(file_paths)
     
             
 def main():
