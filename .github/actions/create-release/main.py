@@ -80,6 +80,7 @@ class ReleaseGithubAction:
       Parameters
       ----------
           tag_name: string
+            name of the tag
       Logic
       ----------
           1. Fetch all the releases
