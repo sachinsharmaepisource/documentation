@@ -168,19 +168,18 @@ class CheckDocstrings:
     """
     path_ = "DEFAULT_PATH"
     lineno_ = 0
+    type_ = "DEFAULT_TYPE"
     code_ = "DEFAULT_CODE"
     desc_ = "DEFAULT_DESC"
-
     if len(splt) is 5:
-      print(splt)
       path_ = splt[0]
-      lineno_ = splt[1] if len(splt) >= 2 else 0
+      lineno_ = splt[1]
       for cat in self.report_dct.keys():
         if cat[0].lower() == splt[3][0].lower():
           type_ = cat
       code_ = splt[3]
       desc_ = splt[4]
-    return path_, type_, desc_
+    return path_, lineno_, type_, code_, desc_
 
   def format_pylint_stdout(self, report_dct_, pylint_stdout):
     """
@@ -199,7 +198,7 @@ class CheckDocstrings:
       line.strip()
       splt = line.split(':', 4)
       print(splt)
-      path_, type_, desc_ = self.get_params_from_pylint_stdout(splt)
+      path_, lineno_, type_, code_, desc_= self.get_params_from_pylint_stdout(splt)
       if type_ in report_dct_.keys():
         report_dct_[type_].append([path_, desc_])
     # self.create_review_comments(report_dct_)
