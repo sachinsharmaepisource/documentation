@@ -72,7 +72,7 @@ confidence=
 # --disable=W".
 disable=print-statement,
         bad-indentation,
-        trailing-whitespace,
+        trailing-whitespace,wrong-import-position,
         docstring-first-line-empty,
         parameter-unpacking,
         unpacking-in-except,
