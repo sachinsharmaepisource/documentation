@@ -61,8 +61,8 @@ class GetReleaseMessage:
       if not release.draft:
         non_draft_releases_count+=1
     if non_draft_releases_count != 0:
-      latestRelease = self.repo.get_latest_release()
-      last_version = latestRelease.tag_name
+      latest_release = self.repo.get_latest_release()
+      last_version = latest_release.tag_name
     return last_version
   
   def get_start_date_of_latest_release(self):
@@ -140,8 +140,8 @@ class GetReleaseMessage:
     commits = self.repo.get_commits(self.branch , since = start_date)
     for commit in commits:
       commit_sha = commit.commit.sha
-#       Only merge commits and conflict resolve commits have 2 parents :: using this point to filter merge commit and conflict resolve than rest of the commits
-#       In order to filter merge commits from conflict resolve commits :: is_merge_commit_msg_format_correct function is used to differentiate the structure of merge commit than a conflict resolve commit
+#       Only merge commits and conflict resolve commits have 2 parents :: using this point to filter merge commit and conflict resolve than rest of the commits # pylint: disable=line-too-long
+#       In order to filter merge commits from conflict resolve commits :: is_merge_commit_msg_format_correct function is used to differentiate the structure of merge commit than a conflict resolve commit # pylint: disable=line-too-long
 #       commit_sha_list confirms unique commits and avoid duplicacy of commits by storing the SHA
       if len(commit.commit.parents) == 2 and commit_sha not in commit_sha_list and self.is_merge_commit_msg_format_correct(commit.commit.message):
 #       Formatting the commit message and extract the main title (By default it is PR title) and PR number using basic splitting
@@ -149,7 +149,7 @@ class GetReleaseMessage:
         cmt_msg_splt = commit.commit.message.split('\n\n', 1)
         cmt_msg = cmt_msg_splt[1]
         cmt_number = cmt_msg_splt[0].split(' ')[3]
-        merge_commits_str += '\n' + commit_sha + '\t' + cmt_msg.replace('\n', '\n &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;') + '   (' + cmt_number + ')'
+        merge_commits_str += '\n' + commit_sha + '\t' + cmt_msg.replace('\n', '\n &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;') + '   (' + cmt_number + ')' # pylint: disable=line-too-long
     return merge_commits_str  
   
   def get_sorted_formatted_pull_requests_messages(self, cat, new_release_message_dct, new_release_message_str):
