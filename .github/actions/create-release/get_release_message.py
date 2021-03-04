@@ -51,10 +51,8 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          String
-      describe : type
-          last_version: String
+        last_version : String
+          Last version
     """
     last_version = 'v0.0.0' 
     # default first version
@@ -80,10 +78,8 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          Date
-      describe : type
-          start_date: Datetime
+        start_date : Datetime
+          start date
     """
     create_at = None
     if self.repo.get_releases().totalCount == 0:
@@ -104,10 +100,8 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          Bool
-      describe : type
-          is format correct: Bool
+        Bool : Bool
+          is format correct
     """
 #     Sample structure of correct merge commit message
 #     Merge pull request #105 from episource_repo/develop_branch
@@ -123,10 +117,7 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          String
-      describe : type
-          release_name: String
+        release_name : String
           As per the release name format
     """
     return tag_name + ' of ' + self.repo_name
@@ -145,10 +136,7 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          String
-      describe : type
-          merge_commits_str: String
+        merge_commits_str : String
           Merge commits message 
     """
     merge_commits_str = ''
@@ -187,10 +175,8 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          String
-      describe : type
-          new_release_message_str: String
+        new_release_message_str : String
+          Release message string
     """
     emoji = self.emoji_list
     new_release_message_str += '\n\n' + '### ' + cat.capitalize() + emoji[cat]
@@ -212,10 +198,8 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          String
-      describe : type
-          new_release_message_str: String
+        new_release_message_str : String
+          Relase message string
     """
     new_release_message_str = ''
     for cat in new_release_message_dct:
@@ -235,10 +219,8 @@ class GetReleaseMessage:
                 release message dictionary
       Returns
       -------
-      type
-          Bool
-      describe : type
-          Bool: Bool
+        Bool : Bool
+          check pr title
     """
     return len(pr_title_splt) >= 2  and pr_title_category in new_release_message_dct.keys()
   
@@ -255,10 +237,7 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          String
-      describe : type
-          new_release_message_str: String
+        new_release_message_str : String
           PR message 
     """
     new_release_message_dct = self.categories_dct
@@ -291,10 +270,7 @@ class GetReleaseMessage:
 
       Returns
       -------
-      type
-          String
-      describe : type
-          format_release_message: String
+        format_release_message : String
           Release message format
     """
     start_date = self.get_start_date_of_latest_release()
