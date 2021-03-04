@@ -166,11 +166,20 @@ class CheckDocstrings:
       ----------
           None
     """
-    if not splt[0]:
-      splt.pop(0)
-    path_ = splt[0]
-    type_ = splt[1] if len(splt) >= 2 else 'DEFAULT_TYPE'
-    desc_ = splt[2] if len(splt) >= 3 else 'DEFAULT_DESC'
+    path_ = "DEFAULT_PATH"
+    lineno_ = 0
+    code_ = "DEFAULT_CODE"
+    desc_ = "DEFAULT_DESC"
+
+    if len(splt) is 5:
+      print(splt)
+      path_ = splt[0]
+      lineno_ = splt[1] if len(splt) >= 2 else 0
+      for cat in self.report_dct.keys():
+        if cat[0].lower() == splt[3][0].lower():
+          type_ = cat
+      code_ = splt[3]
+      desc_ = splt[4]
     return path_, type_, desc_
 
   def format_pylint_stdout(self, report_dct_, pylint_stdout):
@@ -188,7 +197,7 @@ class CheckDocstrings:
     """
     for line in pylint_stdout:  # Iterate through the cStringIO file-like object.
       line.strip()
-      splt = line.split(' ', 3)
+      splt = line.split(':', 4)
       print(splt)
       path_, type_, desc_ = self.get_params_from_pylint_stdout(splt)
       if type_ in report_dct_.keys():
