@@ -196,6 +196,7 @@ class CognitiveReport:
       if file_extension == '.py':
           file_paths.append(file_path)
     cognitive_report = self.get_cognitive_report(file_paths)
+    print('cognitive report:\n')
     print(*cognitive_report, sep = "\n")
             
 def main():
