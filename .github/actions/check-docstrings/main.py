@@ -24,16 +24,16 @@ class CheckDocstrings:
     self.repo_name = self.get_inputs('REPO_NAME')
     self.pr_title = self.get_inputs('PR_TITLE')
     self.pr_number = self.get_inputs('PR_NUMBER')
-    self.access_name = self.get_inputs('ACCESS_TOKEN')
+    self.access_token = self.get_inputs('ACCESS_TOKEN')
     self.user_name = self.get_inputs('USER_NAME')
     self.action_type = self.get_inputs('ACTION_TYPE')
     self.current_branch = self.get_inputs('CURRENT_BRANCH')
-    self.gh = Github(self.ACCESS_TOKEN)
+    self.gh = Github(self.access_token)
     self.repo = self.gh.get_repo(self.user_name)
     if self.pr_number:
       self.current_branch = self.repo.get_pull(int(self.pr_number)).head.ref
     self.branch = self.repo.get_branch(self.current_branch)
-    self.header = {'Authorization': f'token {self.ACCESS_TOKEN}'}
+    self.header = {'Authorization': f'token {self.access_token}'}
     self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
     self.report_dct_in_pr_rev_cmnt = { 'convention': [] }
     self.label = '[CHECK DOCSTRINGS]'
