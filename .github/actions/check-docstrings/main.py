@@ -148,7 +148,7 @@ class CheckDocstrings:
       for lst in report_dct_[report_section]:
         print(lst)
         path_ = lst[0]
-        lineno_ = lst[1]
+        lineno_ = int(lst[1])
         code_ = lst[2]
         desc_ = lst[3]
         desc_ = f'{self.label} \n {code_} {desc_} \n {self.help_link}'
