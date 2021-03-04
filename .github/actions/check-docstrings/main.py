@@ -115,8 +115,8 @@ class CheckDocstrings:
         'path': file_path,
         'commit_id': commit_id
     }
-    r_ = requests.post(query_url, headers=self.header, data=json.dumps(data))
-    # pprint(r_.json())
+    _r = requests.post(query_url, headers=self.header, data=json.dumps(data))
+    # pprint(_r.json())
   
   def create_review_comments(self, report_dct_):
     """
@@ -153,7 +153,7 @@ class CheckDocstrings:
       ----------
           None
     """
-    if splt[0]=='':
+    if not splt[0]:
       splt.pop(0)
     path_ = splt[0]
     type_ = splt[1] if len(splt) >= 2 else 'DEFAULT_TYPE'
@@ -218,8 +218,8 @@ class CheckDocstrings:
     pull_request = self.repo.get_pull(pull_number)
     pr_files = pull_request.get_files()
     file_paths = []
-    for f_ in pr_files:
-      file_path = f_.filename
+    for _f in pr_files:
+      file_path = _f.filename
       file_extension = os.path.splitext(file_path)[1]
       if file_extension == '.py':
           file_paths.append(file_path)
