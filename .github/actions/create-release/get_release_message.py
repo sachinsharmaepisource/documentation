@@ -1,10 +1,4 @@
-import sys
-import os
-sys.path.append(os.path.abspath("./.github/actions/create-release"))
-from constants import *
-from get_pull_requests import *
-
-'''
+"""
   This mudule consists of GetReleaseMessage Class,
     constructor attributes :: Repo
   
@@ -16,7 +10,13 @@ from get_pull_requests import *
   - get_merge_commits_message
   - get_pull_requests_message
   - get_release_message
-'''
+"""
+import sys
+import os
+sys.path.append(os.path.abspath("./.github/actions/create-release"))
+from constants import *
+from get_pull_requests import GetPullRequests
+
 class GetReleaseMessage:
   '''
   GetReleaseMessage Class,
@@ -34,7 +34,7 @@ class GetReleaseMessage:
   def __init__(self, repo):
     self.repo = repo
     self.branch = constants['branch']
-    self.REPO_NAME = constants['REPO_NAME']
+    self.repo_name = constants['REPO_NAME']
     self.emoji_list = constants['emoji_list']
     self.categories_dct = constants['categories_dct']
     
@@ -115,7 +115,7 @@ class GetReleaseMessage:
           release_name: String
               As per the release name format
     '''
-    return tag_name + ' of ' + self.REPO_NAME
+    return tag_name + ' of ' + self.repo_name
   
   def get_merge_commits_message(self, start_date):
     '''
@@ -249,13 +249,14 @@ class GetReleaseMessage:
           
       Logic
       --------
-        1. All the merged PRs are stored in new_release_message_dct with corresponding categories with proper format
+        1. All the merged PRs are stored in new_release_message_dct.
+        2. Along with corresponding categories with proper format.
         2. The format_release_message will store its release message with proper sections.
 
       Return
       --------
         format_release_message: String
-              Release message format 
+              Release message format
     '''
     start_date = self.get_start_date_of_latest_release()
     last_version = self.get_last_version()
@@ -264,6 +265,13 @@ class GetReleaseMessage:
 #     Append and format the final release message including following sections as
 #     1. Pull requests titles
 #     2. Merge commits
-    format_release_message = '# ' + str(self.REPO_NAME) + ' ' + str(tag_name) + ' ' + 'Release notes\n' + '## Changes since ' + '``` ' + str(last_version) + ' ```' + '\n\n' + str(new_release_message_str) + '\n\n ## Commits since ' + '``` ' + str(last_version) + ' ```' + '\n' + str(merge_commits_str)
-    print('release msg', format_release_message)
-    return  format_release_message
+    release_msg_title = f'# {str(self.repo_name)} {str(tag_name)}'
+    release_msg_subtitle = f' Release notes\n ## Changes since   ``` {str(last_version)}'
+    release_msg_title_cmb = f'{release_msg_title} {release_msg_subtitle}'
+    release_msg_pr_section = f'``` \n\n {str(new_release_message_str)} \n\n '
+    release_msg_merge_commit = f'## Commits since  ```  {str(last_version)}'
+    release_msg_merge_commit +=  f'  ```  \n  {str(merge_commits_str)}'
+    frmt_release_message = f'{release_msg_title_cmb} {release_msg_pr_section}'
+    frmt_release_message += f' {release_msg_merge_commit}'
+    print('release msg', frmt_release_message)
+    return  frmt_release_message
