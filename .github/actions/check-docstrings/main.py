@@ -93,7 +93,6 @@ class CheckDocstrings:
       comment_desc_label = review_comment.body.split('\n', 1)[0].strip()
       if review_comment.user.type == 'Bot' and comment_desc_label == self.label:
         review_comment.delete()
-        print(f'---{review_comment.body}')
 
   def get_branch_commit_sha(self):
     """
