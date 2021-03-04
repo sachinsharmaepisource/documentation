@@ -7,11 +7,11 @@ import os
 import os.path
 import sys
 import json
-import requests
 from pprint import pprint
+import requests
 from github import Github
 from pylint import epylint as lint
-#-----------------------------------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------
 class CheckDocstrings:
   """
   CheckDocstrings
@@ -28,8 +28,8 @@ class CheckDocstrings:
     self.user_name = self.get_inputs('USER_NAME')
     self.action_type = self.get_inputs('ACTION_TYPE')
     self.current_branch = self.get_inputs('CURRENT_BRANCH')
-    self.gh = Github(self.access_token)
-    self.repo = self.gh.get_repo(self.user_name)
+    self.gh_ = Github(self.access_token)
+    self.repo = self.gh_.get_repo(self.user_name)
     if self.pr_number:
       self.current_branch = self.repo.get_pull(int(self.pr_number)).head.ref
     self.branch = self.repo.get_branch(self.current_branch)
@@ -68,8 +68,8 @@ class CheckDocstrings:
       ----------
           None
     """
-    pr = self.repo.get_pull(int(pull_number))
-    review_comments = pr.get_review_comments()
+    pr_ = self.repo.get_pull(int(pull_number))
+    review_comments = pr_.get_review_comments()
     for review_comment in review_comments:
       comment_desc_label = review_comment.body.split('\n', 1)[0].strip()
       if review_comment.user.type == 'Bot' and comment_desc_label == self.label:
@@ -108,14 +108,15 @@ class CheckDocstrings:
           None
     """
     query_url = f"https://api.github.com/repos/{user_name}/pulls/{pull_number}/comments"
+    commit_id = self.get_branch_commit_sha()
     data = {
         "body": body,
         'position': position,
         'path': file_path,
-        'commit_id': self.get_branch_commit_sha()
+        'commit_id': commit_id
     }
-    r = requests.post(query_url, headers=self.header, data=json.dumps(data))
-    # pprint(r.json())
+    r_ = requests.post(query_url, headers=self.header, data=json.dumps(data))
+    # pprint(r_.json())
   
   def create_review_comments(self, report_dct_):
     """
@@ -206,7 +207,8 @@ class CheckDocstrings:
           None
       Logic
       ----------
-          First fetch all the python files and check individual docstrings then create there review comments on pull request.
+          First fetch all the python files and check individual docstrings 
+          then create there review comments on pull request.
       Return
       ----------
           None
@@ -216,8 +218,8 @@ class CheckDocstrings:
     pull_request = self.repo.get_pull(pull_number)
     pr_files = pull_request.get_files()
     file_paths = []
-    for f in pr_files:
-      file_path = f.filename
+    for f_ in pr_files:
+      file_path = f_.filename
       file_extension = os.path.splitext(file_path)[1]
       if file_extension == '.py':
           file_paths.append(file_path)
