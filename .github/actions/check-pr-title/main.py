@@ -1,3 +1,8 @@
+"""
+Check the pull request title format
+If correct then mask as success
+else create issue comment ans mark as failed.
+"""
 import os
 import sys
 from github import Github
@@ -17,21 +22,26 @@ class IncorrectTitleFormatError(Exception):
 #---------------------------------------------------------------------------------------------------------
 
 class PullRequestTitleCheck:
+  """
+    Check the pull request title format
+    If correct then mask as success
+    else create issue comment ans mark as failed.
+  """
 #   list of categories allowed in PR title
   category_list = ['FEATURES', 'DOCUMENTATION', 'REFACTOR', 'BUG FIX', 'OTHERS']
 
   def __init__(self):
 #     Initialization of following variables
-    self.REPO_NAME = self.get_inputs('REPO_NAME')
-    self.PR_TITLE = self.get_inputs('PR_TITLE')
-    self.PR_NUMBER = self.get_inputs('PR_NUMBER')
-    self.ACCESS_TOKEN = self.get_inputs('ACCESS_TOKEN')
-    self.USER_NAME = self.get_inputs('USER_NAME')
-    self.ACTION_TYPE = self.get_inputs('ACTION_TYPE')
+    self.repo_name = self.get_inputs('REPO_NAME')
+    self.pr_title = self.get_inputs('PR_TITLE')
+    self.pr_number = self.get_inputs('PR_NUMBER')
+    self.access_token = self.get_inputs('ACCESS_TOKEN')
+    self.user_name = self.get_inputs('USER_NAME')
+    self.action_type = self.get_inputs('ACTION_TYPE')
 #     Github action, Repo, Pull request objects are defined
-    self.GH = Github(self.ACCESS_TOKEN)
-    self.repo = self.GH.get_repo(self.USER_NAME)
-    self.pr = self.repo.get_pull(int(self.PR_NUMBER))
+    self.gh = Github(self.access_token)
+    self.repo = self.gh.get_repo(self.user_name)
+    self.pr = self.repo.get_pull(int(self.pr_number))
   
 
   def check_pull_request_title(self):
@@ -44,7 +54,7 @@ class PullRequestTitleCheck:
             Boolean:: Bool
                 Is the first word of pr_title, among the category list format.
     '''
-    splt = self.PR_TITLE.split(':')
+    splt = self.pr_title.split(':')
     if len(splt) > 1:
       category = splt[0].upper().strip()
       return category in self.category_list
@@ -79,7 +89,7 @@ class PullRequestTitleCheck:
       print('the pr title is of correct format')
       pass
     else:
-      if self.ACTION_TYPE == 'closed':
+      if self.action_type == 'closed':
         print('The pull request is closed, so the pr title check github action will override and pass the github action, even the pr title format is incorrect')
         pass
       else:
@@ -93,6 +103,10 @@ class PullRequestTitleCheck:
 
   
 def main():
+  """
+  Create class object
+  Call compute method
+  """
   print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   release = PullRequestTitleCheck()
   release.compute()
