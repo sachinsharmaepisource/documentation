@@ -30,7 +30,7 @@ from github import Github
 from alter_release import AlterRelease
 from get_pull_requests import GetPullRequests
 from get_release_message import GetReleaseMessage
-from constants import *
+from constants import * # pylint: disable=wrong-import-position, wildcard-import
 
 class VersionCompareException(Exception):
   """
