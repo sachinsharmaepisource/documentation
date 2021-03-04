@@ -24,7 +24,7 @@ class WritableObject(object):
     def read(self):
         "dummy read"
         return self.content
-        
+
 class CheckDocstrings:
   """
   CheckDocstrings
@@ -208,7 +208,7 @@ class CheckDocstrings:
           None
     """
     for file_path in file_paths:
-      ARGS = ["-r","n", "--rcfile=rcpylint"]
+      ARGS = ["-r","n", "--rcfile=.pylintrc"]
       pylint_output = WritableObject()
       Run([file_path]+ARGS, reporter=TextReporter(pylint_output), exit=False)
       for l in pylint_output.read():
