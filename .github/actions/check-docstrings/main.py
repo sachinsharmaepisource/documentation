@@ -51,7 +51,7 @@ class CheckDocstrings:
     self.branch = self.repo.get_branch(self.current_branch)
     self.header = {'Authorization': f'token {self.access_token}'}
     self.report_dct = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
-    self.report_dct_in_pr_rev_cmnt = { 'convention': [] }
+    self.report_dct_in_pr_rev_cmnt = { 'errors': [], 'convention': [], 'refactor': [], 'warning': [] }
     self.label = '[CHECK DOCSTRINGS]'
     self.help_link = 'https://numpydoc.readthedocs.io/en/latest/example.html'
 
@@ -132,7 +132,7 @@ class CheckDocstrings:
         'commit_id': commit_id
     }
     _r = requests.post(query_url, headers=self.header, data=json.dumps(data))
-    pprint(_r.json())
+#     pprint(_r.json())
   
   def create_review_comments(self, report_dct_):
     """
