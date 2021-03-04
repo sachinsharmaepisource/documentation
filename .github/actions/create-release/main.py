@@ -1,4 +1,4 @@
-'''
+"""
   Requirements:
     There must be a valid version.ini file:
       - Have content in the format of v0.0.1
@@ -20,7 +20,7 @@
           create_new_draft_release
       else:
         the current_version is smaller to last version, INVALID no new release.
-'''
+"""
 
 import os
 import sys
@@ -74,7 +74,7 @@ class ReleaseGithubAction:
     self.get_release_message = get_release_message_obj.get_release_message
     
   def get_id(self, tag_name):
-    '''
+    """
       Parameters
       ----------
           tag_name: String
@@ -87,7 +87,7 @@ class ReleaseGithubAction:
       Return
       ----------
           ID: String  | None
-    '''
+    """
     all_releases = self.repo.get_releases()
     for release in all_releases:
       if release.tag_name == tag_name:
@@ -95,7 +95,7 @@ class ReleaseGithubAction:
     return None
   
   def get_inputs(self, input_name):
-    '''
+    """
       Parameters
       ----------
           input_name: String
@@ -105,11 +105,11 @@ class ReleaseGithubAction:
       Return
       ----------
           Input: String
-    '''
+    """
     return os.getenv('INPUT_{}'.format(input_name).upper())
 
   def read_file_content(self, file_path):
-    '''
+    """
       Parameters
       ----------
           file_path: String
@@ -117,11 +117,11 @@ class ReleaseGithubAction:
       Return
       ----------
           content: String
-    '''
+    """
     return self.repo.get_contents(file_path, self.branch).decoded_content.decode()
 
   def get_last_version(self):
-    '''
+    """
       Logic
       ----------
           Defualt last_version = v0.0.0
@@ -130,7 +130,7 @@ class ReleaseGithubAction:
       Return
       ----------
           last_version: String
-    '''
+    """
     last_version = 'v0.0.0' 
     # default first version
     non_draft_releases_count = 0
@@ -144,7 +144,7 @@ class ReleaseGithubAction:
     return last_version
 
   def get_current_version(self):
-    '''
+    """
       Logic
       ----------
         1. Read the file version.ini
@@ -152,7 +152,7 @@ class ReleaseGithubAction:
       Return
       ----------
       current_version: String
-    '''
+    """
     content = self.read_file_content(self.version_file_path)
     config_parser = ConfigParser()
     config_parser.read_string(content)
@@ -160,7 +160,7 @@ class ReleaseGithubAction:
     return current_version
 
   def get_start_date_of_latest_release(self):
-    '''
+    """
       Logic
       ----------
       The start_date will store the date from
@@ -171,14 +171,14 @@ class ReleaseGithubAction:
       Return
       ----------
       start_date: Datetime
-    '''
+    """
     if self.repo.get_releases().totalCount == 0:
       return self.repo.created_at
     else:
       return self.repo.get_latest_release().created_at
 
   def get_start_date_of_draft_release(self):
-    '''
+    """
       Logic
       ----------
           1. Fetch the id of draft tag_name
@@ -187,14 +187,14 @@ class ReleaseGithubAction:
       Return
       ----------
           start_date: Datetime
-    '''
+    """
     draft_id = self.get_id(self.draft_tag_name)
     if draft_id is not None:
       return self.repo.get_release(draft_id).created_at
     return self.get_start_date_of_latest_release()
   
   def versions_are_equal_and_new_merges_since_last_release(self, last_version, current_version, start_date):
-    '''
+    """
       Parameters
       ----------
           last_version: String
@@ -203,13 +203,13 @@ class ReleaseGithubAction:
       Return
       ----------
           Bool: Bool
-    '''
+    """
     compare_versions = version.parse(last_version) == version.parse(current_version)
     check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
     return compare_versions and (check_pr_since_last_release)
   
   def versions_are_equal_and_no_new_merge_since_last_release(self, last_version, current_version, start_date):
-    '''
+    """
       Parameters
       ----------
           last_version: String
@@ -218,13 +218,13 @@ class ReleaseGithubAction:
       Return
       ----------
           Bool: Bool
-    '''
+    """
     compare_versions = version.parse(last_version) == version.parse(current_version)
     check_pr_since_last_release = start_date is not None and len(self.get_pull_requests(start_date)) != 0
     return compare_versions and not(check_pr_since_last_release)
 
   def compute(self):
-    '''
+    """
         Logic:
         ----------
             Here the current_version and last_version are computed then,
@@ -238,7 +238,7 @@ class ReleaseGithubAction:
                   (AVoids ambiguity, if some real human have changed the draft release)
               else
                 NO CHANGE
-    '''
+    """
     current_version = self.get_current_version()
     last_version = self.get_last_version()
     start_date = self.get_start_date_of_draft_release()
