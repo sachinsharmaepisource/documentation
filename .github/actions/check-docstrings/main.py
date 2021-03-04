@@ -191,8 +191,7 @@ class CheckDocstrings:
           None
     '''
     for file_path in file_paths:
-      pylint_opts = [ file_path, '--rcfile=./.github/actions/check-docstrings/.pylintrc']
-      (pylint_stdout, pylint_stderr) = lint.py_run(pylint_opts, return_std=True)
+      (pylint_stdout, pylint_stderr) = lint.py_run(file_path, '--rcfile=./.github/actions/check-docstrings/.pylintrc', return_std=True)
       pylint_stdout.seek(0)
       report_dct_ = self.report_dct
       self.format_pylint_stdout(report_dct_, pylint_stdout)
