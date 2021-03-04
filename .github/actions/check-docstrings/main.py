@@ -217,7 +217,7 @@ class CheckDocstrings:
       # (pylint_stdout, pylint_stderr) = lint.py_run(file_path , return_std=True)
       # pylint_stdout.seek(0)
       report_dct_ = self.report_dct
-      self.format_pylint_stdout(report_dct_, pylint_stdout)
+      self.format_pylint_stdout(report_dct_, pylint_output.read())
 
   def compute(self):
     """
