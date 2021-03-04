@@ -15,17 +15,17 @@ from pylint.reporters.text import TextReporter
 from pylint import epylint as lint
 #-------------------------------------------------------------------
 class WritableObject(object):
-  '''
+  """
   dummy output stream for pylint
-  '''
+  """
   def __init__(self):
-    '''init fun pylint'''
+    """init fun pylint"""
     self.content = []
   def write(self, st):
-    '''dummy write'''
+    """dummy write"""
     self.content.append(st)
   def read(self):
-    '''dummy read'''
+    """dummy read"""
     return self.content
 
 class CheckDocstrings:
@@ -131,9 +131,8 @@ class CheckDocstrings:
         'path': file_path,
         'commit_id': commit_id
     }
-    pprint(data)
     _r = requests.post(query_url, headers=self.header, data=json.dumps(data))
-    pprint(_r.json())
+    # pprint(_r.json())
   
   def create_review_comments(self, report_dct_):
     """
