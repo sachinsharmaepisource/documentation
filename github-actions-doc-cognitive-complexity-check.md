@@ -4,7 +4,7 @@
   This github action computes cognitive complexity and create review comments on pull request with proper comments.
   
 ## Workflows
-  1. Fetch all the files from current reposity/branch.
+  1. Fetch all the files from current pull request that have been updated.
   2. Filter files and keep only python files.
   3. Compute cognitive complexity of individual python files.
   4. Remove all previous review comments created by github action bot.
