@@ -1,5 +1,5 @@
 """
-	Logic:
+	Logic :
 	It wil compute cognitice complexities of every functions/module.
 	Then it will create review messages on the pull request.
 """
