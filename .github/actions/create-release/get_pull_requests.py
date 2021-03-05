@@ -1,7 +1,7 @@
 """
   This mudule consists of GetPullRequests Class,
     constructor attributes :: Repo
-  
+ 
   This module consists of following functions:
   - apply_bfs_with_pull_requests
   - filter_pulls

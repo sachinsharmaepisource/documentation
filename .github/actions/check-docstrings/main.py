@@ -1,5 +1,5 @@
 """
-	Logic:
+Logic:
 	It wil check docstring format as per standards.
 	Then it will create review messages on the pull request.
 """

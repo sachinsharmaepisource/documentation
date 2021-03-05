@@ -3,7 +3,6 @@
     There must be a valid version.ini file:
       - Have content in the format of v0.0.1
       - Content must start atleast from v0.0.1 (not v0.0.0)
-
   The streamline of release creation is as follows:
       - Multiple feature PRs -(merge)> develop branch -(merge)> master branch
 

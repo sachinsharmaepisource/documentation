@@ -1,7 +1,7 @@
 """
   This mudule consists of GetReleaseMessage Class,
     constructor attributes :: Repo
-  
+ 
   This module consists of following functions:
   - get_last_version
   - get_start_date_of_latest_release
