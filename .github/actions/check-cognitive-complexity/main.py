@@ -105,8 +105,8 @@ class CognitiveReport:
         'path': file_path,
         'commit_id': self.get_branch_commit_sha()
     }
-    requests.post(query_url, headers=self.header, data=json.dumps(data))
-#     print(_r.json())
+    _r = requests.post(query_url, headers=self.header, data=json.dumps(data))
+    print(_r.json())
     
   def get_tree(self, file_path):
     """
