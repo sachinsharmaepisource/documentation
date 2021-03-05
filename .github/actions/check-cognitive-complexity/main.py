@@ -10,7 +10,7 @@ import json
 from github import Github
 from cognitive_complexity.api import get_cognitive_complexity
 import requests
-#---------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class CognitiveReport:
   """
   It generates cognitive complexity report using compute function.
@@ -32,6 +32,7 @@ class CognitiveReport:
     self.header = {'Authorization': f'token {self.access_token}'}
     self.max_cognitive_complexity = 5
     self.label = '[COGNITIVE COMPLEXITY]'
+    self.help_link = 'https://docs.codeclimate.com/docs/cognitive-complexity'
     
   def get_inputs(self, input_name):
     """
@@ -147,7 +148,7 @@ class CognitiveReport:
         complexity = get_cognitive_complexity(funcdef)
         if complexity > self.max_cognitive_complexity:
           cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}') # pylint: disable=line-too-long
-          desc_ = f'Function has a Cognitive Complexity of {complexity} (exceeds {self.max_cognitive_complexity} allowed). Consider refactoring.'
+          desc_ = f'Function has a Cognitive Complexity of {complexity} (exceeds {self.max_cognitive_complexity} allowed). Consider refactoring.\n🌟Dont know how to resolve it?\nHere is a link for you - {self.help_link}' # pylint: disable=line-too-long
           desc_ = f'{self.label} \n {desc_}'
           self.create_review_comments(self.user_name, self.pr_number, desc_, file_path, funcdef.lineno)
         else:
