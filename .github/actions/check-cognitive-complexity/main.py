@@ -148,7 +148,7 @@ class CognitiveReport:
         complexity = get_cognitive_complexity(funcdef)
         if complexity > self.max_cognitive_complexity:
           cognitive_report.append(f'--{file_path} | {funcdef.lineno}:{funcdef.col_offset} | Cognitive Complexity is greater then threshold {complexity} > {self.max_cognitive_complexity}') # pylint: disable=line-too-long
-          desc_ = f'## **Problem:** Function has a Cognitive Complexity of {complexity} (exceeds {self.max_cognitive_complexity} allowed).\n> ### Dont know how to resolve it?\n> Please refer here for more information - {self.help_link}' # pylint: disable=line-too-long
+          desc_ = f'### **Problem:** Function has a Cognitive Complexity of {complexity} (exceeds {self.max_cognitive_complexity} allowed).\n> ### Dont know how to resolve it?\n> Please refer here for more information - {self.help_link}' # pylint: disable=line-too-long
           desc_ = f'{self.label} \n{desc_}'
           self.create_review_comments(self.user_name, self.pr_number, desc_, file_path, funcdef.lineno)
         else:
