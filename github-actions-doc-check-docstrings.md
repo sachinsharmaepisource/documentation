@@ -1,10 +1,10 @@
 # Check Docstrings and improve documentation standards across repositories(PYTHON)
 
 ## Short Description :file_folder:
-This github action is built on top of Pylint library which is a Python static code analysis tool which looks for programming errors, helps enforcing a coding standard, sniffs for code smells and offers simple refactoring suggestions.This github action check the docstrings format and conventions, it these are not correct as per format, it will create review comment on the pull request.
+This github action is built on top of Pylint library which is a Python static code analysis tool which looks for programming errors, helps enforcing a coding standard, sniffs for code smells and offers simple refactoring suggestions. This github action check the docstrings format and conventions, it these are not correct as per format, it will create review comment on the pull request.
   
 ## Workflows
-  1. Fetch all the files from current reposity/branch.
+  1. Fetch all the files from current pull request that have been updated.
   2. Filter files and keep only python files.
   3. Check docstring format of individual python files.
   4. Remove all previous review comments created by github action bot with label - [CHECK DOCSTRINGS].
